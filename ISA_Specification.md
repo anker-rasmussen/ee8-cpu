@@ -1,13 +1,13 @@
 # EE8 CPU — Instruction Set Architecture Specification
 
-**Version:** 1.0
+**Version:** 2.0
 **Target:** Second Year Electrical Engineering — Engineering Design Module (EG2300)
 
 ---
 
 ## 1. Overview
 
-The EE8 is a simple 8-bit CPU designed for educational purposes. It features a 16-bit instruction word, 4 registers, and a minimal instruction set- in the same vein as RISC. Students will implement this CPU in Logisim.
+The EE8 is a simple 8-bit CPU designed for educational purposes. It features a 16-bit instruction word, 4 registers, and a minimal instruction set in the same vein as RISC. Students will implement this CPU in Logisim.
 
 ### Key Specifications
 
@@ -16,8 +16,8 @@ The EE8 is a simple 8-bit CPU designed for educational purposes. It features a 1
 | Data width | 8 bits |
 | Instruction width | 16 bits |
 | Number of registers | 4 |
-| Addressing | 8-bit (256 instruction max) |
-| Program memory | 0-256word ROM (expandable) |
+| Addressing | 4-bit (16 instructions max) |
+| Program memory | 16-word ROM |
 | Signed representation | Two's complement |
 
 ---
@@ -46,6 +46,20 @@ RO and RF can also be denoted as R2 and R3.
 - `EQ Rs1 Rs2` sets RF to `1` if Rs1 == Rs2, otherwise `0`
 - `JZ` and `JNZ` check if RF equals zero
 - RF can be read and written like any register, but comparison instructions will overwrite it
+
+### Design Note: Why RF is a Full Register
+
+Unlike traditional CPUs (x86, ARM) which use packed bit flags (N, Z, C, V), EE8 uses a full 8-bit register for comparison results. This design choice follows modern RISC philosophy (RISC-V):
+
+**Advantages:**
+- **Simpler hardware** - No bit-field extraction logic needed
+- **Orthogonal design** - RF can be used like any other register (read, write, arithmetic)
+- **Easier to implement** - Students build standard 8-bit register, not special flag register
+- **Modern approach** - RISC-V (2010s) uses explicit comparison results, not implicit flags
+
+**Trade-offs:**
+- Cannot branch on overflow or unsigned comparisons without additional instructions
+- Acceptable for EE8's educational scope and target applications
 
 ---
 
@@ -118,17 +132,17 @@ Used for loading immediate values into registers.
 Used for control flow (jumps and conditional branches).
 
 ```
-┌────────┬──────────────┬─────────────────────────────┐
-│ opcode │    unused    │          address            │
-│  4 bit │     4 bit    │           8 bit             │
-└────────┴──────────────┴─────────────────────────────┘
-  [15:12]     [11:8]               [7:0]
+┌────────┬──────────────────────┬─────────────────────┐
+│ opcode │       unused         │      address        │
+│  4 bit │        8 bit         │       4 bit         │
+└────────┴──────────────────────┴─────────────────────┘
+  [15:12]       [11:4]                [3:0]
 ```
 
 **Fields:**
 - `opcode` — Jump type
 - `unused` — Reserved (should be set to 0)
-- `address` — Target instruction address (0-255)
+- `address` — Target instruction address (0-15)
 
 **Assembly syntax:** `JMP address` or `JZ address` or `JNZ address`
 
@@ -343,7 +357,7 @@ JNZ match      ; Jump taken
 | **Syntax** | `JMP address` |
 | **Operation** | `PC = address` |
 | **Flags** | Not affected |
-| **Description** | Sets the program counter to the specified address. Execution continues from that instruction. |
+| **Description** | Sets the program counter to the specified address (0-15). Execution continues from that instruction. |
 
 **Example:**
 ```
@@ -358,7 +372,7 @@ JNZ match      ; Jump taken
 | **Syntax** | `JZ address` |
 | **Operation** | `if (RF == 0) then PC = address` |
 | **Flags** | Not affected |
-| **Description** | Jumps to the specified address if RF is zero. Otherwise, continues to the next instruction. |
+| **Description** | Jumps to the specified address (0-15) if RF is zero. Otherwise, continues to the next instruction. |
 
 **Example:**
 ```
@@ -376,7 +390,7 @@ skip:  ; ... continues here ...
 | **Syntax** | `JNZ address` |
 | **Operation** | `if (RF != 0) then PC = address` |
 | **Flags** | Not affected |
-| **Description** | Jumps to the specified address if RF is not zero. Otherwise, continues to the next instruction. |
+| **Description** | Jumps to the specified address (0-15) if RF is not zero. Otherwise, continues to the next instruction. |
 
 **Example:**
 ```
@@ -464,8 +478,8 @@ Hex:    0xA02A
 ### Example 3: JNZ 5
 
 ```
-JNZ  unused   address(5)
-1101  0000    00000101
+JNZ  unused        address(5)
+1101  00000000     0101
 
 Binary: 1101 0000 0000 0101
 Hex:    0xD005
@@ -490,14 +504,23 @@ The EE8 uses a ROM (Read-Only Memory) to store programs.
 | Parameter | Value |
 |-----------|-------|
 | Word size | 16 bits (one instruction) |
-| Address width | 8 bits |
-| Capacity | 32 words (expandable to 256) |
+| Address width | 4 bits |
+| Capacity | 16 words |
+| Address range | 0-15 (0x0-0xF) |
 
 ### Program Counter (PC)
-- 8-bit register
+- 4-bit register
 - Initializes to 0 on reset
 - Increments by 1 after each instruction (unless jump taken)
-- Wraps around from 255 to 0
+- Wraps around from 15 to 0
+
+### Loading Programs
+
+Students will build two ROM modules:
+1. **External ROM** - Instructor-provided test programs (pre-loaded)
+2. **Internal ROM** - Student-built program memory
+
+A **LOAD signal** transfers the test program from external ROM to internal ROM before execution begins.
 
 ### Fetch-Decode-Execute Cycle
 1. **Fetch:** Read instruction from ROM at address PC
@@ -509,20 +532,22 @@ The EE8 uses a ROM (Read-Only Memory) to store programs.
 
 ## 8. Timing and Clocking
 
-The CPU operates on a single clock signal.
+The CPU operates on a single clock signal in a **single-cycle architecture**.
 
 | Mode | Description |
 |------|-------------|
 | **Step mode** | Manual clock button for debugging — one instruction per press |
 | **Run mode** | Continuous clock signal from oscillator |
 
-### Clock Phases (simplified single-cycle)
+### Clock Phases (single-cycle)
 On each rising clock edge:
-1. Current instruction executes
+1. Current instruction executes (fetch, decode, execute happen combinationally)
 2. Results written to registers
 3. PC updates
 
 All operations are **atomic** — each instruction completes in a single clock cycle.
+
+**Design Note:** Single-cycle architecture is simpler to design and understand than pipelined CPUs, making it ideal for educational purposes. The trade-off is that all instructions take the same time, even if some could be faster.
 
 ---
 
@@ -558,6 +583,7 @@ LDI R0 0b00101010  ; Binary
 
 ```
 ; Counts down from 10 to 0, displaying on 7-seg
+; Uses 9 instructions (fits in 16-word ROM)
         LDI RO 10      ; RO = 10, display shows 10
         LDI R1 1       ; R1 = 1 (decrement value)
         LDI RF 0       ; RF = 0 (for comparison)
@@ -572,6 +598,7 @@ done:   HALT
 
 ```
 ; Adds 25 + 17 and displays result
+; Uses 4 instructions
         LDI R0 25
         LDI R1 17
         ADD R0 R1 RO   ; RO = 42, displays on 7-seg
@@ -582,6 +609,7 @@ done:   HALT
 
 ```
 ; Multiplies R0 by 4 using left shifts
+; Uses 6 instructions
         LDI R0 7       ; R0 = 7
         LDI R1 1       ; Shift amount
         SHL R0 R1 R0   ; R0 = 14 (x2)
@@ -594,6 +622,7 @@ done:   HALT
 
 ```
 ; Finds max of R0 and R1, stores in RO
+; Uses 9 instructions (fits in 16-word ROM)
         LDI R0 45
         LDI R1 72
         LT R0 R1       ; RF = 1 if R0 < R1
@@ -603,6 +632,29 @@ done:   HALT
 r1_bigger:
         MOV R1 RO      ; R1 is bigger
 done:   HALT
+```
+
+### 10.5 Count Up and Down
+
+```
+; Count up 0->10, then down 10->0, display 0xFF, halt
+; Uses exactly 16 instructions (fills ROM)
+0:  LDI RO, 0          ; RO = 0
+1:  LDI R0, 1          ; R0 = 1
+2:  LDI R1, 10         ; R1 = 10
+3:  ADD RO, R0, RO     ; RO = RO + 1
+4:  EQ RO, R1          ; RF = (RO == 10)?
+5:  JNZ 7              ; If yes, goto countdown
+6:  JMP 3              ; Loop up
+7:  SUB RO, R0, RO     ; RO = RO - 1
+8:  LDI RF, 0          ; RF = 0
+9:  EQ RO, RF          ; RF = (RO == 0)?
+10: JNZ 12             ; If yes, goto done
+11: JMP 7              ; Loop down
+12: LDI RO, 0xFF       ; All segments lit
+13: NOP                ; Padding
+14: NOP                ; Padding
+15: HALT               ; Stop
 ```
 
 ---
@@ -631,7 +683,7 @@ done:   HALT
 │   MOV Rs Rd         Copy register                       │
 │   LDI Rd imm        Load immediate (0-255)              │
 ├─────────────────────────────────────────────────────────┤
-│ CONTROL FLOW                                            │
+│ CONTROL FLOW        (address range: 0-15)               │
 │   JMP addr          Unconditional jump                  │
 │   JZ  addr          Jump if RF == 0                     │
 │   JNZ addr          Jump if RF != 0                     │
@@ -640,6 +692,9 @@ done:   HALT
 │   NOP               No operation                        │
 │   HALT              Stop execution                      │
 └─────────────────────────────────────────────────────────┘
+
+Memory: 16 instructions (addresses 0-F)
+PC wraps from 15 → 0
 ```
 
 ---
@@ -656,6 +711,19 @@ done:   HALT
        0110  SHR      1110  NOP
        0111  MOV      1111  HALT
 ```
+
+---
+
+## Appendix C: Changes from Version 1.0
+
+**Version 2.0 updates (4-bit addressing):**
+- Reduced program memory from 256 to 16 instructions
+- Changed PC from 8-bit to 4-bit counter
+- Updated J-type format: address field now [3:0] (4 bits), unused expanded to [11:4] (8 bits)
+- All jump/branch addresses now 0-15 range
+- Added design rationale for RF register approach
+- Added 16-instruction example program (count up/down)
+- Updated memory specifications and examples
 
 ---
 
