@@ -1173,21 +1173,21 @@
       <a name="font" val="SansSerif plain 9"/>
       <a name="text" val="RF register value"/>
     </comp>
-    <comp lib="6" loc="(600,145)" name="Text">
-      <a name="font" val="SansSerif bold 10"/>
-      <a name="text" val="NEXT PC MUX"/>
-    </comp>
-    <comp lib="6" loc="(600,165)" name="Text">
+    <comp lib="6" loc="(616,164)" name="Text">
       <a name="font" val="SansSerif plain 9"/>
       <a name="text" val="sel=take_jump"/>
     </comp>
-    <comp lib="6" loc="(620,155)" name="Text">
-      <a name="font" val="SansSerif plain 9"/>
-      <a name="text" val="0=PC+1, 1=jump_addr"/>
+    <comp lib="6" loc="(622,140)" name="Text">
+      <a name="font" val="SansSerif bold 10"/>
+      <a name="text" val="NEXT PC MUX"/>
     </comp>
     <comp lib="6" loc="(630,280)" name="Text">
       <a name="font" val="SansSerif plain 9"/>
       <a name="text" val="take_jump (to MUX sel)"/>
+    </comp>
+    <comp lib="6" loc="(636,154)" name="Text">
+      <a name="font" val="SansSerif plain 9"/>
+      <a name="text" val="0=PC+1, 1=jump_addr"/>
     </comp>
     <comp lib="6" loc="(705,20)" name="Text">
       <a name="font" val="SansSerif bold 10"/>
@@ -1278,7 +1278,7 @@
       <a name="type" val="output"/>
       <a name="width" val="16"/>
     </comp>
-    <comp lib="4" loc="(250,140)" name="ROM">
+    <comp lib="4" loc="(10,550)" name="ROM">
       <a name="appearance" val="logisim_evolution"/>
       <a name="contents">addr/data: 8 16
 0 a00a a405 180 f000 4 12*e000 10
@@ -1289,32 +1289,61 @@
 </a>
       <a name="dataWidth" val="16"/>
     </comp>
-    <comp lib="6" loc="(155,230)" name="Text">
-      <a name="font" val="SansSerif bold 12"/>
-      <a name="text" val="TEST PROGRAM:"/>
+    <comp lib="4" loc="(240,90)" name="ROM">
+      <a name="appearance" val="logisim_evolution"/>
+      <a name="contents">addr/data: 8 16
+a003 a404 a800 880 ac01 1740 ac00 9700
+c003 f000 8*e000 10 16*e000 20 16*e000 30
+16*e000 40 16*e000 50 16*e000 60 16*e000 70
+16*e000 80 16*e000 90 16*e000 a0 16*e000 b0
+16*e000 c0 16*e000 d0 16*e000 e0 16*e000
+</a>
+      <a name="dataWidth" val="16"/>
     </comp>
-    <comp lib="6" loc="(155,250)" name="Text">
-      <a name="font" val="SansSerif plain 10"/>
-      <a name="text" val="0: A00A = LDI R0, 10"/>
+    <comp lib="4" loc="(570,310)" name="ROM">
+      <a name="appearance" val="logisim_evolution"/>
+      <a name="contents">addr/data: 8 16
+a005 a401 7080 1100 ac00 9300 c002 7080
+f000 9*e000 10 16*e000 20 16*e000 30 16*e000
+40 16*e000 50 16*e000 60 16*e000 70 16*e000
+80 16*e000 90 16*e000 a0 16*e000 b0 16*e000
+c0 16*e000 d0 16*e000 e0 16*e000
+</a>
+      <a name="dataWidth" val="16"/>
     </comp>
-    <comp lib="6" loc="(155,265)" name="Text">
-      <a name="font" val="SansSerif plain 10"/>
-      <a name="text" val="1: A405 = LDI R1, 5"/>
-    </comp>
-    <comp lib="6" loc="(155,280)" name="Text">
-      <a name="font" val="SansSerif plain 10"/>
-      <a name="text" val="2: 0180 = ADD R0, R1, RO"/>
-    </comp>
-    <comp lib="6" loc="(155,295)" name="Text">
-      <a name="font" val="SansSerif plain 10"/>
-      <a name="text" val="3: F000 = HALT"/>
-    </comp>
-    <comp lib="6" loc="(155,320)" name="Text">
-      <a name="font" val="SansSerif bold 10"/>
-      <a name="text" val="Expected: RO = 0x0F (15)"/>
+    <comp lib="6" loc="(145,515)" name="Text">
+      <a name="text" val="PROGRAM ROM (256 x 16-bit)"/>
     </comp>
     <comp lib="6" loc="(250,30)" name="Text">
       <a name="text" val="PROGRAM ROM (256 x 16-bit)"/>
+    </comp>
+    <comp lib="6" loc="(319,71)" name="Text">
+      <a name="font" val="SansSerif plain 10"/>
+      <a name="text" val="Test 15: 3*4"/>
+    </comp>
+    <comp lib="6" loc="(338,629)" name="Text">
+      <a name="font" val="SansSerif bold 12"/>
+      <a name="text" val="TEST PROGRAM:"/>
+    </comp>
+    <comp lib="6" loc="(338,649)" name="Text">
+      <a name="font" val="SansSerif plain 10"/>
+      <a name="text" val="0: A00A = LDI R0, 10"/>
+    </comp>
+    <comp lib="6" loc="(338,664)" name="Text">
+      <a name="font" val="SansSerif plain 10"/>
+      <a name="text" val="1: A405 = LDI R1, 5"/>
+    </comp>
+    <comp lib="6" loc="(338,679)" name="Text">
+      <a name="font" val="SansSerif plain 10"/>
+      <a name="text" val="2: 0180 = ADD R0, R1, RO"/>
+    </comp>
+    <comp lib="6" loc="(338,694)" name="Text">
+      <a name="font" val="SansSerif plain 10"/>
+      <a name="text" val="3: F000 = HALT"/>
+    </comp>
+    <comp lib="6" loc="(338,719)" name="Text">
+      <a name="font" val="SansSerif bold 10"/>
+      <a name="text" val="Expected: RO = 0x0F (15)"/>
     </comp>
     <comp lib="6" loc="(580,130)" name="Text">
       <a name="font" val="SansSerif bold 10"/>
@@ -1324,10 +1353,21 @@
       <a name="font" val="SansSerif bold 10"/>
       <a name="text" val="addr (8-bit) from PC"/>
     </comp>
-    <wire from="(120,150)" to="(250,150)"/>
-    <wire from="(490,200)" to="(540,200)"/>
-    <wire from="(540,170)" to="(540,200)"/>
-    <wire from="(540,170)" to="(590,170)"/>
+    <comp lib="6" loc="(638,282)" name="Text">
+      <a name="font" val="SansSerif plain 10"/>
+      <a name="text" val="Test 13: Countdown Loop"/>
+    </comp>
+    <wire from="(120,130)" to="(120,150)"/>
+    <wire from="(120,130)" to="(240,130)"/>
+    <wire from="(240,100)" to="(240,130)"/>
+    <wire from="(480,150)" to="(580,150)"/>
+    <wire from="(510,320)" to="(570,320)"/>
+    <wire from="(580,150)" to="(580,160)"/>
+    <wire from="(580,160)" to="(590,160)"/>
+    <wire from="(580,300)" to="(820,300)"/>
+    <wire from="(590,160)" to="(590,170)"/>
+    <wire from="(810,370)" to="(820,370)"/>
+    <wire from="(820,300)" to="(820,370)"/>
   </circuit>
   <circuit name="EE8_CPU">
     <a name="appearance" val="logisim_evolution"/>
@@ -1410,10 +1450,6 @@
     <comp lib="6" loc="(500,30)" name="Text">
       <a name="font" val="SansSerif bold 18"/>
       <a name="text" val="EE8 CPU - TOP LEVEL INTEGRATION"/>
-    </comp>
-    <comp lib="6" loc="(500,55)" name="Text">
-      <a name="font" val="SansSerif plain 12"/>
-      <a name="text" val="Wire the subcircuits according to the connection guide below"/>
     </comp>
     <comp lib="6" loc="(550,535)" name="Text">
       <a name="font" val="SansSerif plain 9"/>
@@ -1622,10 +1658,6 @@
       <a name="font" val="SansSerif plain 10"/>
       <a name="text" val="Clock (click to toggle)"/>
     </comp>
-    <comp lib="6" loc="(100,260)" name="Text">
-      <a name="font" val="SansSerif plain 10"/>
-      <a name="text" val="Reset (click to toggle)"/>
-    </comp>
     <comp lib="6" loc="(350,320)" name="Text">
       <a name="font" val="SansSerif bold 14"/>
       <a name="text" val="EE8 CPU"/>
@@ -1654,29 +1686,33 @@
       <a name="font" val="SansSerif bold 18"/>
       <a name="text" val="EE8 CPU TEST BENCH"/>
     </comp>
-    <comp lib="6" loc="(480,135)" name="Text">
-      <a name="font" val="SansSerif plain 9"/>
-      <a name="text" val="PC splitter [7:4][3:0]"/>
-    </comp>
-    <comp lib="6" loc="(480,305)" name="Text">
+    <comp lib="6" loc="(486,311)" name="Text">
       <a name="font" val="SansSerif plain 9"/>
       <a name="text" val="RO splitter [7:4][3:0]"/>
     </comp>
-    <comp lib="6" loc="(550,280)" name="Text">
+    <comp lib="6" loc="(490,153)" name="Text">
+      <a name="font" val="SansSerif plain 9"/>
+      <a name="text" val="PC splitter [7:4][3:0]"/>
+    </comp>
+    <comp lib="6" loc="(552,236)" name="Text">
       <a name="font" val="SansSerif bold 10"/>
       <a name="text" val="RO High"/>
     </comp>
-    <comp lib="6" loc="(560,100)" name="Text">
+    <comp lib="6" loc="(563,54)" name="Text">
       <a name="font" val="SansSerif bold 10"/>
       <a name="text" val="PC High"/>
     </comp>
-    <comp lib="6" loc="(600,280)" name="Text">
+    <comp lib="6" loc="(602,236)" name="Text">
       <a name="font" val="SansSerif bold 10"/>
       <a name="text" val="RO Low"/>
     </comp>
-    <comp lib="6" loc="(610,100)" name="Text">
+    <comp lib="6" loc="(613,54)" name="Text">
       <a name="font" val="SansSerif bold 10"/>
       <a name="text" val="PC Low"/>
+    </comp>
+    <comp lib="6" loc="(75,255)" name="Text">
+      <a name="font" val="SansSerif plain 10"/>
+      <a name="text" val="Reset (click to toggle)"/>
     </comp>
     <comp loc="(350,240)" name="EE8_CPU"/>
     <wire from="(100,200)" to="(100,240)"/>

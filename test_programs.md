@@ -176,45 +176,35 @@ ROM contents: `a007 a407 9100 d006 a8bb b007 a8aa f000`
 ```
 0: A005  LDI R0, 5       ; R0 = 5 (counter)
 1: A401  LDI R1, 1       ; R1 = 1 (decrement)
+loop:
 2: 7080  MOV R0, _, RO   ; RO = R0 (display counter)
-3: 1040  SUB R0, R1, R0  ; R0 = R0 - 1
-4: 9500  EQ R0, R1       ; RF = (R0 == 1)?
-5: C002  JZ 2            ; if RF=0, loop back
-6: 7080  MOV R0, _, RO   ; RO = R0 = 0
-7: F000  HALT
+3: 1100  SUB R0, R1, R0  ; R0 = R0 - 1
+4: AC00  LDI RF, 0       ; RF = 0 (for comparison)
+5: 9300  EQ R0, RF       ; RF = (R0 == 0)?
+6: C002  JZ 2            ; if RF=0 (R0 != 0), loop back
+7: 7080  MOV R0, _, RO   ; RO = R0 = 0
+8: F000  HALT
 ```
-ROM contents: `a005 a401 7080 1040 9500 c002 7080 f000`
+ROM contents: `a005 a401 7080 1100 ac00 9300 c002 7080 f000`
 
 Watch RO decrement: 5 -> 4 -> 3 -> 2 -> 1 -> 0
 
 ---
 
-## Test 14: Fibonacci-ish (add previous two)
-**Expected Result: RO = 0x0D (13)**
-Computes: 1, 1, 2, 3, 5, 8, 13
-```
-0: A001  LDI R0, 1       ; R0 = 1 (fib n-1)
-1: A401  LDI R1, 1       ; R1 = 1 (fib n-2)
-2: 0080  ADD R0, R1, RO  ; RO = R0 + R1
-3: 70C0  MOV R1, _, RF   ; RF = R1 (save old R1)
-4: 7040  MOV R0, _, R1   ; R1 = R0
-5: 7880  MOV RO, _, R0   ; R0 = RO (new value)
-6: 8500  LT R0, R1       ; check if R0 < some limit...
-```
-
-Actually let me simplify - just do a few iterations:
+## Test 14: Fibonacci Sequence
+**Expected Result: RO = 0x03**
+Computes a few Fibonacci iterations: 0, 1, 1, 2, 3
 ```
 0: A001  LDI R0, 1       ; a = 1
 1: A400  LDI R1, 0       ; b = 0
 2: 0040  ADD R0, R1, R1  ; b = a + b (b=1)
 3: 0080  ADD R0, R1, RO  ; RO = a + b = 2, temp store
-4: 7440  MOV R1, _, R0   ; a = b (a=1)
-5: 7880  MOV RO, _, R1   ; b = RO (b=2)
+4: 7400  MOV R1, _, R0   ; a = b (a=1)
+5: 7840  MOV RO, _, R1   ; b = RO (b=2)
 6: 0080  ADD R0, R1, RO  ; RO = a + b = 3
 7: F000  HALT
 ```
-ROM contents: `a001 a400 0040 0080 7440 7880 0080 f000`
-**Expected Result: RO = 0x03**
+ROM contents: `a001 a400 0040 0080 7400 7840 0080 f000`
 
 ---
 
@@ -222,44 +212,18 @@ ROM contents: `a001 a400 0040 0080 7440 7880 0080 f000`
 **Expected Result: RO = 0x0C (12)**
 ```
 0: A003  LDI R0, 3       ; R0 = 3 (multiplicand)
-1: A404  LDI R1, 4       ; R1 = 4 (counter/multiplier)
-2: A800  LDI RO, 0       ; RO = 0 (accumulator)
-3: 8180  ADD RO, R0, RO  ; RO = RO + R0
-4: AC01  LDI RF, 1       ; RF = 1
-5: 1440  SUB R1, RF, R1  ; R1 = R1 - 1
-6: 9540  EQ R1, RF       ; compare R1 to 1... wait need 0
-```
-
-Let me fix this:
-```
-0: A003  LDI R0, 3       ; R0 = 3 (multiplicand)
-1: A404  LDI R1, 4       ; R1 = 4 (counter)
-2: A800  LDI RO, 0       ; RO = 0 (result)
-3: AC01  LDI RF, 1       ; RF = 1 (for decrement)
-loop:
-4: 0880  ADD RO, R0, RO  ; RO = RO + 3
-5: 14C0  SUB R1, RF, R1  ; R1 = R1 - 1
-6: D004  JNZ 4           ; if R1 != 0, loop
-7: F000  HALT
-```
-
-Wait, JNZ checks RF, not R1. Need to set RF based on R1.
-
-```
-0: A003  LDI R0, 3       ; R0 = 3 (multiplicand)
 1: A404  LDI R1, 4       ; R1 = 4 (counter)
 2: A800  LDI RO, 0       ; RO = 0 (result)
 loop:
 3: 0880  ADD RO, R0, RO  ; RO = RO + 3
 4: AC01  LDI RF, 1       ; RF = 1 (for decrement)
-5: 14C0  SUB R1, RF, R1  ; R1 = R1 - 1
+5: 1740  SUB R1, RF, R1  ; R1 = R1 - 1
 6: AC00  LDI RF, 0       ; RF = 0 (for comparison)
-7: 9540  EQ R1, RF       ; RF = (R1 == 0)
+7: 9700  EQ R1, RF       ; RF = (R1 == 0)
 8: C003  JZ 3            ; if RF=0 (R1 != 0), loop
 9: F000  HALT
 ```
-ROM contents: `a003 a404 a800 0880 ac01 14c0 ac00 9540 c003 f000`
-**Expected Result: RO = 0x0C (12)**
+ROM contents: `a003 a404 a800 0880 ac01 1740 ac00 9700 c003 f000`
 
 ---
 

@@ -15,7 +15,7 @@ Your team has been contracted to design and prototype a simple programmable cont
 TfL requires a programmable controller that can:
 
 1. **Cycle through traffic light states** in the correct sequence:
-   - Green → Amber → Red → Green (repeat)
+   - Green → Amber → Red → Red + Amber -> Green (repeat)
 
 2. **Display countdown timer** on a 7-segment display showing seconds remaining in current phase
 

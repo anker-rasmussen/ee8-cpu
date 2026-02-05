@@ -1,0 +1,689 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<project source="4.0.0" version="1.0">
+  This file is intended to be loaded by Logisim-evolution v4.0.0(https://github.com/logisim-evolution/).
+
+  <lib desc="#Wiring" name="0">
+    <tool name="Pin">
+      <a name="appearance" val="classic"/>
+    </tool>
+  </lib>
+  <lib desc="#Gates" name="1"/>
+  <lib desc="#Plexers" name="2"/>
+  <lib desc="#Arithmetic" name="3"/>
+  <lib desc="#Memory" name="4"/>
+  <lib desc="#I/O" name="5"/>
+  <lib desc="#TTL" name="6"/>
+  <lib desc="#TCL" name="7"/>
+  <lib desc="#Base" name="8"/>
+  <lib desc="#BFH-Praktika" name="9"/>
+  <lib desc="#Input/Output-Extra" name="10"/>
+  <lib desc="#Soc" name="11"/>
+  <main name="main"/>
+  <options>
+    <a name="gateUndefined" val="ignore"/>
+    <a name="simlimit" val="1000"/>
+    <a name="simrand" val="0"/>
+  </options>
+  <mappings>
+    <tool lib="8" map="Button2" name="Poke Tool"/>
+    <tool lib="8" map="Button3" name="Menu Tool"/>
+    <tool lib="8" map="Ctrl Button1" name="Menu Tool"/>
+  </mappings>
+  <toolbar>
+    <tool lib="8" name="Poke Tool"/>
+    <tool lib="8" name="Edit Tool"/>
+    <tool lib="8" name="Wiring Tool"/>
+    <tool lib="8" name="Text Tool"/>
+    <sep/>
+    <tool lib="0" name="Pin"/>
+    <tool lib="0" name="Pin">
+      <a name="facing" val="west"/>
+      <a name="type" val="output"/>
+    </tool>
+    <sep/>
+    <tool lib="1" name="NOT Gate"/>
+    <tool lib="1" name="AND Gate"/>
+    <tool lib="1" name="OR Gate"/>
+    <tool lib="1" name="XOR Gate"/>
+    <tool lib="1" name="NAND Gate"/>
+    <tool lib="1" name="NOR Gate"/>
+    <sep/>
+    <tool lib="4" name="D Flip-Flop"/>
+    <tool lib="4" name="Register"/>
+  </toolbar>
+  <circuit name="main">
+    <a name="appearance" val="logisim_evolution"/>
+    <a name="circuit" val="main"/>
+    <a name="circuitnamedboxfixedsize" val="true"/>
+    <a name="simulationFrequency" val="1.0"/>
+    <comp loc="(280,810)" name="rom">
+      <a name="appearance" val="logisim_evolution"/>
+    </comp>
+    <comp loc="(420,530)" name="alu">
+      <a name="appearance" val="logisim_evolution"/>
+    </comp>
+    <comp loc="(560,280)" name="ee8_cpu">
+      <a name="appearance" val="logisim_evolution"/>
+    </comp>
+    <comp loc="(580,730)" name="instruction_decoder">
+      <a name="appearance" val="logisim_evolution"/>
+    </comp>
+  </circuit>
+  <vhdl name="ee8_cpu">-- EE8 CPU Top Level
+-- Integrates all components for Logisim Evolution
+
+library IEEE;
+use IEEE.STD_LOGIC_1164.ALL;
+
+entity ee8_cpu is
+    Port (
+        clk       : in  STD_LOGIC;                      -- System clock
+        rst       : in  STD_LOGIC;                      -- Reset
+        rom_data  : in  STD_LOGIC_VECTOR(15 downto 0);  -- Instruction from ROM
+        rom_addr  : out STD_LOGIC_VECTOR(7 downto 0);   -- Address to ROM (PC)
+        seven_seg : out STD_LOGIC_VECTOR(7 downto 0)    -- 7-segment output (RO)
+    );
+end ee8_cpu;
+
+architecture Structural of ee8_cpu is
+
+    -- Component declarations
+    component alu is
+        Port (
+            a       : in  STD_LOGIC_VECTOR(7 downto 0);
+            b       : in  STD_LOGIC_VECTOR(7 downto 0);
+            alu_op  : in  STD_LOGIC_VECTOR(3 downto 0);
+            result  : out STD_LOGIC_VECTOR(7 downto 0);
+            flag_eq : out STD_LOGIC;
+            flag_lt : out STD_LOGIC
+        );
+    end component;
+
+    component register_file is
+        Port (
+            clk     : in  STD_LOGIC;
+            rst     : in  STD_LOGIC;
+            we      : in  STD_LOGIC;
+            sel_rs1 : in  STD_LOGIC_VECTOR(1 downto 0);
+            sel_rs2 : in  STD_LOGIC_VECTOR(1 downto 0);
+            sel_rd  : in  STD_LOGIC_VECTOR(1 downto 0);
+            data_in : in  STD_LOGIC_VECTOR(7 downto 0);
+            rs1_out : out STD_LOGIC_VECTOR(7 downto 0);
+            rs2_out : out STD_LOGIC_VECTOR(7 downto 0);
+            ro_out  : out STD_LOGIC_VECTOR(7 downto 0);
+            rf_out  : out STD_LOGIC_VECTOR(7 downto 0)
+        );
+    end component;
+
+    component instruction_decoder is
+        Port (
+            instruction : in  STD_LOGIC_VECTOR(15 downto 0);
+            opcode      : out STD_LOGIC_VECTOR(3 downto 0);
+            rs1         : out STD_LOGIC_VECTOR(1 downto 0);
+            rs2         : out STD_LOGIC_VECTOR(1 downto 0);
+            rd          : out STD_LOGIC_VECTOR(1 downto 0);
+            immediate   : out STD_LOGIC_VECTOR(7 downto 0)
+        );
+    end component;
+
+    component program_counter is
+        Port (
+            clk         : in  STD_LOGIC;
+            rst         : in  STD_LOGIC;
+            halt        : in  STD_LOGIC;
+            jump        : in  STD_LOGIC;
+            branch      : in  STD_LOGIC;
+            branch_cond : in  STD_LOGIC;
+            flag_rf     : in  STD_LOGIC_VECTOR(7 downto 0);
+            jump_addr   : in  STD_LOGIC_VECTOR(7 downto 0);
+            pc_out      : out STD_LOGIC_VECTOR(7 downto 0)
+        );
+    end component;
+
+    component control_unit is
+        Port (
+            opcode      : in  STD_LOGIC_VECTOR(3 downto 0);
+            reg_write   : out STD_LOGIC;
+            alu_op      : out STD_LOGIC_VECTOR(3 downto 0);
+            imm_sel     : out STD_LOGIC;
+            jump        : out STD_LOGIC;
+            branch      : out STD_LOGIC;
+            branch_cond : out STD_LOGIC;
+            halt        : out STD_LOGIC;
+            flag_write  : out STD_LOGIC
+        );
+    end component;
+
+    -- Internal signals: Instruction decoder outputs
+    signal opcode    : STD_LOGIC_VECTOR(3 downto 0);
+    signal rs1_sel   : STD_LOGIC_VECTOR(1 downto 0);
+    signal rs2_sel   : STD_LOGIC_VECTOR(1 downto 0);
+    signal rd_sel    : STD_LOGIC_VECTOR(1 downto 0);
+    signal immediate : STD_LOGIC_VECTOR(7 downto 0);
+
+    -- Internal signals: Control unit outputs
+    signal reg_write   : STD_LOGIC;
+    signal alu_op      : STD_LOGIC_VECTOR(3 downto 0);
+    signal imm_sel     : STD_LOGIC;
+    signal jump        : STD_LOGIC;
+    signal branch      : STD_LOGIC;
+    signal branch_cond : STD_LOGIC;
+    signal halt        : STD_LOGIC;
+    signal flag_write  : STD_LOGIC;
+
+    -- Internal signals: Register file outputs
+    signal rs1_data : STD_LOGIC_VECTOR(7 downto 0);
+    signal rs2_data : STD_LOGIC_VECTOR(7 downto 0);
+    signal rf_data  : STD_LOGIC_VECTOR(7 downto 0);  -- RF register for branch conditions
+
+    -- Internal signals: ALU
+    signal alu_a      : STD_LOGIC_VECTOR(7 downto 0);
+    signal alu_result : STD_LOGIC_VECTOR(7 downto 0);
+    signal flag_eq    : STD_LOGIC;
+    signal flag_lt    : STD_LOGIC;
+
+    -- Internal signals: Register write data and destination
+    signal reg_data_in : STD_LOGIC_VECTOR(7 downto 0);
+    signal reg_rd_sel  : STD_LOGIC_VECTOR(1 downto 0);
+
+    -- Internal signals: Program counter
+    signal pc_value : STD_LOGIC_VECTOR(7 downto 0);
+
+begin
+
+    -- Instruction Decoder
+    inst_decoder: instruction_decoder
+        port map (
+            instruction =&gt; rom_data,
+            opcode      =&gt; opcode,
+            rs1         =&gt; rs1_sel,
+            rs2         =&gt; rs2_sel,
+            rd          =&gt; rd_sel,
+            immediate   =&gt; immediate
+        );
+
+    -- Control Unit
+    ctrl_unit: control_unit
+        port map (
+            opcode      =&gt; opcode,
+            reg_write   =&gt; reg_write,
+            alu_op      =&gt; alu_op,
+            imm_sel     =&gt; imm_sel,
+            jump        =&gt; jump,
+            branch      =&gt; branch,
+            branch_cond =&gt; branch_cond,
+            halt        =&gt; halt,
+            flag_write  =&gt; flag_write
+        );
+
+    -- ALU input selection
+    -- For LDI: pass immediate through ALU (via MOV operation)
+    alu_a &lt;= immediate when imm_sel = '1' else rs1_data;
+
+    -- ALU
+    alu_inst: alu
+        port map (
+            a       =&gt; alu_a,
+            b       =&gt; rs2_data,
+            alu_op  =&gt; alu_op,
+            result  =&gt; alu_result,
+            flag_eq =&gt; flag_eq,
+            flag_lt =&gt; flag_lt
+        );
+
+    -- Register destination selection
+    -- For LDI: destination comes from rs1 field (instruction[11:10])
+    -- For flag ops (LT/EQ): destination is RF (11)
+    -- Otherwise: destination is rd field
+    reg_rd_sel &lt;= "11" when flag_write = '1' else
+                  rs1_sel when imm_sel = '1' else
+                  rd_sel;
+
+    -- Register write data is always ALU result
+    reg_data_in &lt;= alu_result;
+
+    -- Register File
+    reg_file: register_file
+        port map (
+            clk     =&gt; clk,
+            rst     =&gt; rst,
+            we      =&gt; reg_write,
+            sel_rs1 =&gt; rs1_sel,
+            sel_rs2 =&gt; rs2_sel,
+            sel_rd  =&gt; reg_rd_sel,
+            data_in =&gt; reg_data_in,
+            rs1_out =&gt; rs1_data,
+            rs2_out =&gt; rs2_data,
+            ro_out  =&gt; seven_seg,
+            rf_out  =&gt; rf_data
+        );
+
+    -- Program Counter
+    pc_inst: program_counter
+        port map (
+            clk         =&gt; clk,
+            rst         =&gt; rst,
+            halt        =&gt; halt,
+            jump        =&gt; jump,
+            branch      =&gt; branch,
+            branch_cond =&gt; branch_cond,
+            flag_rf     =&gt; rf_data,
+            jump_addr   =&gt; immediate,
+            pc_out      =&gt; pc_value
+        );
+
+    -- ROM address is PC
+    rom_addr &lt;= pc_value;
+
+end Structural;
+</vhdl>
+  <vhdl name="alu">-- EE8 CPU Arithmetic Logic Unit
+-- Performs all arithmetic and logical operations
+
+library IEEE;
+use IEEE.STD_LOGIC_1164.ALL;
+use IEEE.NUMERIC_STD.ALL;
+
+entity alu is
+    Port (
+        a       : in  STD_LOGIC_VECTOR(7 downto 0);  -- Operand A (Rs1)
+        b       : in  STD_LOGIC_VECTOR(7 downto 0);  -- Operand B (Rs2)
+        alu_op  : in  STD_LOGIC_VECTOR(3 downto 0);  -- Operation select
+        result  : out STD_LOGIC_VECTOR(7 downto 0);  -- ALU result
+        flag_eq : out STD_LOGIC;                      -- Equality flag
+        flag_lt : out STD_LOGIC                       -- Less-than flag
+    );
+end alu;
+
+architecture Behavioral of alu is
+    signal shift_amount : integer range 0 to 7;
+begin
+    -- Extract shift amount from lower 3 bits of b
+    shift_amount &lt;= to_integer(unsigned(b(2 downto 0)));
+
+    process(a, b, alu_op, shift_amount)
+        variable a_unsigned : unsigned(7 downto 0);
+        variable b_unsigned : unsigned(7 downto 0);
+    begin
+        a_unsigned := unsigned(a);
+        b_unsigned := unsigned(b);
+
+        -- Default outputs
+        result &lt;= (others =&gt; '0');
+        flag_eq &lt;= '0';
+        flag_lt &lt;= '0';
+
+        case alu_op is
+            when "0000" =&gt;  -- ADD
+                result &lt;= std_logic_vector(a_unsigned + b_unsigned);
+
+            when "0001" =&gt;  -- SUB
+                result &lt;= std_logic_vector(a_unsigned - b_unsigned);
+
+            when "0010" =&gt;  -- AND
+                result &lt;= a and b;
+
+            when "0011" =&gt;  -- OR
+                result &lt;= a or b;
+
+            when "0100" =&gt;  -- XOR
+                result &lt;= a xor b;
+
+            when "0101" =&gt;  -- SHL (shift left)
+                result &lt;= std_logic_vector(shift_left(a_unsigned, shift_amount));
+
+            when "0110" =&gt;  -- SHR (shift right)
+                result &lt;= std_logic_vector(shift_right(a_unsigned, shift_amount));
+
+            when "0111" =&gt;  -- MOV (passthrough A)
+                result &lt;= a;
+
+            when "1000" =&gt;  -- LT (less than comparison)
+                if a_unsigned &lt; b_unsigned then
+                    flag_lt &lt;= '1';
+                    result &lt;= x"01";
+                else
+                    flag_lt &lt;= '0';
+                    result &lt;= x"00";
+                end if;
+
+            when "1001" =&gt;  -- EQ (equality comparison)
+                if a_unsigned = b_unsigned then
+                    flag_eq &lt;= '1';
+                    result &lt;= x"01";
+                else
+                    flag_eq &lt;= '0';
+                    result &lt;= x"00";
+                end if;
+
+            when others =&gt;
+                result &lt;= (others =&gt; '0');
+        end case;
+    end process;
+
+end Behavioral;
+</vhdl>
+  <vhdl name="instruction_decoder">-- EE8 CPU Instruction Decoder
+-- Extracts fields from 16-bit instruction word
+
+library IEEE;
+use IEEE.STD_LOGIC_1164.ALL;
+
+entity instruction_decoder is
+    Port (
+        instruction : in  STD_LOGIC_VECTOR(15 downto 0);  -- Full instruction word
+        opcode      : out STD_LOGIC_VECTOR(3 downto 0);   -- Bits [15:12]
+        rs1         : out STD_LOGIC_VECTOR(1 downto 0);   -- Bits [11:10]
+        rs2         : out STD_LOGIC_VECTOR(1 downto 0);   -- Bits [9:8]
+        rd          : out STD_LOGIC_VECTOR(1 downto 0);   -- Bits [7:6]
+        immediate   : out STD_LOGIC_VECTOR(7 downto 0)    -- Bits [7:0]
+    );
+end instruction_decoder;
+
+architecture Behavioral of instruction_decoder is
+begin
+    -- Pure combinational field extraction
+    opcode    &lt;= instruction(15 downto 12);
+    rs1       &lt;= instruction(11 downto 10);
+    rs2       &lt;= instruction(9 downto 8);
+    rd        &lt;= instruction(7 downto 6);
+    immediate &lt;= instruction(7 downto 0);
+end Behavioral;
+</vhdl>
+  <vhdl name="rom">-- EE8 CPU Program ROM
+-- 256 x 16-bit ROM with preloaded test program
+-- Students can modify the rom_data array with their own programs
+
+library IEEE;
+use IEEE.STD_LOGIC_1164.ALL;
+use IEEE.NUMERIC_STD.ALL;
+
+entity rom is
+    Port (
+        addr : in  STD_LOGIC_VECTOR(7 downto 0);   -- 8-bit address from PC
+        data : out STD_LOGIC_VECTOR(15 downto 0)   -- 16-bit instruction output
+    );
+end rom;
+
+architecture Behavioral of rom is
+    -- ROM type: 256 entries of 16-bit instructions
+    type rom_array_t is array (0 to 255) of STD_LOGIC_VECTOR(15 downto 0);
+
+    -- =========================================================================
+    -- INSTRUCTION ENCODING REFERENCE:
+    -- =========================================================================
+    -- Format: [15:12]=opcode [11:10]=rs1 [9:8]=rs2 [7:6]=rd [5:0]=unused
+    --         [7:0]=immediate (for LDI, JMP, JZ, JNZ)
+    --
+    -- REGISTERS: R0=00, R1=01, RO=10, RF=11
+    --
+    -- OPCODES:
+    --   0x0=ADD  rs1+rs2-&gt;rd     0x8=LT   (rs1&lt;rs2)-&gt;RF
+    --   0x1=SUB  rs1-rs2-&gt;rd     0x9=EQ   (rs1=rs2)-&gt;RF
+    --   0x2=AND  rs1&amp;rs2-&gt;rd     0xA=LDI  imm-&gt;rs1
+    --   0x3=OR   rs1|rs2-&gt;rd     0xB=JMP  PC=imm
+    --   0x4=XOR  rs1^rs2-&gt;rd     0xC=JZ   if RF=0: PC=imm
+    --   0x5=SHL  rs1&lt;&lt;rs2-&gt;rd    0xD=JNZ  if RF!=0: PC=imm
+    --   0x6=SHR  rs1&gt;&gt;rs2-&gt;rd    0xE=NOP
+    --   0x7=MOV  rs1-&gt;rd         0xF=HALT
+    --
+    -- ENCODING EXAMPLES:
+    --   LDI R0, 10:     1010_00_xx_0000_1010 = 0xA00A
+    --   LDI R1, 5:      1010_01_xx_0000_0101 = 0xA405
+    --   ADD R0, R1, RO: 0000_00_01_10_000000 = 0x0180
+    --   MOV R0, x, RO:  0111_00_xx_10_000000 = 0x7080
+    --   LT R0, R1:      1000_00_01_xx_xxxxxx = 0x8100
+    --   JNZ 2:          1101_xx_xx_0000_0010 = 0xD002
+    --   HALT:           1111_xx_xx_xxxx_xxxx = 0xF000
+    -- =========================================================================
+
+    -- =========================================================================
+    -- TEST PROGRAM: Basic arithmetic
+    -- Expected result: RO = 15 (0x0F)
+    -- =========================================================================
+    constant rom_data : rom_array_t := (
+        0  =&gt; x"A00A",  -- LDI R0, 10      ; R0 = 10
+        1  =&gt; x"A405",  -- LDI R1, 5       ; R1 = 5
+        2  =&gt; x"0180",  -- ADD R0, R1, RO  ; RO = R0 + R1 = 15
+        3  =&gt; x"F000",  -- HALT            ; Stop execution
+
+        -- Remaining addresses filled with NOP
+        others =&gt; x"E000"
+    );
+
+begin
+    -- Combinational read (active on address change)
+    data &lt;= rom_data(to_integer(unsigned(addr)));
+end Behavioral;
+</vhdl>
+  <vhdl name="register_file">-- EE8 CPU Register File
+-- 4 x 8-bit registers: R0, R1, RO, RF
+
+library IEEE;
+use IEEE.STD_LOGIC_1164.ALL;
+use IEEE.NUMERIC_STD.ALL;
+
+entity register_file is
+    Port (
+        clk     : in  STD_LOGIC;                      -- Clock
+        rst     : in  STD_LOGIC;                      -- Async reset
+        we      : in  STD_LOGIC;                      -- Write enable
+        sel_rs1 : in  STD_LOGIC_VECTOR(1 downto 0);   -- Source register 1 select
+        sel_rs2 : in  STD_LOGIC_VECTOR(1 downto 0);   -- Source register 2 select
+        sel_rd  : in  STD_LOGIC_VECTOR(1 downto 0);   -- Destination register select
+        data_in : in  STD_LOGIC_VECTOR(7 downto 0);   -- Write data
+        rs1_out : out STD_LOGIC_VECTOR(7 downto 0);   -- Source 1 data
+        rs2_out : out STD_LOGIC_VECTOR(7 downto 0);   -- Source 2 data
+        ro_out  : out STD_LOGIC_VECTOR(7 downto 0);   -- RO register (for 7-seg)
+        rf_out  : out STD_LOGIC_VECTOR(7 downto 0)    -- RF register (for branch cond)
+    );
+end register_file;
+
+architecture Behavioral of register_file is
+    -- Register array: R0(00), R1(01), RO(10), RF(11)
+    type reg_array_t is array (0 to 3) of STD_LOGIC_VECTOR(7 downto 0);
+    signal registers : reg_array_t;
+begin
+
+    -- Synchronous write with async reset
+    process(clk, rst)
+    begin
+        if rst = '1' then
+            registers(0) &lt;= (others =&gt; '0');  -- R0
+            registers(1) &lt;= (others =&gt; '0');  -- R1
+            registers(2) &lt;= (others =&gt; '0');  -- RO
+            registers(3) &lt;= (others =&gt; '0');  -- RF
+        elsif rising_edge(clk) then
+            if we = '1' then
+                registers(to_integer(unsigned(sel_rd))) &lt;= data_in;
+            end if;
+        end if;
+    end process;
+
+    -- Asynchronous read (combinational)
+    rs1_out &lt;= registers(to_integer(unsigned(sel_rs1)));
+    rs2_out &lt;= registers(to_integer(unsigned(sel_rs2)));
+
+    -- RO always output for 7-segment display
+    ro_out &lt;= registers(2);
+
+    -- RF always output for branch conditions
+    rf_out &lt;= registers(3);
+
+end Behavioral;
+</vhdl>
+  <vhdl name="program_counter">-- EE8 CPU Program Counter
+-- 8-bit PC with jump/branch logic
+
+library IEEE;
+use IEEE.STD_LOGIC_1164.ALL;
+use IEEE.NUMERIC_STD.ALL;
+
+entity program_counter is
+    Port (
+        clk         : in  STD_LOGIC;                      -- Clock
+        rst         : in  STD_LOGIC;                      -- Reset (sets PC to 0)
+        halt        : in  STD_LOGIC;                      -- Halt signal (freezes PC)
+        jump        : in  STD_LOGIC;                      -- Unconditional jump
+        branch      : in  STD_LOGIC;                      -- Conditional branch
+        branch_cond : in  STD_LOGIC;                      -- Branch condition (0=JZ, 1=JNZ)
+        flag_rf     : in  STD_LOGIC_VECTOR(7 downto 0);   -- RF register for condition check
+        jump_addr   : in  STD_LOGIC_VECTOR(7 downto 0);   -- Jump target address
+        pc_out      : out STD_LOGIC_VECTOR(7 downto 0)    -- Current PC value
+    );
+end program_counter;
+
+architecture Behavioral of program_counter is
+    signal pc_reg : unsigned(7 downto 0);
+    signal rf_is_zero : STD_LOGIC;
+    signal branch_taken : STD_LOGIC;
+begin
+
+    -- Check if RF is zero
+    rf_is_zero &lt;= '1' when flag_rf = x"00" else '0';
+
+    -- Determine if branch should be taken
+    -- branch_cond=0: JZ (jump if zero) -&gt; take if RF=0
+    -- branch_cond=1: JNZ (jump if not zero) -&gt; take if RF!=0
+    branch_taken &lt;= branch and ((not branch_cond and rf_is_zero) or
+                                (branch_cond and not rf_is_zero));
+
+    -- PC update logic
+    process(clk, rst)
+    begin
+        if rst = '1' then
+            pc_reg &lt;= (others =&gt; '0');
+        elsif rising_edge(clk) then
+            if halt = '1' then
+                -- PC unchanged on halt
+                pc_reg &lt;= pc_reg;
+            elsif jump = '1' then
+                -- Unconditional jump
+                pc_reg &lt;= unsigned(jump_addr);
+            elsif branch_taken = '1' then
+                -- Conditional branch taken
+                pc_reg &lt;= unsigned(jump_addr);
+            else
+                -- Normal increment
+                pc_reg &lt;= pc_reg + 1;
+            end if;
+        end if;
+    end process;
+
+    pc_out &lt;= std_logic_vector(pc_reg);
+
+end Behavioral;
+</vhdl>
+  <vhdl name="control_unit">-- EE8 CPU Control Unit
+-- Generates control signals based on opcode
+
+library IEEE;
+use IEEE.STD_LOGIC_1164.ALL;
+
+entity control_unit is
+    Port (
+        opcode      : in  STD_LOGIC_VECTOR(3 downto 0);   -- Instruction opcode
+        reg_write   : out STD_LOGIC;                       -- Enable register write
+        alu_op      : out STD_LOGIC_VECTOR(3 downto 0);   -- ALU operation
+        imm_sel     : out STD_LOGIC;                       -- Select immediate (for LDI)
+        jump        : out STD_LOGIC;                       -- Unconditional jump
+        branch      : out STD_LOGIC;                       -- Conditional branch
+        branch_cond : out STD_LOGIC;                       -- 0=JZ, 1=JNZ
+        halt        : out STD_LOGIC;                       -- Halt CPU
+        flag_write  : out STD_LOGIC                        -- Write to RF from flags
+    );
+end control_unit;
+
+architecture Behavioral of control_unit is
+begin
+    process(opcode)
+    begin
+        -- Default values
+        reg_write   &lt;= '0';
+        alu_op      &lt;= "0000";
+        imm_sel     &lt;= '0';
+        jump        &lt;= '0';
+        branch      &lt;= '0';
+        branch_cond &lt;= '0';
+        halt        &lt;= '0';
+        flag_write  &lt;= '0';
+
+        case opcode is
+            -- ALU Operations (write result to Rd)
+            when "0000" =&gt;  -- ADD
+                reg_write &lt;= '1';
+                alu_op &lt;= "0000";
+
+            when "0001" =&gt;  -- SUB
+                reg_write &lt;= '1';
+                alu_op &lt;= "0001";
+
+            when "0010" =&gt;  -- AND
+                reg_write &lt;= '1';
+                alu_op &lt;= "0010";
+
+            when "0011" =&gt;  -- OR
+                reg_write &lt;= '1';
+                alu_op &lt;= "0011";
+
+            when "0100" =&gt;  -- XOR
+                reg_write &lt;= '1';
+                alu_op &lt;= "0100";
+
+            when "0101" =&gt;  -- SHL
+                reg_write &lt;= '1';
+                alu_op &lt;= "0101";
+
+            when "0110" =&gt;  -- SHR
+                reg_write &lt;= '1';
+                alu_op &lt;= "0110";
+
+            when "0111" =&gt;  -- MOV
+                reg_write &lt;= '1';
+                alu_op &lt;= "0111";
+
+            -- Comparison Operations (write to RF)
+            when "1000" =&gt;  -- LT
+                reg_write &lt;= '1';
+                flag_write &lt;= '1';
+                alu_op &lt;= "1000";
+
+            when "1001" =&gt;  -- EQ
+                reg_write &lt;= '1';
+                flag_write &lt;= '1';
+                alu_op &lt;= "1001";
+
+            -- Load Immediate
+            when "1010" =&gt;  -- LDI
+                reg_write &lt;= '1';
+                imm_sel &lt;= '1';
+                alu_op &lt;= "0111";  -- MOV (passthrough)
+
+            -- Control Flow
+            when "1011" =&gt;  -- JMP (unconditional jump)
+                jump &lt;= '1';
+
+            when "1100" =&gt;  -- JZ (jump if RF=0)
+                branch &lt;= '1';
+                branch_cond &lt;= '0';
+
+            when "1101" =&gt;  -- JNZ (jump if RF!=0)
+                branch &lt;= '1';
+                branch_cond &lt;= '1';
+
+            -- Reserved / NOP
+            when "1110" =&gt;  -- NOP
+                null;  -- Do nothing
+
+            -- Halt
+            when "1111" =&gt;  -- HALT
+                halt &lt;= '1';
+
+            when others =&gt;
+                null;  -- Default: NOP behavior
+        end case;
+    end process;
+
+end Behavioral;
+</vhdl>
+</project>
