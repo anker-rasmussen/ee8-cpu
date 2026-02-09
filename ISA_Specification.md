@@ -1,13 +1,13 @@
 # EE8 CPU — Instruction Set Architecture Specification
 
-**Version:** 2.0
+**Version:** 3.0  
 **Target:** Second Year Electrical Engineering — Engineering Design Module (EG2300)
 
 ---
 
 ## 1. Overview
 
-The EE8 is a simple 8-bit CPU designed for educational purposes. It features a 16-bit instruction word, 4 registers, and a minimal instruction set in the same vein as RISC. Students will implement this CPU in Logisim.
+The EE8 is a simple 8-bit CPU designed for educational purposes. It features a 16-bit instruction word, 4 general-purpose registers, and a minimal RISC-style instruction set. Students will implement this CPU in Logisim to control a batch diverter manufacturing station.
 
 ### Key Specifications
 
@@ -24,38 +24,34 @@ The EE8 is a simple 8-bit CPU designed for educational purposes. It features a 1
 
 ## 2. Registers
 
-The EE8 has four 8-bit registers, addressed with 2 bits.
+The EE8 has four 8-bit general-purpose registers, addressed with 2 bits.
 
 | Code | Name | Description |
 |------|------|-------------|
 | `00` | R0 | General purpose register |
 | `01` | R1 | General purpose register |
-| `10` | RO | General purpose + **Output** (directly connected to 7-segment display) |
-| `11` | RF | Flags register (written by LT/EQ instructions) |
+| `10` | R2 | General purpose register |
+| `11` | R3 | General purpose register (also used for comparison results) |
 
-RO and RF can also be denoted as R2 and R3. 
+All registers are fully general-purpose and can be used for computation, storage, or I/O operations.
 
-### Register Details
+### R3 and Comparison Operations
 
-**R0, R1** — General purpose storage. Can be used freely for computation.
+R3 serves double duty as the destination for comparison instructions:
+- `LT Rs1 Rs2` sets R3 to `1` if Rs1 < Rs2, otherwise `0`
+- `EQ Rs1 Rs2` sets R3 to `1` if Rs1 == Rs2, otherwise `0`
+- `JZ` and `JNZ` check if R3 equals zero
+- R3 can be read and written like any register, but comparison instructions will overwrite it
 
-**RO/R2 (Output Register)** — Functions as a normal general-purpose register, but its contents are continuously displayed on a 7-segment display. Useful for debugging and observing program state.
-
-**RF/R3 (Flags Register)** — Stores the result of comparison operations:
-- `LT Rs1 Rs2` sets RF to `1` if Rs1 < Rs2, otherwise `0`
-- `EQ Rs1 Rs2` sets RF to `1` if Rs1 == Rs2, otherwise `0`
-- `JZ` and `JNZ` check if RF equals zero
-- RF can be read and written like any register, but comparison instructions will overwrite it
-
-### Design Note: Why RF is a Full Register
+### Design Note: Why R3 is a Full Register
 
 Unlike traditional CPUs (x86, ARM) which use packed bit flags (N, Z, C, V), EE8 uses a full 8-bit register for comparison results. This design choice follows modern RISC philosophy (RISC-V):
 
 **Advantages:**
-- **Simpler hardware** - No bit-field extraction logic needed
-- **Orthogonal design** - RF can be used like any other register (read, write, arithmetic)
-- **Easier to implement** - Students build standard 8-bit register, not special flag register
-- **Modern approach** - RISC-V (2010s) uses explicit comparison results, not implicit flags
+- **Simpler hardware** — No bit-field extraction logic needed
+- **Orthogonal design** — R3 can be used like any other register (read, write, arithmetic)
+- **Easier to implement** — Students build standard 8-bit register, not special flag register
+- **Modern approach** — RISC-V (2010s) uses explicit comparison results, not implicit flags
 
 **Trade-offs:**
 - Cannot branch on overflow or unsigned comparisons without additional instructions
@@ -63,7 +59,87 @@ Unlike traditional CPUs (x86, ARM) which use packed bit flags (N, Z, C, V), EE8 
 
 ---
 
-## 3. Instruction Formats
+## 3. I/O Interface
+
+The EE8 must interface with external signals for the batch diverter station. Teams must choose **one** of the following I/O strategies and document their choice in the report.
+
+### Platform Signals
+
+**Inputs (directly from pins, directly to external ports):**
+| Bit | Signal | Description |
+|-----|--------|-------------|
+| 0 | ITEM_PULSE | One pulse per item passing the counting point |
+| 1 | STOP | Operator stop/hold request |
+| 2 | FAULT | Non-emergency fault (jam, guard open) |
+| 3 | REBOOT | System reset (directly drives hardware reset logic) |
+
+**Outputs (directly written to pins):**
+| Bit | Signal | Description |
+|-----|--------|-------------|
+| 0 | GATE_SEL | Active packing lane (0 = Gate A, 1 = Gate B) |
+| 1 | MOTOR_EN | Conveyor motor enable |
+| 2 | ALARM | General alarm output |
+| 3+ | STATUS | Debug/status bits (optional) |
+
+### Option A: Memory-Mapped I/O
+
+Specific addresses in the ROM address space are aliased to I/O ports instead of instructions. This approach requires additional decode logic but no new instructions.
+
+**Implementation:**
+- Address `0xE` (14): Reading fetches input port value instead of instruction
+- Address `0xF` (15): Writing stores to output port instead of executing
+
+**Trade-offs:**
+- (+) No new instructions needed
+- (+) Familiar paradigm (like x86 memory-mapped peripherals)
+- (−) Consumes ROM addresses (only 14 usable for code)
+- (−) Requires special fetch logic
+
+### Option B: Dedicated I/O Instructions
+
+Add explicit `IN` and `OUT` instructions to the ISA. This is the cleanest approach for educational purposes.
+
+**New Instructions:**
+
+| Opcode | Binary | Mnemonic | Format | Operation |
+|--------|--------|----------|--------|-----------|
+| — | `0111` | IN | I-Type variant | Rd = input_port |
+| — | `0111` | OUT | I-Type variant | output_port = Rs |
+
+See Section 4.8 for full instruction definitions.
+
+**Trade-offs:**
+- (+) Explicit and readable
+- (+) Full 16 instructions available for code
+- (+) Teaches I/O as a distinct concept
+- (−) Consumes opcode space (but we have room)
+
+### Option C: Register-Mapped I/O
+
+Dedicate specific registers to I/O. Inputs appear in one register; outputs are driven from another.
+
+**Implementation:**
+- **Input Register (read-only view):** Reading R0 returns current input pin state
+- **Output Register:** Writing R2 drives output pins
+
+**Trade-offs:**
+- (+) No new instructions or addressing modes
+- (+) Uses existing MOV, AND, OR for I/O manipulation
+- (+) Very simple hardware
+- (−) Consumes general-purpose registers
+- (−) Input register is read-only (writes ignored or cause SYS_ERR)
+
+### Recommended Approach
+
+**Option B (Dedicated I/O Instructions)** is recommended for most teams:
+- Clear separation of concerns
+- Explicit in assembly code
+- Full register file available for computation
+- Teaches embedded systems I/O concepts
+
+---
+
+## 4. Instruction Formats
 
 All instructions are 16 bits wide. There are three instruction formats:
 
@@ -146,7 +222,7 @@ Used for control flow (jumps and conditional branches).
 
 **Assembly syntax:** `JMP address` or `JZ address` or `JNZ address`
 
-**Example:** `JNZ 5` — If RF is not zero, jump to instruction at address 5
+**Example:** `JNZ 5` — If R3 is not zero, jump to instruction at address 5
 
 ---
 
@@ -281,7 +357,7 @@ SHL R0 R1 RO        ; RO = 0b00001100 = 12
 **Example:**
 ```
 LDI R0 99      ; R0 = 99
-MOV R0 RO      ; RO = 99, displays on 7-seg
+MOV R0 R2      ; R2 = 99
 ```
 
 **Encoding note:** Rs2 bits [9:8] are don't-care but should be set to `00`.
@@ -300,7 +376,7 @@ MOV R0 RO      ; RO = 99, displays on 7-seg
 ```
 LDI R0 255     ; R0 = 255 (max unsigned value)
 LDI R1 -1      ; R1 = 255 (same in two's complement)
-LDI RO 42      ; RO = 42, displays on 7-seg
+LDI R2 42      ; R2 = 42
 ```
 
 ---
@@ -313,16 +389,16 @@ LDI RO 42      ; RO = 42, displays on 7-seg
 | **Opcode** | `1000` |
 | **Format** | R-Type |
 | **Syntax** | `LT Rs1 Rs2` |
-| **Operation** | `RF = (Rs1 < Rs2) ? 1 : 0` |
-| **Flags** | **RF is set** |
-| **Description** | Compares Rs1 and Rs2 as signed two's complement values. Sets RF to 1 if Rs1 < Rs2, otherwise 0. Rd field is ignored. |
+| **Operation** | `R3 = (Rs1 < Rs2) ? 1 : 0` |
+| **Flags** | **R3 is set** |
+| **Description** | Compares Rs1 and Rs2 as signed two's complement values. Sets R3 to 1 if Rs1 < Rs2, otherwise 0. Rd field is ignored. |
 
 **Example:**
 ```
 LDI R0 5       ; R0 = 5
 LDI R1 10      ; R1 = 10
-LT R0 R1       ; RF = 1 (because 5 < 10)
-JNZ loop       ; Jump taken because RF != 0
+LT R0 R1       ; R3 = 1 (because 5 < 10)
+JNZ loop       ; Jump taken because R3 != 0
 ```
 
 **Note:** To test "greater than", swap the operand order: `LT Rs2 Rs1` tests if Rs2 < Rs1, which is equivalent to Rs1 > Rs2.
@@ -333,15 +409,15 @@ JNZ loop       ; Jump taken because RF != 0
 | **Opcode** | `1001` |
 | **Format** | R-Type |
 | **Syntax** | `EQ Rs1 Rs2` |
-| **Operation** | `RF = (Rs1 == Rs2) ? 1 : 0` |
-| **Flags** | **RF is set** |
-| **Description** | Compares Rs1 and Rs2 for equality. Sets RF to 1 if equal, otherwise 0. Rd field is ignored. |
+| **Operation** | `R3 = (Rs1 == Rs2) ? 1 : 0` |
+| **Flags** | **R3 is set** |
+| **Description** | Compares Rs1 and Rs2 for equality. Sets R3 to 1 if equal, otherwise 0. Rd field is ignored. |
 
 **Example:**
 ```
 LDI R0 42
 LDI R1 42
-EQ R0 R1       ; RF = 1 (equal)
+EQ R0 R1       ; R3 = 1 (equal)
 JNZ match      ; Jump taken
 ```
 
@@ -370,14 +446,14 @@ JNZ match      ; Jump taken
 | **Opcode** | `1100` |
 | **Format** | J-Type |
 | **Syntax** | `JZ address` |
-| **Operation** | `if (RF == 0) then PC = address` |
+| **Operation** | `if (R3 == 0) then PC = address` |
 | **Flags** | Not affected |
-| **Description** | Jumps to the specified address (0-15) if RF is zero. Otherwise, continues to the next instruction. |
+| **Description** | Jumps to the specified address (0-15) if R3 is zero. Otherwise, continues to the next instruction. |
 
 **Example:**
 ```
-       EQ R0 R1    ; RF = 1 if equal, 0 if not
-       JZ skip     ; Jump if NOT equal (RF == 0)
+       EQ R0 R1    ; R3 = 1 if equal, 0 if not
+       JZ skip     ; Jump if NOT equal (R3 == 0)
        ; ... code if equal ...
 skip:  ; ... continues here ...
 ```
@@ -388,13 +464,13 @@ skip:  ; ... continues here ...
 | **Opcode** | `1101` |
 | **Format** | J-Type |
 | **Syntax** | `JNZ address` |
-| **Operation** | `if (RF != 0) then PC = address` |
+| **Operation** | `if (R3 != 0) then PC = address` |
 | **Flags** | Not affected |
-| **Description** | Jumps to the specified address (0-15) if RF is not zero. Otherwise, continues to the next instruction. |
+| **Description** | Jumps to the specified address (0-15) if R3 is not zero. Otherwise, continues to the next instruction. |
 
 **Example:**
 ```
-       LT R0 R1    ; RF = 1 if R0 < R1
+       LT R0 R1    ; R3 = 1 if R0 < R1
        JNZ less    ; Jump if R0 < R1
        ; ... code if R0 >= R1 ...
 less:  ; ... code if R0 < R1 ...
@@ -424,13 +500,83 @@ less:  ; ... code if R0 < R1 ...
 | **Syntax** | `HALT` |
 | **Operation** | Stop CPU |
 | **Flags** | Not affected |
-| **Description** | Stops the CPU. The program counter no longer advances. Used to end programs. |
+| **Description** | Stops the CPU. The program counter no longer advances. Used to end programs. In the batch diverter context, HALT should only be reached on unrecoverable conditions; normal operation loops indefinitely. |
 
 **Encoding:** `1111 0000 0000 0000` (all zeros after opcode)
 
 ---
 
-## 5. Instruction Encoding Summary
+### 5.8 I/O Instructions (Option B)
+
+If your team selects **Option B: Dedicated I/O Instructions**, implement the following. If using Option A or C, skip this section.
+
+#### IN — Read Input Port
+| | |
+|---|---|
+| **Opcode** | Shares with MOV: `0111` with Rs2 = `11` |
+| **Format** | R-Type (special) |
+| **Syntax** | `IN Rd` |
+| **Operation** | `Rd = input_port` |
+| **Flags** | Not affected |
+| **Description** | Reads the current state of the input port (ITEM_PULSE, STOP, FAULT, REBOOT) into register Rd. |
+
+**Encoding:**
+```
+┌────────┬────────┬────────┬────────┬──────────────┐
+│ opcode │   00   │   11   │   Rd   │   000000     │
+│  0111  │  (ign) │ (mark) │  2 bit │    6 bit     │
+└────────┴────────┴────────┴────────┴──────────────┘
+```
+
+The `Rs2 = 11` distinguishes IN from MOV (where Rs2 = 00).
+
+**Example:**
+```
+IN R0          ; R0 = input port state
+LDI R1 0x01    ; Mask for ITEM_PULSE (bit 0)
+AND R0 R1 R0   ; R0 = 1 if item detected, else 0
+```
+
+#### OUT — Write Output Port
+| | |
+|---|---|
+| **Opcode** | Shares with MOV: `0111` with Rs2 = `10` |
+| **Format** | R-Type (special) |
+| **Syntax** | `OUT Rs` |
+| **Operation** | `output_port = Rs` |
+| **Flags** | Not affected |
+| **Description** | Writes the contents of Rs to the output port (GATE_SEL, MOTOR_EN, ALARM, STATUS). |
+
+**Encoding:**
+```
+┌────────┬────────┬────────┬────────┬──────────────┐
+│ opcode │   Rs   │   10   │   00   │   000000     │
+│  0111  │  2 bit │ (mark) │  (ign) │    6 bit     │
+└────────┴────────┴────────┴────────┴──────────────┘
+```
+
+The `Rs2 = 10` distinguishes OUT from MOV and IN.
+
+**Example:**
+```
+LDI R2 0x02    ; MOTOR_EN = 1, GATE_SEL = 0 (Gate A)
+OUT R2         ; Write to output port
+```
+
+### I/O Encoding Summary (Option B)
+
+| Rs2 | Instruction | Operation |
+|-----|-------------|-----------|
+| `00` | MOV Rs1 Rd | Rd = Rs1 |
+| `01` | (reserved) | — |
+| `10` | OUT Rs1 | output_port = Rs1 |
+| `11` | IN Rd | Rd = input_port |
+
+**Design Note:** By overloading the MOV opcode with Rs2 variants, we avoid consuming additional opcodes while providing clean I/O semantics. The decoder checks Rs2 to select between register move and port operations.
+
+---
+
+## 6. Instruction Encoding Summary
 
 | Opcode | Binary | Mnemonic | Format | Operation |
 |--------|--------|----------|--------|-----------|
@@ -441,24 +587,28 @@ less:  ; ... code if R0 < R1 ...
 | 4 | `0100` | XOR | R | Rd = Rs1 ^ Rs2 |
 | 5 | `0101` | SHL | R | Rd = Rs1 << Rs2 |
 | 6 | `0110` | SHR | R | Rd = Rs1 >> Rs2 |
-| 7 | `0111` | MOV | R | Rd = Rs1 |
-| 8 | `1000` | LT | R | RF = (Rs1 < Rs2) |
-| 9 | `1001` | EQ | R | RF = (Rs1 == Rs2) |
+| 7 | `0111` | MOV | R | Rd = Rs1 (Rs2=00) |
+| 7 | `0111` | OUT | R | output = Rs1 (Rs2=10) † |
+| 7 | `0111` | IN | R | Rd = input (Rs2=11) † |
+| 8 | `1000` | LT | R | R3 = (Rs1 < Rs2) |
+| 9 | `1001` | EQ | R | R3 = (Rs1 == Rs2) |
 | 10 | `1010` | LDI | I | Rd = immediate |
 | 11 | `1011` | JMP | J | PC = address |
-| 12 | `1100` | JZ | J | if RF==0: PC = addr |
-| 13 | `1101` | JNZ | J | if RF!=0: PC = addr |
+| 12 | `1100` | JZ | J | if R3==0: PC = addr |
+| 13 | `1101` | JNZ | J | if R3!=0: PC = addr |
 | 14 | `1110` | NOP | — | No operation |
 | 15 | `1111` | HALT | — | Stop execution |
 
+† Option B only. See Section 5.8 for I/O instruction details.
+
 ---
 
-## 6. Binary Encoding Examples
+## 7. Binary Encoding Examples
 
-### Example 1: ADD R0 R1 RO
+### Example 1: ADD R0 R1 R2
 
 ```
-ADD  R0   R1   RO   unused
+ADD  R0   R1   R2   unused
 0000  00   01   10   000000
 
 Binary: 0000 0001 1000 0000
@@ -495,9 +645,29 @@ Binary: 1000 0001 0000 0000
 Hex:    0x8100
 ```
 
+### Example 5: IN R0 (Option B)
+
+```
+IN   --   11   R0   unused
+0111  00   11   00   000000
+
+Binary: 0111 0011 0000 0000
+Hex:    0x7300
+```
+
+### Example 6: OUT R2 (Option B)
+
+```
+OUT  R2   10   --   unused
+0111  10   10   00   000000
+
+Binary: 0111 1010 0000 0000
+Hex:    0x7A00
+```
+
 ---
 
-## 7. Program Memory
+## 8. Program Memory
 
 The EE8 uses a ROM (Read-Only Memory) to store programs.
 
@@ -530,7 +700,7 @@ A **LOAD signal** transfers the test program from external ROM to internal ROM b
 
 ---
 
-## 8. Timing and Clocking
+## 9. Timing and Clocking
 
 The CPU operates on a single clock signal in a **single-cycle architecture**.
 
@@ -551,12 +721,12 @@ All operations are **atomic** — each instruction completes in a single clock c
 
 ---
 
-## 9. Assembly Language Syntax
+## 10. Assembly Language Syntax
 
 ### Comments
 ```
 ; This is a comment
-ADD R0 R1 RO    ; Inline comment
+ADD R0 R1 R2    ; Inline comment
 ```
 
 ### Labels
@@ -577,84 +747,114 @@ LDI R0 0b00101010  ; Binary
 
 ---
 
-## 10. Example Programs
+## 11. Example Programs
 
-### 10.1 Count Down from 10
-
-```
-; Counts down from 10 to 0, displaying on 7-seg
-; Uses 9 instructions (fits in 16-word ROM)
-        LDI RO 10      ; RO = 10, display shows 10
-        LDI R1 1       ; R1 = 1 (decrement value)
-        LDI RF 0       ; RF = 0 (for comparison)
-loop:   EQ RO RF       ; RF = (RO == 0) ? 1 : 0
-        JNZ done       ; If RO == 0, exit loop
-        SUB RO R1 RO   ; RO = RO - 1
-        JMP loop       ; Repeat
-done:   HALT
-```
-
-### 10.2 Add Two Numbers
+### 11.1 Basic Batch Diverter (Option B)
 
 ```
-; Adds 25 + 17 and displays result
+; Simple batch diverter: A=3 items to Gate A, B=2 items to Gate B
+; Uses Option B I/O instructions
+; Uses 14 instructions
+
+0:  LDI R0 3           ; R0 = count A (3 items to Gate A)
+1:  LDI R1 0x02        ; R1 = output: MOTOR_EN=1, GATE_SEL=0 (Gate A)
+2:  OUT R1             ; Enable motor, select Gate A
+
+; --- Gate A loop ---
+3:  IN R2              ; Read inputs
+4:  LDI R3 0x01        ; Mask for ITEM_PULSE (bit 0)
+5:  AND R2 R3 R2       ; Isolate ITEM_PULSE
+6:  JZ 3               ; No pulse? Keep polling
+7:  LDI R3 1           ; Decrement value
+8:  SUB R0 R3 R0       ; R0 = R0 - 1
+9:  JNZ 3              ; More items? Keep counting
+
+; --- Switch to Gate B ---
+10: LDI R0 2           ; R0 = count B (2 items to Gate B)
+11: LDI R1 0x03        ; R1 = output: MOTOR_EN=1, GATE_SEL=1 (Gate B)
+12: OUT R1             ; Select Gate B
+13: JMP 3              ; Reuse counting loop (counts down R0)
+
+; Note: After B items, R0=0, falls through to addr 10, reloads A=2
+; This creates a 3-2-2-2... pattern. Full A/B alternation needs 16 insns.
+14: NOP
+15: HALT
+```
+
+### 11.2 Full Batch Diverter with Alternation
+
+```
+; Full batch diverter: A items to Gate A, B items to Gate B, repeat
+; Uses all 16 instructions
+; A=5, B=3 (hardcoded in ROM)
+
+0:  LDI R0 5           ; R0 = count A
+1:  LDI R2 0x02        ; Output: MOTOR=1, GATE=A
+2:  OUT R2             ; Apply output
+
+; --- Counting loop (shared) ---
+3:  IN R1              ; Read inputs
+4:  LDI R3 0x01        ; ITEM_PULSE mask
+5:  AND R1 R3 R1       ; Isolate pulse
+6:  JZ 3               ; No pulse? Poll again
+7:  LDI R3 1
+8:  SUB R0 R3 R0       ; Decrement counter
+9:  JNZ 3              ; More items? Continue
+
+; --- Toggle gate ---
+10: LDI R3 0x01        ; Gate toggle mask
+11: XOR R2 R3 R2       ; Flip GATE_SEL bit
+12: OUT R2             ; Update output
+13: LDI R0 3           ; Load count B (or A if toggled back)
+14: JMP 3              ; Back to counting
+
+15: HALT               ; Never reached in normal operation
+```
+
+**Note:** This simplified version uses fixed counts. A full implementation with distinct A and B counts requires careful ROM optimization or an extension approach (see project spec).
+
+### 11.3 Arithmetic Example: Add Two Numbers
+
+```
+; Adds 25 + 17, stores result in R2
 ; Uses 4 instructions
         LDI R0 25
         LDI R1 17
-        ADD R0 R1 RO   ; RO = 42, displays on 7-seg
+        ADD R0 R1 R2   ; R2 = 42
         HALT
 ```
 
-### 10.3 Multiply by Shifting (x4)
+### 11.4 Find Maximum of Two Numbers
 
 ```
-; Multiplies R0 by 4 using left shifts
-; Uses 6 instructions
-        LDI R0 7       ; R0 = 7
-        LDI R1 1       ; Shift amount
-        SHL R0 R1 R0   ; R0 = 14 (x2)
-        SHL R0 R1 R0   ; R0 = 28 (x4)
-        MOV R0 RO      ; Display result
-        HALT
-```
-
-### 10.4 Find Maximum of Two Numbers
-
-```
-; Finds max of R0 and R1, stores in RO
-; Uses 9 instructions (fits in 16-word ROM)
+; Finds max of R0 and R1, stores in R2
+; Uses 8 instructions
         LDI R0 45
         LDI R1 72
-        LT R0 R1       ; RF = 1 if R0 < R1
+        LT R0 R1       ; R3 = 1 if R0 < R1
         JNZ r1_bigger  ; If R0 < R1, jump
-        MOV R0 RO      ; R0 is bigger or equal
+        MOV R0 R2      ; R0 is bigger or equal
         JMP done
 r1_bigger:
-        MOV R1 RO      ; R1 is bigger
+        MOV R1 R2      ; R1 is bigger
 done:   HALT
 ```
 
-### 10.5 Count Up and Down
+### 11.5 Polling Input Example
 
 ```
-; Count up 0->10, then down 10->0, display 0xFF, halt
-; Uses exactly 16 instructions (fills ROM)
-0:  LDI RO, 0          ; RO = 0
-1:  LDI R0, 1          ; R0 = 1
-2:  LDI R1, 10         ; R1 = 10
-3:  ADD RO, R0, RO     ; RO = RO + 1
-4:  EQ RO, R1          ; RF = (RO == 10)?
-5:  JNZ 7              ; If yes, goto countdown
-6:  JMP 3              ; Loop up
-7:  SUB RO, R0, RO     ; RO = RO - 1
-8:  LDI RF, 0          ; RF = 0
-9:  EQ RO, RF          ; RF = (RO == 0)?
-10: JNZ 12             ; If yes, goto done
-11: JMP 7              ; Loop down
-12: LDI RO, 0xFF       ; All segments lit
-13: NOP                ; Padding
-14: NOP                ; Padding
-15: HALT               ; Stop
+; Wait for ITEM_PULSE, then set ALARM
+; Demonstrates I/O polling pattern
+
+0:  LDI R2 0x02        ; MOTOR_EN=1, ALARM=0
+1:  OUT R2             ; Enable motor
+2:  IN R0              ; Read inputs
+3:  LDI R1 0x01        ; ITEM_PULSE mask
+4:  AND R0 R1 R0       ; Isolate bit 0
+5:  JZ 2               ; No pulse? Keep polling
+6:  LDI R2 0x04        ; ALARM=1, MOTOR=0
+7:  OUT R2             ; Sound alarm
+8:  HALT
 ```
 
 ---
@@ -667,30 +867,36 @@ done:   HALT
 ├─────────────────────────────────────────────────────────┤
 │ REGISTERS                                               │
 │   R0, R1    General purpose                             │
-│   RO        Output (7-seg display)                      │
-│   RF        Flags (set by LT/EQ)                        │
+│   R2        General purpose                             │
+│   R3        General purpose + comparison results        │
 ├─────────────────────────────────────────────────────────┤
 │ ARITHMETIC          │ BITWISE                           │
 │   ADD Rs1 Rs2 Rd    │   AND Rs1 Rs2 Rd                  │
 │   SUB Rs1 Rs2 Rd    │   OR  Rs1 Rs2 Rd                  │
 │                     │   XOR Rs1 Rs2 Rd                  │
 ├─────────────────────┼───────────────────────────────────┤
-│ SHIFT               │ COMPARE (sets RF)                 │
-│   SHL Rs1 Rs2 Rd    │   LT Rs1 Rs2  (RF = Rs1 < Rs2)    │
-│   SHR Rs1 Rs2 Rd    │   EQ Rs1 Rs2  (RF = Rs1 == Rs2)   │
+│ SHIFT               │ COMPARE (sets R3)                 │
+│   SHL Rs1 Rs2 Rd    │   LT Rs1 Rs2  (R3 = Rs1 < Rs2)    │
+│   SHR Rs1 Rs2 Rd    │   EQ Rs1 Rs2  (R3 = Rs1 == Rs2)   │
 ├─────────────────────┴───────────────────────────────────┤
 │ DATA MOVEMENT                                           │
 │   MOV Rs Rd         Copy register                       │
 │   LDI Rd imm        Load immediate (0-255)              │
+│   IN Rd             Read input port (Option B)          │
+│   OUT Rs            Write output port (Option B)        │
 ├─────────────────────────────────────────────────────────┤
 │ CONTROL FLOW        (address range: 0-15)               │
 │   JMP addr          Unconditional jump                  │
-│   JZ  addr          Jump if RF == 0                     │
-│   JNZ addr          Jump if RF != 0                     │
+│   JZ  addr          Jump if R3 == 0                     │
+│   JNZ addr          Jump if R3 != 0                     │
 ├─────────────────────────────────────────────────────────┤
 │ MISC                                                    │
 │   NOP               No operation                        │
 │   HALT              Stop execution                      │
+├─────────────────────────────────────────────────────────┤
+│ I/O PORT BITS (Batch Diverter)                          │
+│   Input:  [0]=ITEM_PULSE [1]=STOP [2]=FAULT [3]=REBOOT  │
+│   Output: [0]=GATE_SEL [1]=MOTOR_EN [2]=ALARM [3+]=STAT │
 └─────────────────────────────────────────────────────────┘
 
 Memory: 16 instructions (addresses 0-F)
@@ -709,21 +915,44 @@ PC wraps from 15 → 0
        0100  XOR      1100  JZ
        0101  SHL      1101  JNZ
        0110  SHR      1110  NOP
-       0111  MOV      1111  HALT
+       0111  MOV/IN/OUT   1111  HALT
+
+  MOV/IN/OUT disambiguation (opcode 0111):
+       Rs2=00  MOV Rs1 Rd
+       Rs2=10  OUT Rs1
+       Rs2=11  IN Rd
 ```
 
 ---
 
-## Appendix C: Changes from Version 1.0
+## Appendix C: I/O Interface Options Summary
+
+| Option | Mechanism | Pros | Cons |
+|--------|-----------|------|------|
+| A | Memory-mapped | No new instructions | Loses ROM addresses |
+| B | IN/OUT instructions | Clean, explicit | Uses opcode space |
+| C | Register-mapped | Simplest hardware | Loses registers |
+
+**Recommended:** Option B for clarity and full resource availability.
+
+---
+
+## Appendix D: Changes from Previous Versions
+
+**Version 3.0 updates (I/O and batch diverter):**
+- Added I/O interface section (Options A, B, C)
+- Added IN and OUT instructions (Option B) via MOV opcode overloading
+- Renamed RO→R2, RF→R3 for uniformity (all registers now general-purpose)
+- Updated examples for batch diverter scenario
+- Added I/O port bit assignments for station signals
+- Aligned with EG2300 project specification
 
 **Version 2.0 updates (4-bit addressing):**
 - Reduced program memory from 256 to 16 instructions
 - Changed PC from 8-bit to 4-bit counter
-- Updated J-type format: address field now [3:0] (4 bits), unused expanded to [11:4] (8 bits)
+- Updated J-type format: address field now [3:0] (4 bits)
 - All jump/branch addresses now 0-15 range
-- Added design rationale for RF register approach
-- Added 16-instruction example program (count up/down)
-- Updated memory specifications and examples
+- Added design rationale for comparison register approach
 
 ---
 
