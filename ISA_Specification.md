@@ -480,17 +480,17 @@ less:  ; ... code if R0 < R1 ...
 
 ### 4.7 Miscellaneous Instructions
 
-#### NOP — No Operation
-| | |
-|---|---|
-| **Opcode** | `1110` |
-| **Format** | — |
-| **Syntax** | `NOP` |
-| **Operation** | None |
-| **Flags** | Not affected |
-| **Description** | Does nothing. Advances PC to next instruction. Useful for timing or placeholder. |
+#### (Reserved — Opcode 1110)
 
-**Encoding:** `1110 0000 0000 0000` (all zeros after opcode)
+Opcode `1110` is **reserved** for team extensions. If your team implements a custom instruction (e.g., ADDI, NOT, INC, DEC), document it in your report. If not implemented, this opcode should trigger SYS_ERR as an illegal instruction.
+
+**Extension ideas:**
+- `ADDI Rd imm` — Add immediate to register
+- `NOT Rs Rd` — Bitwise NOT
+- `INC Rd` / `DEC Rd` — Increment/decrement
+- `SWAPNIB Rd` — Swap nibbles (rotate by 4)
+
+**Note:** If you need a no-operation, use `MOV R0 R0` (copies R0 to itself).
 
 #### HALT — Halt Execution
 | | |
@@ -596,7 +596,7 @@ OUT R2         ; Write to output port
 | 11 | `1011` | JMP | J | PC = address |
 | 12 | `1100` | JZ | J | if R3==0: PC = addr |
 | 13 | `1101` | JNZ | J | if R3!=0: PC = addr |
-| 14 | `1110` | NOP | — | No operation |
+| 14 | `1110` | — | — | Reserved (extension or SYS_ERR) |
 | 15 | `1111` | HALT | — | Stop execution |
 
 † Option B only. See Section 5.8 for I/O instruction details.
@@ -891,8 +891,8 @@ done:   HALT
 │   JNZ addr          Jump if R3 != 0                     │
 ├─────────────────────────────────────────────────────────┤
 │ MISC                                                    │
-│   NOP               No operation                        │
 │   HALT              Stop execution                      │
+│   (opcode 1110)     Reserved for extensions             │
 ├─────────────────────────────────────────────────────────┤
 │ I/O PORT BITS (Batch Diverter)                          │
 │   Input:  [0]=ITEM_PULSE [1]=STOP [2]=FAULT [3]=REBOOT  │
@@ -914,7 +914,7 @@ PC wraps from 15 → 0
        0011  OR       1011  JMP
        0100  XOR      1100  JZ
        0101  SHL      1101  JNZ
-       0110  SHR      1110  NOP
+       0110  SHR      1110  (reserved)
        0111  MOV/IN/OUT   1111  HALT
 
   MOV/IN/OUT disambiguation (opcode 0111):
@@ -943,6 +943,7 @@ PC wraps from 15 → 0
 - Added I/O interface section (Options A, B, C)
 - Added IN and OUT instructions (Option B) via MOV opcode overloading
 - Renamed RO→R2, RF→R3 for uniformity (all registers now general-purpose)
+- Removed NOP (opcode 1110 now reserved for team extensions)
 - Updated examples for batch diverter scenario
 - Added I/O port bit assignments for station signals
 - Aligned with EG2300 project specification
