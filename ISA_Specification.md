@@ -198,12 +198,6 @@ Specific addresses in the ROM address space are aliased to I/O ports instead of 
 - Address `0xE` (14): Reading fetches input port value instead of instruction
 - Address `0xF` (15): Writing stores to output port instead of executing
 
-**Trade-offs:**
-- (+) No new instructions needed
-- (+) Familiar paradigm (like x86 memory-mapped peripherals)
-- (−) Consumes ROM addresses (only 14 usable for code)
-- (−) Requires special fetch logic
-
 ### 4.5 Option B: Dedicated I/O Instructions
 
 Add explicit `IN` and `OUT` instructions to the ISA. This is the cleanest approach for educational purposes.
@@ -217,11 +211,6 @@ Add explicit `IN` and `OUT` instructions to the ISA. This is the cleanest approa
 
 See Section 6.8 for full instruction definitions.
 
-**Trade-offs:**
-- (+) Explicit and readable
-- (+) Full 16 instructions available for code
-- (+) Teaches I/O as a distinct concept
-- (−) Consumes opcode space (but we have room)
 
 ### 4.6 Option C: Register-Mapped I/O
 
@@ -231,20 +220,7 @@ Dedicate specific registers to I/O. Inputs appear in one register; outputs are d
 - **Input Register (read-only view):** Reading R0 returns current input pin state
 - **Output Register:** Writing R2 drives output pins
 
-**Trade-offs:**
-- (+) No new instructions or addressing modes
-- (+) Uses existing MOV, AND, OR for I/O manipulation
-- (+) Very simple hardware
-- (−) Consumes general-purpose registers
-- (−) Input register is read-only (writes ignored or cause SYS_ERR)
 
-### 4.7 Recommended Approach
-
-**Option B (Dedicated I/O Instructions)** is recommended for most teams:
-- Clear separation of concerns
-- Explicit in assembly code
-- Full register file available for computation
-- Teaches embedded systems I/O concepts
 
 ---
 
@@ -1033,7 +1009,7 @@ A simpler version where both gates get the same count. Useful as a starting poin
 ### 13.6 Countdown Example
 
 ```
-; Counts down from 10 to 0 using the new JNZ Rcond syntax
+; Counts down from 10 to 0 using the JNZ Rcond syntax
 ; Demonstrates branching on a counter register directly
 ; 4 instructions
 
