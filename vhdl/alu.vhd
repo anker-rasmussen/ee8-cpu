@@ -19,8 +19,8 @@ end alu;
 architecture Behavioral of alu is
     signal shift_amount : integer range 0 to 7 := 0;
 begin
-    -- Extract shift amount from lower 3 bits of b (with guard for metavalues)
-    shift_amount <= to_integer(unsigned(b(2 downto 0))) when not is_x(b(2 downto 0)) else 0;
+    -- Extract shift amount from lower 3 bits of b
+    shift_amount <= to_integer(unsigned(b(2 downto 0)));
 
     process(a, b, alu_op, shift_amount)
         variable a_unsigned : unsigned(7 downto 0);

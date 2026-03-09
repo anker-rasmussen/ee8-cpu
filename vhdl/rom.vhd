@@ -46,15 +46,26 @@ architecture Behavioral of rom is
     --   HALT:           1111_0000_0000_0000  = 0xF000
     -- =========================================================================
 
-    -- =========================================================================
-    -- TEST PROGRAM: Basic arithmetic
-    -- Expected result: R2 = 15 (0x0F)
+    -- PROGRAM: Bit bounce (single bit shifts left then right)
+    -- Display: 01 02 04 08 10 20 40 80 40 20 10 08 04 02 01 ...
     -- =========================================================================
     constant rom_data : rom_array_t := (
-        0  => x"A00A",  -- LDI R0, 10      ; R0 = 10
-        1  => x"A105",  -- LDI R1, 5       ; R1 = 5
-        2  => x"0180",  -- ADD R0, R1, R2  ; R2 = R0 + R1 = 15
-        3  => x"F000",  -- HALT            ; Stop execution
+        0  => x"A001",  -- LDI R0, 0x01    ; bit = 0x01
+        1  => x"A401",  -- LDI R1, 1       ; shift amount = 1
+        -- SHIFT LEFT
+        2  => x"7080",  -- MOV R0, _, RO   ; display
+        3  => x"AC80",  -- LDI RF, 0x80    ; compare value
+        4  => x"9300",  -- EQ R0, RF       ; reached top?
+        5  => x"D008",  -- JNZ 8           ; yes -> shift right
+        6  => x"5100",  -- SHL R0, R1, R0  ; R0 <<= 1
+        7  => x"B002",  -- JMP 2           ; loop
+        -- SHIFT RIGHT
+        8  => x"7080",  -- MOV R0, _, RO   ; display
+        9  => x"AC01",  -- LDI RF, 0x01    ; compare value
+        10 => x"9300",  -- EQ R0, RF       ; reached bottom?
+        11 => x"D002",  -- JNZ 2           ; yes -> shift left
+        12 => x"6100",  -- SHR R0, R1, R0  ; R0 >>= 1
+        13 => x"B008",  -- JMP 8           ; loop
 
         -- Remaining addresses filled with HALT
         others => x"F000"

@@ -42,9 +42,9 @@ begin
         end if;
     end process;
 
-    -- Asynchronous read (combinational, with guard for metavalues)
-    rs1_out <= registers(to_integer(unsigned(sel_rs1))) when not is_x(sel_rs1) else (others => '0');
-    rs2_out <= registers(to_integer(unsigned(sel_rs2))) when not is_x(sel_rs2) else (others => '0');
+    -- Asynchronous read (combinational)
+    rs1_out <= registers(to_integer(unsigned(sel_rs1)));
+    rs2_out <= registers(to_integer(unsigned(sel_rs2)));
 
     -- RO always output for 7-segment display
     ro_out <= registers(2);
