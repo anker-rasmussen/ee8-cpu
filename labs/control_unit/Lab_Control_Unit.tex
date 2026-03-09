@@ -1,0 +1,578 @@
+\documentclass[11pt,a4paper]{article}
+
+% ── Packages ──────────────────────────────────────────────────────────
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage[margin=2.5cm]{geometry}
+\usepackage{booktabs}
+\usepackage{tabularx}
+\usepackage{longtable}
+\usepackage{array}
+\usepackage{xcolor}
+\usepackage{listings}
+\usepackage{hyperref}
+\usepackage{fancyhdr}
+\usepackage{titlesec}
+\usepackage{enumitem}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{caption}
+\usepackage{bytefield}
+\bytefieldsetup{endianness=big}
+\usepackage{multicol}
+\usepackage{tcolorbox}
+\usepackage{tikz}
+
+% ── Colours ───────────────────────────────────────────────────────────
+\definecolor{ee8blue}{RGB}{0,90,160}
+\definecolor{ee8gray}{RGB}{100,100,100}
+\definecolor{codebg}{RGB}{248,248,248}
+\definecolor{codeborder}{RGB}{200,200,200}
+\definecolor{keywordcolor}{RGB}{0,100,170}
+\definecolor{commentcolor}{RGB}{100,140,100}
+\definecolor{stringcolor}{RGB}{170,60,0}
+\definecolor{warnbg}{RGB}{255,250,230}
+\definecolor{warnborder}{RGB}{220,180,50}
+\definecolor{notebg}{RGB}{235,245,255}
+\definecolor{noteborder}{RGB}{70,130,200}
+\definecolor{greenbg}{RGB}{235,250,240}
+\definecolor{greenborder}{RGB}{60,160,100}
+
+% ── Listings style ────────────────────────────────────────────────────
+\lstdefinelanguage{ee8asm}{
+  morekeywords={ADD,SUB,AND,OR,XOR,SHL,SHR,MOV,LDI,LT,EQ,JMP,JZ,JNZ,HALT,IN,OUT},
+  sensitive=true,
+  morecomment=[l]{;},
+  morestring=[b]",
+}
+
+\lstset{
+  language=ee8asm,
+  basicstyle=\ttfamily\small,
+  keywordstyle=\color{keywordcolor}\bfseries,
+  commentstyle=\color{commentcolor}\itshape,
+  stringstyle=\color{stringcolor},
+  backgroundcolor=\color{codebg},
+  frame=single,
+  rulecolor=\color{codeborder},
+  framesep=5pt,
+  xleftmargin=10pt,
+  xrightmargin=10pt,
+  numbers=none,
+  breaklines=true,
+  showstringspaces=false,
+  tabsize=4,
+  columns=fullflexible,
+  keepspaces=true,
+}
+
+% ── tcolorbox styles ─────────────────────────────────────────────────
+\newtcolorbox{designnote}{
+  colback=notebg,
+  colframe=noteborder,
+  fonttitle=\bfseries,
+  title=Design Note,
+  boxrule=0.5pt,
+  arc=2pt,
+  left=6pt, right=6pt, top=4pt, bottom=4pt,
+}
+
+\newtcolorbox{warningbox}{
+  colback=warnbg,
+  colframe=warnborder,
+  fonttitle=\bfseries,
+  title=Important,
+  boxrule=0.5pt,
+  arc=2pt,
+  left=6pt, right=6pt, top=4pt, bottom=4pt,
+}
+
+\newtcolorbox{taskbox}[1][]{
+  colback=greenbg,
+  colframe=greenborder,
+  fonttitle=\bfseries,
+  title=#1,
+  boxrule=0.5pt,
+  arc=2pt,
+  left=6pt, right=6pt, top=4pt, bottom=4pt,
+}
+
+\newtcolorbox{hintbox}{
+  colback=codebg,
+  colframe=codeborder,
+  fonttitle=\bfseries,
+  title=Hint,
+  boxrule=0.5pt,
+  arc=2pt,
+  left=6pt, right=6pt, top=4pt, bottom=4pt,
+}
+
+% ── Hyperref setup ────────────────────────────────────────────────────
+\hypersetup{
+  colorlinks=true,
+  linkcolor=ee8blue,
+  urlcolor=ee8blue,
+  citecolor=ee8blue,
+  pdftitle={EE8 CPU -- Lab: Instruction Decoder and Control Unit},
+  pdfauthor={EG2300 Course Team},
+}
+
+% ── Header / footer ──────────────────────────────────────────────────
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small\textcolor{ee8gray}{EE8 CPU --- Lab: Instruction Decoder \& Control Unit}}
+\fancyhead[R]{\small\textcolor{ee8gray}{EG2300}}
+\fancyfoot[C]{\small\textcolor{ee8gray}{\thepage}}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\footrulewidth}{0pt}
+
+% ── Section formatting ────────────────────────────────────────────────
+\titleformat{\section}
+  {\Large\bfseries\color{ee8blue}}{\thesection}{1em}{}[\vspace{-0.5em}\rule{\textwidth}{0.4pt}]
+\titleformat{\subsection}
+  {\large\bfseries\color{ee8blue!80!black}}{\thesubsection}{1em}{}
+\titleformat{\subsubsection}
+  {\normalsize\bfseries}{\thesubsubsection}{1em}{}
+
+% ── Custom commands ───────────────────────────────────────────────────
+\newcommand{\reg}[1]{\texttt{R#1}}
+\newcommand{\opcode}[1]{\texttt{#1}}
+\newcommand{\signal}[1]{\textsc{#1}}
+\newcommand{\instr}[1]{\texttt{\textbf{#1}}}
+\newcommand{\flag}[1]{\texttt{#1}}
+
+% ══════════════════════════════════════════════════════════════════════
+\begin{document}
+
+% ── Title ─────────────────────────────────────────────────────────────
+\begin{center}
+{\Huge\bfseries\color{ee8blue} EE8 CPU}\\[0.4cm]
+{\LARGE Lab: Instruction Decoder \& Control Unit}\\[0.8cm]
+{\large Engineering Design Module (EG2300)}\\[0.3cm]
+\rule{0.6\textwidth}{1pt}\\[0.5cm]
+\end{center}
+
+% ── Objectives ────────────────────────────────────────────────────────
+\section{Objectives}
+
+By the end of this lab you will have built a \textbf{combinational logic circuit} that takes a 4-bit opcode from the instruction word and produces the control signals (bit flags) that will drive every other component in your CPU.
+
+\medskip
+\noindent You will:
+\begin{enumerate}[leftmargin=2em]
+  \item Understand why a CPU needs control signals and what each one does.
+  \item Extract the opcode from the 16-bit instruction word.
+  \item Design and implement a combinational decoder that sets bit flags based on the opcode.
+  \item Test your decoder against every opcode in the EE8 instruction set.
+\end{enumerate}
+
+% ── Background ────────────────────────────────────────────────────────
+\section{Background}
+
+\subsection{Where are we?}
+
+So far you have built:
+\begin{itemize}[leftmargin=2em]
+  \item \textbf{PIPO registers} --- 8-bit storage from D flip-flops.
+  \item \textbf{ROM} --- 16 rows of 16-bit instruction words.
+  \item \textbf{Program Counter} --- T flip-flop counter that selects the current ROM address, with reset (all bits to 0) and an unconditional jump override.
+\end{itemize}
+
+Right now your ROM outputs a 16-bit instruction word every clock cycle, but nothing \emph{interprets} it. The instruction word is just a bundle of 16 wires carrying ones and zeros. The CPU needs logic that looks at those bits and decides:
+
+\begin{itemize}[leftmargin=2em]
+  \item Should a register be written to?
+  \item Should the ALU add, subtract, or do something else?
+  \item Is this a jump instruction?
+  \item Should the CPU halt?
+\end{itemize}
+
+This is the job of the \textbf{instruction decoder} and \textbf{control unit}.
+
+\subsection{What is a control signal?}
+
+A \textbf{control signal} (or \textbf{bit flag}) is a single wire that is either 0 or 1.
+It acts as an on/off switch for a specific part of the CPU.
+
+\medskip
+For example, you already have one control signal: the \textbf{Jump} flag on your program counter.
+When \flag{Jump}~=~1, the PC loads the jump target address instead of incrementing.
+When \flag{Jump}~=~0, the PC increments normally (PC~=~PC~+~1).
+
+\medskip
+The control unit's job is to produce \emph{all} of these flags simultaneously, based purely on the opcode. It is \textbf{combinational logic} --- no flip-flops, no clock, no memory. The opcode goes in, the flags come out.
+
+\begin{designnote}
+In a real CPU (ARM, RISC-V, x86) the control unit works the same way --- it decodes the instruction and asserts control signals that steer the datapath.
+The only difference is scale: those CPUs have hundreds of signals; the EE8 has a handful.
+You are building the same fundamental circuit.
+\end{designnote}
+
+
+% ── Part A: Field Extraction ──────────────────────────────────────────
+\section{Part A: Extracting the Opcode}
+
+The 16-bit instruction word from ROM has a specific structure.
+Regardless of instruction type (R-type, I-type, or J-type), the \textbf{opcode is always bits [15:12]} --- the top 4 bits.
+
+\begin{center}
+\begin{bytefield}[bitwidth=1.3em]{16}
+  \bitheader{0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15} \\
+  \bitbox{4}{\small opcode} & \bitbox{12}{\small (varies by instruction type)}
+\end{bytefield}
+\end{center}
+
+\begin{taskbox}[Task A]
+Use a \textbf{splitter} in Logisim to extract bits [15:12] from the ROM output.
+This gives you a 4-bit opcode signal.
+
+\medskip
+\noindent Your circuit should have:
+\begin{itemize}[leftmargin=2em]
+  \item \textbf{Input:} \texttt{instruction[15:0]} (16-bit wire from ROM)
+  \item \textbf{Output:} \texttt{opcode[3:0]} (4-bit wire)
+\end{itemize}
+\end{taskbox}
+
+You will extract the other fields (Rs1, Rs2, Rd, immediate, address) in a later lab when you build the register file and datapath. For now, the opcode is all the control unit needs.
+
+
+% ── Part B: Core Control Signals ──────────────────────────────────────
+\section{Part B: The Control Signals}
+
+Your control unit will produce the following bit flags. Each flag is a single output wire (1 bit).
+
+\subsection{Core Signals (Required)}
+
+\renewcommand{\arraystretch}{1.4}
+\begin{table}[H]
+\centering
+\begin{tabularx}{\textwidth}{l l X}
+\toprule
+\textbf{Signal} & \textbf{Width} & \textbf{Purpose} \\
+\midrule
+\flag{RegWrite} & 1 bit &
+  \textbf{Register write enable.}
+  When 1, the result of the current instruction will be written into a register.
+  When 0, no register is modified.
+  \emph{Example:} \instr{ADD} writes a result to Rd, so \flag{RegWrite}~=~1.
+  \instr{JMP} does not write to any register, so \flag{RegWrite}~=~0. \\
+
+\flag{ImmSel} & 1 bit &
+  \textbf{Immediate select.}
+  When 1, the data written to a register comes from the immediate field in the instruction (bits [7:0]) rather than from the ALU.
+  Only the \instr{LDI} instruction uses this. \\
+
+\flag{Jump} & 1 bit &
+  \textbf{Unconditional jump.}
+  When 1, the PC is loaded with the jump target address instead of PC+1.
+  You already have this signal connected to your PC --- now you need to generate it from the opcode. \\
+
+\flag{Branch} & 1 bit &
+  \textbf{Conditional branch enable.}
+  When 1, the PC \emph{may} be overridden with the branch target --- but only if the branch condition is met (checked against a register value).
+  Used by \instr{JZ} and \instr{JNZ}. \\
+
+\flag{Halt} & 1 bit &
+  \textbf{Halt.}
+  When 1, the PC stops incrementing and the CPU freezes.
+  Only the \instr{HALT} instruction sets this. \\
+
+\bottomrule
+\end{tabularx}
+\caption{Core control signals --- you must implement all of these.}
+\end{table}
+
+\begin{warningbox}
+The \flag{Jump} signal you are generating here replaces the manual jump flag you may have used for testing previously.
+After this lab, the jump flag will be \emph{automatically} set whenever the opcode is \opcode{1011} (\instr{JMP}).
+\end{warningbox}
+
+\subsection{Extension Signals (Optional)}
+
+Once the core signals are working, you may add these for a more complete control unit.
+These will become useful in later labs.
+
+\renewcommand{\arraystretch}{1.4}
+\begin{table}[H]
+\centering
+\begin{tabularx}{\textwidth}{l l X}
+\toprule
+\textbf{Signal} & \textbf{Width} & \textbf{Purpose} \\
+\midrule
+\flag{BranchCond} & 1 bit &
+  Selects which branch condition to test.
+  0~=~\instr{JZ} (jump if register is zero),
+  1~=~\instr{JNZ} (jump if register is not zero).
+  Only meaningful when \flag{Branch}~=~1. \\
+
+\flag{ALUop[3:0]} & 4 bits &
+  Tells the ALU which operation to perform (add, subtract, AND, etc.).
+  For most R-type instructions this can be a direct passthrough of the opcode.
+  You will connect this when you build the ALU. \\
+
+\flag{FlagWrite} & 1 bit &
+  When 1, the comparison result is written to \reg{3}.
+  Only \instr{LT} and \instr{EQ} use this.
+  Needed so that normal ALU instructions (\instr{ADD}, etc.) do not accidentally overwrite \reg{3}. \\
+
+\flag{SysErr} & 1 bit &
+  \textbf{Illegal instruction.}
+  Set to 1 when the opcode is \opcode{1110} (reserved).
+  Latched externally to halt the CPU and raise the alarm. \\
+
+\bottomrule
+\end{tabularx}
+\caption{Extension control signals --- implement these for a more complete design.}
+\end{table}
+
+
+% ── Part C: Truth Table ───────────────────────────────────────────────
+\section{Part C: The Truth Table}
+
+The control unit is a \textbf{combinational logic function}: the 4-bit opcode is the input, and the control signals are the outputs. Before you build gates, you must first work out the truth table.
+
+\begin{taskbox}[Task C1 --- Fill in the Truth Table]
+Complete the table below. For each opcode, decide whether each control signal should be 0 or 1.
+
+\medskip
+\noindent Ask yourself for each instruction:
+\begin{itemize}[leftmargin=2em]
+  \item Does this instruction write a result to a register? $\rightarrow$ \flag{RegWrite}
+  \item Does this instruction use an immediate value instead of the ALU? $\rightarrow$ \flag{ImmSel}
+  \item Does this instruction jump unconditionally? $\rightarrow$ \flag{Jump}
+  \item Does this instruction branch conditionally? $\rightarrow$ \flag{Branch}
+  \item Does this instruction stop the CPU? $\rightarrow$ \flag{Halt}
+\end{itemize}
+\end{taskbox}
+
+\renewcommand{\arraystretch}{1.3}
+\begin{table}[H]
+\centering
+\begin{tabular}{c c l | c c c c c}
+\toprule
+\textbf{Opcode} & \textbf{Binary} & \textbf{Mnemonic} &
+\rotatebox{60}{\flag{RegWrite}} &
+\rotatebox{60}{\flag{ImmSel}} &
+\rotatebox{60}{\flag{Jump}} &
+\rotatebox{60}{\flag{Branch}} &
+\rotatebox{60}{\flag{Halt}} \\
+\midrule
+0  & 0000 & ADD  & & & & & \\
+1  & 0001 & SUB  & & & & & \\
+2  & 0010 & AND  & & & & & \\
+3  & 0011 & OR   & & & & & \\
+4  & 0100 & XOR  & & & & & \\
+5  & 0101 & SHL  & & & & & \\
+6  & 0110 & SHR  & & & & & \\
+7  & 0111 & MOV  & & & & & \\
+8  & 1000 & LT   & & & & & \\
+9  & 1001 & EQ   & & & & & \\
+10 & 1010 & LDI  & & & & & \\
+11 & 1011 & JMP  & & & & & \\
+12 & 1100 & JZ   & & & & & \\
+13 & 1101 & JNZ  & & & & & \\
+14 & 1110 & (reserved) & & & & & \\
+15 & 1111 & HALT & & & & & \\
+\bottomrule
+\end{tabular}
+\caption{Control signal truth table --- fill this in before building your circuit.}
+\label{tab:truth-table}
+\end{table}
+
+\begin{hintbox}
+Look at the patterns in your completed table.
+You should notice that several signals are only set for one or two opcodes, while others are set for a whole range.
+This tells you how complex the gate logic needs to be for each signal.
+
+\medskip
+For example, \flag{Halt} is 1 for only \emph{one} opcode. That means you need a circuit that outputs 1 \emph{only} when the opcode is exactly \opcode{1111}.
+How many gates does that take?
+\end{hintbox}
+
+
+% ── Part D: Implementation ────────────────────────────────────────────
+\section{Part D: Build the Control Unit}
+
+Now turn your truth table into a Logisim circuit using combinational logic gates.
+
+\subsection{Approach}
+
+For each output signal, you have a column of 0s and 1s in your truth table.
+You need to design a logic circuit that produces that exact column given the 4-bit opcode input.
+
+\medskip
+\noindent There are two standard approaches:
+
+\begin{enumerate}[leftmargin=2em]
+  \item \textbf{Sum of products (SOP):} For each row where the output is 1, write a minterm (an AND of the 4 opcode bits or their complements). OR all the minterms together.
+  This is what you would get from a Karnaugh map.
+
+  \item \textbf{Direct pattern matching:} Some signals are 1 for a single opcode value.
+  For these, you just need to detect that specific 4-bit pattern using AND and NOT gates.
+  For example, \flag{Halt} is 1 only when opcode~=~\opcode{1111}, so:
+  \[
+    \flag{Halt} = \texttt{opcode[3]} \;\mathbin{\text{AND}}\; \texttt{opcode[2]} \;\mathbin{\text{AND}}\; \texttt{opcode[1]} \;\mathbin{\text{AND}}\; \texttt{opcode[0]}
+  \]
+  That is a single 4-input AND gate.
+\end{enumerate}
+
+\begin{designnote}
+You may simplify your logic using Karnaugh maps, Boolean algebra, or by spotting patterns in the truth table. Any correct combinational implementation is acceptable.
+
+\medskip
+\noindent Some questions to consider while simplifying:
+\begin{itemize}[leftmargin=2em]
+  \item Are there signals where you only need to check one or two opcode bits?
+  \item Are there groups of opcodes that share the same output pattern?
+  \item Would it be simpler to compute a signal as NOT of something else?
+\end{itemize}
+\end{designnote}
+
+\begin{taskbox}[Task D --- Build the Circuit]
+Create a new Logisim subcircuit called \texttt{control\_unit}.
+
+\medskip
+\noindent \textbf{Interface:}
+\begin{itemize}[leftmargin=2em]
+  \item \textbf{Input:} \texttt{opcode[3:0]} (4 bits)
+  \item \textbf{Outputs:} \flag{RegWrite}, \flag{ImmSel}, \flag{Jump}, \flag{Branch}, \flag{Halt} (1 bit each)
+\end{itemize}
+
+\medskip
+\noindent Build the combinational logic for each output using AND, OR, NOT (and NAND, NOR, XOR if you wish).
+\textbf{Do not use a ROM component} --- the point of this exercise is to design the logic yourself.
+
+\medskip
+\noindent If you are also implementing the extension signals, add them as additional outputs:
+\flag{BranchCond}, \flag{ALUop[3:0]}, \flag{FlagWrite}, \flag{SysErr}.
+\end{taskbox}
+
+
+% ── Part E: Testing ───────────────────────────────────────────────────
+\section{Part E: Testing Your Decoder}
+
+\begin{taskbox}[Task E --- Verify All 16 Opcodes]
+Test your control unit by manually setting the 4-bit opcode input to each value from \opcode{0000} to \opcode{1111} and checking that the output flags match your truth table.
+
+\medskip
+\noindent Use \textbf{probes} or \textbf{LEDs} on each output to see the flag values.
+
+\medskip
+\noindent Record your results in the table below (or take a screenshot for each opcode).
+\end{taskbox}
+
+\renewcommand{\arraystretch}{1.3}
+\begin{table}[H]
+\centering
+\begin{tabular}{c l | c c c c c | c}
+\toprule
+\textbf{Opcode} & \textbf{Mnemonic} &
+\rotatebox{60}{\flag{RegWrite}} &
+\rotatebox{60}{\flag{ImmSel}} &
+\rotatebox{60}{\flag{Jump}} &
+\rotatebox{60}{\flag{Branch}} &
+\rotatebox{60}{\flag{Halt}} &
+\textbf{Pass?} \\
+\midrule
+0000 & ADD  & & & & & & $\square$ \\
+0001 & SUB  & & & & & & $\square$ \\
+0010 & AND  & & & & & & $\square$ \\
+0011 & OR   & & & & & & $\square$ \\
+0100 & XOR  & & & & & & $\square$ \\
+0101 & SHL  & & & & & & $\square$ \\
+0110 & SHR  & & & & & & $\square$ \\
+0111 & MOV  & & & & & & $\square$ \\
+1000 & LT   & & & & & & $\square$ \\
+1001 & EQ   & & & & & & $\square$ \\
+1010 & LDI  & & & & & & $\square$ \\
+1011 & JMP  & & & & & & $\square$ \\
+1100 & JZ   & & & & & & $\square$ \\
+1101 & JNZ  & & & & & & $\square$ \\
+1110 & (reserved) & & & & & & $\square$ \\
+1111 & HALT & & & & & & $\square$ \\
+\bottomrule
+\end{tabular}
+\caption{Test results --- fill in the observed outputs and tick if they match your truth table.}
+\end{table}
+
+\begin{hintbox}
+If a signal is wrong for a specific opcode, trace back through your gates.
+Check:
+\begin{itemize}[leftmargin=2em]
+  \item Are your NOT gates on the correct opcode bits?
+  \item Did you accidentally swap two opcode bit positions in a splitter?
+  \item Is the gate type correct (AND vs OR)?
+\end{itemize}
+\end{hintbox}
+
+
+% ── Part F: Connecting to your PC ─────────────────────────────────────
+\section{Part F: Connecting the Jump Flag to Your PC}
+
+You already have a working program counter with an unconditional jump input.
+Now you can connect the \flag{Jump} output from your control unit to that input, so the CPU automatically jumps when it encounters a \instr{JMP} instruction.
+
+\begin{taskbox}[Task F --- Integration Test]
+\begin{enumerate}[leftmargin=2em]
+  \item Connect the ROM output through your splitter to extract \texttt{opcode[3:0]}.
+  \item Feed the opcode into your control unit.
+  \item Connect the \flag{Jump} output to your PC's jump-enable input.
+  \item Connect the \flag{Halt} output to your PC's halt/freeze input (if you have one), or use it to gate the clock.
+  \item Load a simple test program into your ROM:
+\end{enumerate}
+
+\begin{lstlisting}
+; Test program: JMP should loop forever between addresses 0 and 2
+0: LDI R0 42       ; 1010 00 00 00101010  -> 0xA02A
+1: LDI R1 10       ; 1010 00 01 00001010  -> 0xA10A
+2: JMP 0           ; 1011 00 000000 0000  -> 0xB000
+3: HALT             ; 1111 000000000000   -> 0xF000
+\end{lstlisting}
+
+\noindent \textbf{Expected behaviour:}
+\begin{itemize}[leftmargin=2em]
+  \item The PC should count 0, 1, 2, 0, 1, 2, \ldots\ (looping).
+  \item Address 3 (\instr{HALT}) should never be reached.
+  \item The \flag{Jump} LED should light up only when the PC is at address 2.
+  \item The \flag{RegWrite} LED should light up at addresses 0 and 1 (the \instr{LDI} instructions).
+\end{itemize}
+\end{taskbox}
+
+
+% ── Deliverables ──────────────────────────────────────────────────────
+\section{Deliverables}
+
+\begin{enumerate}[leftmargin=2em]
+  \item \textbf{Completed truth table} (Table~\ref{tab:truth-table}).
+  \item \textbf{Logisim subcircuit:} \texttt{control\_unit} with correct inputs/outputs.
+  \item \textbf{Test results} showing all 16 opcodes produce the correct flags.
+  \item \textbf{Integration test} demonstrating the \flag{Jump} and \flag{Halt} signals working with your existing PC and ROM.
+\end{enumerate}
+
+\medskip
+\noindent \textbf{Extension deliverables} (optional):
+\begin{itemize}[leftmargin=2em]
+  \item \flag{BranchCond} signal implemented and tested.
+  \item \flag{ALUop[3:0]} output (can be a passthrough of the opcode for R-type instructions, don't-care for non-ALU instructions).
+  \item \flag{FlagWrite} signal for \instr{LT}/\instr{EQ}.
+  \item \flag{SysErr} signal for opcode \opcode{1110}.
+\end{itemize}
+
+
+% ── Summary ───────────────────────────────────────────────────────────
+\section{Summary}
+
+You have built the ``brain'' of the CPU --- the part that interprets instructions and tells every other component what to do. Every signal in your control unit is a simple combinational function of the 4-bit opcode.
+
+\medskip
+\noindent In the next lab, you will build the \textbf{register file}: four registers with multiplexers for reading (Rs1, Rs2) and a decoder for write-enable (Rd). The \flag{RegWrite} signal you built today will drive that write-enable logic.
+
+\begin{designnote}
+The instruction decoder pattern you used here --- extract a field, match patterns, produce control signals --- is the same pattern used in every processor ever made, from the 1971 Intel 4004 to modern ARM and RISC-V cores. The logic gets bigger, but the idea is identical.
+\end{designnote}
+
+\end{document}
