@@ -1,0 +1,2536 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<project source="2.7.1" version="1.0">
+  This file is intended to be loaded by Logisim (http://www.cburch.com/logisim/).
+
+  <lib desc="#Wiring" name="0"/>
+  <lib desc="#Gates" name="1"/>
+  <lib desc="#Plexers" name="2"/>
+  <lib desc="#Arithmetic" name="3"/>
+  <lib desc="#Memory" name="4">
+    <tool name="ROM">
+      <a name="contents">addr/data: 8 8
+0
+</a>
+    </tool>
+  </lib>
+  <lib desc="#I/O" name="5"/>
+  <lib desc="#Base" name="6">
+    <tool name="Text Tool">
+      <a name="text" val=""/>
+      <a name="font" val="RobotoMono Nerd Font Propo SmBd plain 13"/>
+      <a name="halign" val="center"/>
+      <a name="valign" val="base"/>
+    </tool>
+  </lib>
+  <main name="ROM_TEST"/>
+  <options>
+    <a name="gateUndefined" val="ignore"/>
+    <a name="simlimit" val="1000"/>
+    <a name="simrand" val="0"/>
+  </options>
+  <mappings>
+    <tool lib="6" map="Button2" name="Menu Tool"/>
+    <tool lib="6" map="Button3" name="Menu Tool"/>
+    <tool lib="6" map="Ctrl Button1" name="Menu Tool"/>
+  </mappings>
+  <toolbar>
+    <tool lib="6" name="Poke Tool"/>
+    <tool lib="6" name="Edit Tool"/>
+    <tool lib="6" name="Text Tool">
+      <a name="text" val=""/>
+      <a name="font" val="RobotoMono Nerd Font Propo SmBd plain 13"/>
+      <a name="halign" val="center"/>
+      <a name="valign" val="base"/>
+    </tool>
+    <sep/>
+    <tool lib="0" name="Pin">
+      <a name="tristate" val="false"/>
+    </tool>
+    <tool lib="0" name="Pin">
+      <a name="facing" val="west"/>
+      <a name="output" val="true"/>
+      <a name="labelloc" val="east"/>
+    </tool>
+    <tool lib="1" name="NOT Gate"/>
+    <tool lib="1" name="AND Gate"/>
+    <tool lib="1" name="OR Gate"/>
+  </toolbar>
+  <circuit name="ROM_TEST">
+    <a name="circuit" val="ROM_TEST"/>
+    <a name="clabel" val=""/>
+    <a name="clabelup" val="east"/>
+    <a name="clabelfont" val="SansSerif plain 12"/>
+    <appear>
+      <rect fill="none" height="469" stroke="#000000" stroke-width="2" width="180" x="49" y="51"/>
+      <text font-family="SauceCodePro NF Black" font-size="12" text-anchor="middle" x="76" y="122">INS3</text>
+      <text font-family="SauceCodePro NF Black" font-size="12" text-anchor="middle" x="75" y="67">INS1</text>
+      <text font-family="SauceCodePro NF Black" font-size="12" text-anchor="middle" x="75" y="94">INS2</text>
+      <text font-family="SauceCodePro NF Black" font-size="12" text-anchor="middle" x="74" y="153">INS4</text>
+      <text font-family="SauceCodePro NF Black" font-size="12" text-anchor="middle" x="74" y="184">INS5</text>
+      <text font-family="SauceCodePro NF Black" font-size="12" text-anchor="middle" x="72" y="215">INS6</text>
+      <text font-family="SauceCodePro NF Black" font-size="12" text-anchor="middle" x="71" y="242">INS7</text>
+      <text font-family="SauceCodePro NF Black" font-size="12" text-anchor="middle" x="72" y="273">INS8</text>
+      <text font-family="SauceCodePro NF Black" font-size="12" text-anchor="middle" x="71" y="303">INS9</text>
+      <text font-family="SauceCodePro NF Black" font-size="12" text-anchor="middle" x="74" y="335">INS10</text>
+      <text font-family="SauceCodePro NF Black" font-size="12" text-anchor="middle" x="74" y="363">INS11</text>
+      <text font-family="SauceCodePro NF Black" font-size="12" text-anchor="middle" x="76" y="394">INS12</text>
+      <text font-family="SauceCodePro NF Black" font-size="12" text-anchor="middle" x="76" y="424">INS13</text>
+      <text font-family="SauceCodePro NF Black" font-size="12" text-anchor="middle" x="75" y="454">INS14</text>
+      <text font-family="SauceCodePro NF Black" font-size="12" text-anchor="middle" x="76" y="483">INS15</text>
+      <text font-family="SauceCodePro NF Black" font-size="12" text-anchor="middle" x="75" y="511">INS16</text>
+      <text font-family="SauceCodePro NF" font-size="20" text-anchor="middle" x="145" y="48">ROM TEST MODULE</text>
+      <text font-family="SauceCodePro NF SemiBold" font-size="16" text-anchor="middle" x="192" y="71">L</text>
+      <text font-family="SauceCodePro NF SemiBold" font-size="16" text-anchor="middle" x="192" y="91">O</text>
+      <text font-family="SauceCodePro NF SemiBold" font-size="16" text-anchor="middle" x="193" y="110">A</text>
+      <text font-family="SauceCodePro NF SemiBold" font-size="16" text-anchor="middle" x="193" y="129">D</text>
+      <text font-family="SauceCodePro NF SemiBold" font-size="16" text-anchor="middle" x="192" y="169">C</text>
+      <text font-family="SauceCodePro NF SemiBold" font-size="16" text-anchor="middle" x="193" y="185">A</text>
+      <text font-family="SauceCodePro NF SemiBold" font-size="16" text-anchor="middle" x="193" y="199">R</text>
+      <text font-family="SauceCodePro NF SemiBold" font-size="16" text-anchor="middle" x="193" y="215">T</text>
+      <text font-family="SauceCodePro NF SemiBold" font-size="16" text-anchor="middle" x="193" y="230">R</text>
+      <text font-family="SauceCodePro NF SemiBold" font-size="16" text-anchor="middle" x="194" y="245">I</text>
+      <text font-family="SauceCodePro NF SemiBold" font-size="16" text-anchor="middle" x="194" y="259">D</text>
+      <text font-family="SauceCodePro NF SemiBold" font-size="16" text-anchor="middle" x="194" y="274">G</text>
+      <text font-family="SauceCodePro NF SemiBold" font-size="16" text-anchor="middle" x="194" y="289">E</text>
+      <text font-family="SauceCodePro NFM Light" font-size="20" text-anchor="middle" x="168" y="508">Series #0</text>
+      <circ-port height="10" pin="530,380" width="10" x="45" y="55"/>
+      <circ-port height="10" pin="520,640" width="10" x="45" y="85"/>
+      <circ-port height="10" pin="520,880" width="10" x="45" y="115"/>
+      <circ-port height="10" pin="520,1140" width="10" x="45" y="145"/>
+      <circ-port height="10" pin="520,1380" width="10" x="45" y="175"/>
+      <circ-port height="10" pin="520,1640" width="10" x="45" y="205"/>
+      <circ-port height="10" pin="520,1880" width="10" x="45" y="235"/>
+      <circ-port height="10" pin="520,2140" width="10" x="45" y="265"/>
+      <circ-port height="10" pin="520,2370" width="10" x="45" y="295"/>
+      <circ-port height="10" pin="520,2630" width="10" x="45" y="325"/>
+      <circ-port height="10" pin="520,2870" width="10" x="45" y="355"/>
+      <circ-port height="10" pin="520,3080" width="10" x="45" y="385"/>
+      <circ-port height="10" pin="520,3340" width="10" x="45" y="415"/>
+      <circ-port height="10" pin="520,3590" width="10" x="45" y="445"/>
+      <circ-port height="10" pin="520,3820" width="10" x="45" y="475"/>
+      <circ-port height="10" pin="520,4000" width="10" x="45" y="505"/>
+      <circ-anchor facing="east" height="6" width="6" x="127" y="57"/>
+    </appear>
+    <wire from="(630,2230)" to="(630,2240)"/>
+    <wire from="(570,780)" to="(750,780)"/>
+    <wire from="(1070,1710)" to="(1070,1730)"/>
+    <wire from="(1150,1470)" to="(1150,1490)"/>
+    <wire from="(870,740)" to="(870,810)"/>
+    <wire from="(570,330)" to="(950,330)"/>
+    <wire from="(570,2240)" to="(630,2240)"/>
+    <wire from="(570,2570)" to="(950,2570)"/>
+    <wire from="(1110,1490)" to="(1110,1620)"/>
+    <wire from="(950,500)" to="(950,590)"/>
+    <wire from="(710,1990)" to="(710,2020)"/>
+    <wire from="(570,2010)" to="(670,2010)"/>
+    <wire from="(750,1710)" to="(750,1730)"/>
+    <wire from="(830,1470)" to="(830,1490)"/>
+    <wire from="(570,1560)" to="(870,1560)"/>
+    <wire from="(540,2140)" to="(540,2160)"/>
+    <wire from="(750,3950)" to="(750,3990)"/>
+    <wire from="(520,2870)" to="(540,2870)"/>
+    <wire from="(570,550)" to="(790,550)"/>
+    <wire from="(570,4080)" to="(1110,4080)"/>
+    <wire from="(830,3710)" to="(830,3770)"/>
+    <wire from="(570,3850)" to="(1150,3850)"/>
+    <wire from="(570,3520)" to="(830,3520)"/>
+    <wire from="(570,3070)" to="(1030,3070)"/>
+    <wire from="(1030,3460)" to="(1030,3570)"/>
+    <wire from="(1190,740)" to="(1190,890)"/>
+    <wire from="(1070,3440)" to="(1070,3460)"/>
+    <wire from="(570,2840)" to="(1070,2840)"/>
+    <wire from="(1230,720)" to="(1230,740)"/>
+    <wire from="(1150,3200)" to="(1150,3220)"/>
+    <wire from="(1110,3220)" to="(1110,3350)"/>
+    <wire from="(950,2230)" to="(950,2320)"/>
+    <wire from="(570,1830)" to="(990,1830)"/>
+    <wire from="(750,3440)" to="(750,3460)"/>
+    <wire from="(910,720)" to="(910,740)"/>
+    <wire from="(830,3200)" to="(830,3220)"/>
+    <wire from="(990,480)" to="(990,500)"/>
+    <wire from="(670,480)" to="(670,500)"/>
+    <wire from="(570,3290)" to="(870,3290)"/>
+    <wire from="(670,2720)" to="(670,2740)"/>
+    <wire from="(750,240)" to="(750,280)"/>
+    <wire from="(750,2480)" to="(750,2520)"/>
+    <wire from="(570,820)" to="(910,820)"/>
+    <wire from="(1070,3950)" to="(1070,4070)"/>
+    <wire from="(570,370)" to="(1110,370)"/>
+    <wire from="(570,2280)" to="(790,2280)"/>
+    <wire from="(570,2610)" to="(1110,2610)"/>
+    <wire from="(570,2050)" to="(830,2050)"/>
+    <wire from="(570,1270)" to="(710,1270)"/>
+    <wire from="(570,1600)" to="(1030,1600)"/>
+    <wire from="(1030,1990)" to="(1030,2100)"/>
+    <wire from="(790,1240)" to="(790,1290)"/>
+    <wire from="(990,2210)" to="(990,2230)"/>
+    <wire from="(570,1040)" to="(750,1040)"/>
+    <wire from="(1070,1970)" to="(1070,1990)"/>
+    <wire from="(1110,3930)" to="(1110,3950)"/>
+    <wire from="(1190,3690)" to="(1190,3710)"/>
+    <wire from="(870,1000)" to="(870,1070)"/>
+    <wire from="(1230,210)" to="(1230,240)"/>
+    <wire from="(570,590)" to="(950,590)"/>
+    <wire from="(910,210)" to="(910,240)"/>
+    <wire from="(570,3560)" to="(990,3560)"/>
+    <wire from="(750,1970)" to="(750,1990)"/>
+    <wire from="(790,3930)" to="(790,3950)"/>
+    <wire from="(870,3690)" to="(870,3710)"/>
+    <wire from="(570,3110)" to="(1190,3110)"/>
+    <wire from="(1150,3710)" to="(1150,3850)"/>
+    <wire from="(670,2210)" to="(670,2230)"/>
+    <wire from="(910,2960)" to="(910,3040)"/>
+    <wire from="(570,2880)" to="(1230,2880)"/>
+    <wire from="(1070,240)" to="(1070,360)"/>
+    <wire from="(1070,2480)" to="(1070,2600)"/>
+    <wire from="(830,1730)" to="(830,1790)"/>
+    <wire from="(990,2720)" to="(990,2820)"/>
+    <wire from="(570,1870)" to="(1150,1870)"/>
+    <wire from="(570,3330)" to="(1030,3330)"/>
+    <wire from="(1190,1000)" to="(1190,1150)"/>
+    <wire from="(1030,2700)" to="(1030,2720)"/>
+    <wire from="(570,860)" to="(1070,860)"/>
+    <wire from="(1150,1220)" to="(1150,1240)"/>
+    <wire from="(1110,2460)" to="(1110,2480)"/>
+    <wire from="(1230,980)" to="(1230,1000)"/>
+    <wire from="(570,2320)" to="(950,2320)"/>
+    <wire from="(1110,1240)" to="(1110,1370)"/>
+    <wire from="(570,2090)" to="(990,2090)"/>
+    <wire from="(710,2700)" to="(710,2720)"/>
+    <wire from="(830,1220)" to="(830,1240)"/>
+    <wire from="(790,2460)" to="(790,2480)"/>
+    <wire from="(910,980)" to="(910,1000)"/>
+    <wire from="(950,2940)" to="(950,2960)"/>
+    <wire from="(570,1310)" to="(870,1310)"/>
+    <wire from="(570,1640)" to="(1190,1640)"/>
+    <wire from="(630,2940)" to="(630,2960)"/>
+    <wire from="(670,740)" to="(670,760)"/>
+    <wire from="(910,1490)" to="(910,1570)"/>
+    <wire from="(750,500)" to="(750,540)"/>
+    <wire from="(570,1080)" to="(910,1080)"/>
+    <wire from="(570,630)" to="(1110,630)"/>
+    <wire from="(830,3460)" to="(830,3520)"/>
+    <wire from="(1230,2960)" to="(1230,3120)"/>
+    <wire from="(570,3600)" to="(1150,3600)"/>
+    <wire from="(540,410)" to="(550,410)"/>
+    <wire from="(540,2650)" to="(550,2650)"/>
+    <wire from="(630,3710)" to="(630,3720)"/>
+    <wire from="(1190,1710)" to="(1190,1730)"/>
+    <wire from="(570,3720)" to="(630,3720)"/>
+    <wire from="(540,1380)" to="(540,1410)"/>
+    <wire from="(870,1710)" to="(870,1730)"/>
+    <wire from="(950,1470)" to="(950,1490)"/>
+    <wire from="(1150,1730)" to="(1150,1870)"/>
+    <wire from="(630,1470)" to="(630,1490)"/>
+    <wire from="(570,3370)" to="(1190,3370)"/>
+    <wire from="(910,3220)" to="(910,3300)"/>
+    <wire from="(750,2230)" to="(750,2270)"/>
+    <wire from="(570,900)" to="(1230,900)"/>
+    <wire from="(1070,500)" to="(1070,620)"/>
+    <wire from="(990,740)" to="(990,840)"/>
+    <wire from="(570,2360)" to="(1110,2360)"/>
+    <wire from="(830,1990)" to="(830,2050)"/>
+    <wire from="(1230,1490)" to="(1230,1650)"/>
+    <wire from="(570,2130)" to="(1150,2130)"/>
+    <wire from="(570,1350)" to="(1030,1350)"/>
+    <wire from="(520,3080)" to="(530,3080)"/>
+    <wire from="(570,1120)" to="(1070,1120)"/>
+    <wire from="(1110,480)" to="(1110,500)"/>
+    <wire from="(570,3990)" to="(750,3990)"/>
+    <wire from="(1190,3440)" to="(1190,3460)"/>
+    <wire from="(870,3950)" to="(870,4020)"/>
+    <wire from="(950,3710)" to="(950,3800)"/>
+    <wire from="(710,2960)" to="(710,2990)"/>
+    <wire from="(570,2980)" to="(670,2980)"/>
+    <wire from="(790,480)" to="(790,500)"/>
+    <wire from="(870,3440)" to="(870,3460)"/>
+    <wire from="(1030,720)" to="(1030,740)"/>
+    <wire from="(950,3200)" to="(950,3220)"/>
+    <wire from="(670,1000)" to="(670,1020)"/>
+    <wire from="(1150,3460)" to="(1150,3600)"/>
+    <wire from="(710,720)" to="(710,740)"/>
+    <wire from="(630,3200)" to="(630,3220)"/>
+    <wire from="(520,640)" to="(540,640)"/>
+    <wire from="(1070,2230)" to="(1070,2350)"/>
+    <wire from="(570,3760)" to="(790,3760)"/>
+    <wire from="(1230,3220)" to="(1230,3380)"/>
+    <wire from="(570,2750)" to="(710,2750)"/>
+    <wire from="(540,670)" to="(550,670)"/>
+    <wire from="(790,2720)" to="(790,2770)"/>
+    <wire from="(630,1730)" to="(630,1740)"/>
+    <wire from="(1230,3930)" to="(1230,3950)"/>
+    <wire from="(570,280)" to="(750,280)"/>
+    <wire from="(990,3690)" to="(990,3710)"/>
+    <wire from="(570,2520)" to="(750,2520)"/>
+    <wire from="(1190,3950)" to="(1190,4100)"/>
+    <wire from="(1110,2210)" to="(1110,2230)"/>
+    <wire from="(1190,1970)" to="(1190,1990)"/>
+    <wire from="(870,2480)" to="(870,2550)"/>
+    <wire from="(870,240)" to="(870,310)"/>
+    <wire from="(570,1740)" to="(630,1740)"/>
+    <wire from="(1030,210)" to="(1030,240)"/>
+    <wire from="(710,210)" to="(710,240)"/>
+    <wire from="(710,1490)" to="(710,1520)"/>
+    <wire from="(570,1510)" to="(670,1510)"/>
+    <wire from="(790,2210)" to="(790,2230)"/>
+    <wire from="(870,1970)" to="(870,1990)"/>
+    <wire from="(910,3930)" to="(910,3950)"/>
+    <wire from="(540,1640)" to="(540,1660)"/>
+    <wire from="(570,1390)" to="(1190,1390)"/>
+    <wire from="(1150,1990)" to="(1150,2130)"/>
+    <wire from="(910,1240)" to="(910,1320)"/>
+    <wire from="(670,3690)" to="(670,3710)"/>
+    <wire from="(570,1160)" to="(1230,1160)"/>
+    <wire from="(520,2370)" to="(540,2370)"/>
+    <wire from="(570,4030)" to="(910,4030)"/>
+    <wire from="(990,1000)" to="(990,1100)"/>
+    <wire from="(570,3020)" to="(830,3020)"/>
+    <wire from="(1030,2960)" to="(1030,3070)"/>
+    <wire from="(540,2400)" to="(550,2400)"/>
+    <wire from="(630,3460)" to="(630,3470)"/>
+    <wire from="(1190,240)" to="(1190,390)"/>
+    <wire from="(1030,980)" to="(1030,1000)"/>
+    <wire from="(1190,2480)" to="(1190,2630)"/>
+    <wire from="(1070,2940)" to="(1070,2960)"/>
+    <wire from="(1150,2700)" to="(1150,2720)"/>
+    <wire from="(1230,2460)" to="(1230,2480)"/>
+    <wire from="(570,3470)" to="(630,3470)"/>
+    <wire from="(570,3800)" to="(950,3800)"/>
+    <wire from="(1110,2720)" to="(1110,2850)"/>
+    <wire from="(710,3220)" to="(710,3250)"/>
+    <wire from="(950,1730)" to="(950,1820)"/>
+    <wire from="(570,3240)" to="(670,3240)"/>
+    <wire from="(750,2940)" to="(750,2960)"/>
+    <wire from="(830,2700)" to="(830,2720)"/>
+    <wire from="(950,1220)" to="(950,1240)"/>
+    <wire from="(910,2460)" to="(910,2480)"/>
+    <wire from="(630,1220)" to="(630,1240)"/>
+    <wire from="(570,2790)" to="(870,2790)"/>
+    <wire from="(710,980)" to="(710,1000)"/>
+    <wire from="(570,320)" to="(910,320)"/>
+    <wire from="(570,2560)" to="(910,2560)"/>
+    <wire from="(570,1780)" to="(790,1780)"/>
+    <wire from="(1230,1240)" to="(1230,1400)"/>
+    <wire from="(570,1550)" to="(830,1550)"/>
+    <wire from="(570,770)" to="(710,770)"/>
+    <wire from="(1030,1490)" to="(1030,1600)"/>
+    <wire from="(790,740)" to="(790,790)"/>
+    <wire from="(630,1990)" to="(630,2000)"/>
+    <wire from="(570,540)" to="(750,540)"/>
+    <wire from="(1070,1470)" to="(1070,1490)"/>
+    <wire from="(570,4070)" to="(1070,4070)"/>
+    <wire from="(950,3460)" to="(950,3550)"/>
+    <wire from="(870,500)" to="(870,570)"/>
+    <wire from="(570,2000)" to="(630,2000)"/>
+    <wire from="(570,3060)" to="(990,3060)"/>
+    <wire from="(750,1470)" to="(750,1490)"/>
+    <wire from="(670,3950)" to="(670,3970)"/>
+    <wire from="(990,1710)" to="(990,1730)"/>
+    <wire from="(670,1710)" to="(670,1730)"/>
+    <wire from="(750,3710)" to="(750,3750)"/>
+    <wire from="(520,2630)" to="(540,2630)"/>
+    <wire from="(570,3840)" to="(1110,3840)"/>
+    <wire from="(570,3510)" to="(790,3510)"/>
+    <wire from="(530,4000)" to="(530,4120)"/>
+    <wire from="(570,3280)" to="(830,3280)"/>
+    <wire from="(540,3820)" to="(540,3880)"/>
+    <wire from="(570,2830)" to="(1030,2830)"/>
+    <wire from="(1030,3220)" to="(1030,3330)"/>
+    <wire from="(1190,500)" to="(1190,650)"/>
+    <wire from="(990,3440)" to="(990,3460)"/>
+    <wire from="(570,360)" to="(1070,360)"/>
+    <wire from="(570,2270)" to="(750,2270)"/>
+    <wire from="(1150,720)" to="(1150,740)"/>
+    <wire from="(1070,3200)" to="(1070,3220)"/>
+    <wire from="(570,2600)" to="(1070,2600)"/>
+    <wire from="(1230,480)" to="(1230,500)"/>
+    <wire from="(870,2230)" to="(870,2300)"/>
+    <wire from="(570,1820)" to="(950,1820)"/>
+    <wire from="(1110,740)" to="(1110,870)"/>
+    <wire from="(950,1990)" to="(950,2080)"/>
+    <wire from="(710,1240)" to="(710,1270)"/>
+    <wire from="(570,1260)" to="(670,1260)"/>
+    <wire from="(570,1590)" to="(990,1590)"/>
+    <wire from="(830,720)" to="(830,740)"/>
+    <wire from="(750,3200)" to="(750,3220)"/>
+    <wire from="(910,480)" to="(910,500)"/>
+    <wire from="(570,810)" to="(870,810)"/>
+    <wire from="(670,240)" to="(670,260)"/>
+    <wire from="(670,2480)" to="(670,2500)"/>
+    <wire from="(670,3440)" to="(670,3460)"/>
+    <wire from="(570,580)" to="(910,580)"/>
+    <wire from="(570,4110)" to="(1230,4110)"/>
+    <wire from="(1070,3710)" to="(1070,3830)"/>
+    <wire from="(570,2040)" to="(790,2040)"/>
+    <wire from="(830,2960)" to="(830,3020)"/>
+    <wire from="(990,3950)" to="(990,4050)"/>
+    <wire from="(570,3100)" to="(1150,3100)"/>
+    <wire from="(570,1030)" to="(710,1030)"/>
+    <wire from="(790,1000)" to="(790,1050)"/>
+    <wire from="(1190,2230)" to="(1190,2380)"/>
+    <wire from="(1030,3930)" to="(1030,3950)"/>
+    <wire from="(1110,3690)" to="(1110,3710)"/>
+    <wire from="(1230,2210)" to="(1230,2230)"/>
+    <wire from="(570,3550)" to="(950,3550)"/>
+    <wire from="(1150,210)" to="(1150,240)"/>
+    <wire from="(830,210)" to="(830,240)"/>
+    <wire from="(570,3320)" to="(990,3320)"/>
+    <wire from="(540,880)" to="(540,910)"/>
+    <wire from="(710,3930)" to="(710,3950)"/>
+    <wire from="(790,3690)" to="(790,3710)"/>
+    <wire from="(910,2210)" to="(910,2230)"/>
+    <wire from="(990,1970)" to="(990,1990)"/>
+    <wire from="(570,2870)" to="(1190,2870)"/>
+    <wire from="(670,1970)" to="(670,1990)"/>
+    <wire from="(910,2720)" to="(910,2800)"/>
+    <wire from="(750,1730)" to="(750,1770)"/>
+    <wire from="(570,400)" to="(1230,400)"/>
+    <wire from="(570,2310)" to="(910,2310)"/>
+    <wire from="(570,2640)" to="(1230,2640)"/>
+    <wire from="(990,240)" to="(990,340)"/>
+    <wire from="(570,1860)" to="(1110,1860)"/>
+    <wire from="(830,1490)" to="(830,1550)"/>
+    <wire from="(990,2480)" to="(990,2580)"/>
+    <wire from="(570,1300)" to="(830,1300)"/>
+    <wire from="(570,1630)" to="(1150,1630)"/>
+    <wire from="(540,3880)" to="(550,3880)"/>
+    <wire from="(570,850)" to="(1030,850)"/>
+    <wire from="(1030,1240)" to="(1030,1350)"/>
+    <wire from="(1070,1220)" to="(1070,1240)"/>
+    <wire from="(1030,2460)" to="(1030,2480)"/>
+    <wire from="(570,620)" to="(1070,620)"/>
+    <wire from="(1150,980)" to="(1150,1000)"/>
+    <wire from="(1190,2940)" to="(1190,2960)"/>
+    <wire from="(570,2080)" to="(950,2080)"/>
+    <wire from="(1110,1000)" to="(1110,1130)"/>
+    <wire from="(830,980)" to="(830,1000)"/>
+    <wire from="(870,2940)" to="(870,2960)"/>
+    <wire from="(950,2700)" to="(950,2720)"/>
+    <wire from="(570,1070)" to="(870,1070)"/>
+    <wire from="(1150,2960)" to="(1150,3100)"/>
+    <wire from="(630,2700)" to="(630,2720)"/>
+    <wire from="(670,500)" to="(670,520)"/>
+    <wire from="(750,1220)" to="(750,1240)"/>
+    <wire from="(710,2460)" to="(710,2480)"/>
+    <wire from="(750,3460)" to="(750,3500)"/>
+    <wire from="(520,3340)" to="(540,3340)"/>
+    <wire from="(1070,1730)" to="(1070,1850)"/>
+    <wire from="(570,3590)" to="(1110,3590)"/>
+    <wire from="(830,3220)" to="(830,3280)"/>
+    <wire from="(1230,2720)" to="(1230,2880)"/>
+    <wire from="(570,3360)" to="(1150,3360)"/>
+    <wire from="(1110,1710)" to="(1110,1730)"/>
+    <wire from="(570,2350)" to="(1070,2350)"/>
+    <wire from="(1190,1470)" to="(1190,1490)"/>
+    <wire from="(570,1340)" to="(990,1340)"/>
+    <wire from="(540,1140)" to="(540,1170)"/>
+    <wire from="(790,1710)" to="(790,1730)"/>
+    <wire from="(870,1470)" to="(870,1490)"/>
+    <wire from="(570,890)" to="(1190,890)"/>
+    <wire from="(1150,1490)" to="(1150,1630)"/>
+    <wire from="(910,740)" to="(910,820)"/>
+    <wire from="(670,2230)" to="(670,2250)"/>
+    <wire from="(750,1990)" to="(750,2030)"/>
+    <wire from="(570,660)" to="(1230,660)"/>
+    <wire from="(530,4120)" to="(550,4120)"/>
+    <wire from="(1070,3460)" to="(1070,3580)"/>
+    <wire from="(990,500)" to="(990,600)"/>
+    <wire from="(570,2120)" to="(1110,2120)"/>
+    <wire from="(570,1110)" to="(1030,1110)"/>
+    <wire from="(570,3980)" to="(710,3980)"/>
+    <wire from="(540,1900)" to="(550,1900)"/>
+    <wire from="(790,3950)" to="(790,4000)"/>
+    <wire from="(630,2960)" to="(630,2970)"/>
+    <wire from="(570,3750)" to="(750,3750)"/>
+    <wire from="(1110,3440)" to="(1110,3460)"/>
+    <wire from="(1190,3200)" to="(1190,3220)"/>
+    <wire from="(870,3710)" to="(870,3780)"/>
+    <wire from="(570,2970)" to="(630,2970)"/>
+    <wire from="(710,2720)" to="(710,2750)"/>
+    <wire from="(570,2740)" to="(670,2740)"/>
+    <wire from="(790,3440)" to="(790,3460)"/>
+    <wire from="(950,720)" to="(950,740)"/>
+    <wire from="(870,3200)" to="(870,3220)"/>
+    <wire from="(1030,480)" to="(1030,500)"/>
+    <wire from="(540,2870)" to="(540,2890)"/>
+    <wire from="(630,720)" to="(630,740)"/>
+    <wire from="(1150,3220)" to="(1150,3360)"/>
+    <wire from="(710,480)" to="(710,500)"/>
+    <wire from="(570,2390)" to="(1230,2390)"/>
+    <wire from="(1070,1990)" to="(1070,2110)"/>
+    <wire from="(520,3590)" to="(550,3590)"/>
+    <wire from="(830,1240)" to="(830,1300)"/>
+    <wire from="(1230,740)" to="(1230,900)"/>
+    <wire from="(990,2230)" to="(990,2330)"/>
+    <wire from="(570,1380)" to="(1150,1380)"/>
+    <wire from="(570,270)" to="(710,270)"/>
+    <wire from="(570,2510)" to="(710,2510)"/>
+    <wire from="(790,240)" to="(790,290)"/>
+    <wire from="(790,2480)" to="(790,2530)"/>
+    <wire from="(630,1490)" to="(630,1500)"/>
+    <wire from="(1230,3690)" to="(1230,3710)"/>
+    <wire from="(1030,2210)" to="(1030,2230)"/>
+    <wire from="(1190,3710)" to="(1190,3860)"/>
+    <wire from="(1110,1970)" to="(1110,1990)"/>
+    <wire from="(1150,3930)" to="(1150,3950)"/>
+    <wire from="(570,1500)" to="(630,1500)"/>
+    <wire from="(1110,3950)" to="(1110,4080)"/>
+    <wire from="(950,210)" to="(950,240)"/>
+    <wire from="(950,2960)" to="(950,3050)"/>
+    <wire from="(630,210)" to="(630,240)"/>
+    <wire from="(790,1970)" to="(790,1990)"/>
+    <wire from="(830,3930)" to="(830,3950)"/>
+    <wire from="(910,3690)" to="(910,3710)"/>
+    <wire from="(570,1150)" to="(1190,1150)"/>
+    <wire from="(570,4020)" to="(870,4020)"/>
+    <wire from="(910,1000)" to="(910,1080)"/>
+    <wire from="(710,2210)" to="(710,2230)"/>
+    <wire from="(570,3790)" to="(910,3790)"/>
+    <wire from="(570,3010)" to="(790,3010)"/>
+    <wire from="(570,2780)" to="(830,2780)"/>
+    <wire from="(1030,2720)" to="(1030,2830)"/>
+    <wire from="(540,2160)" to="(550,2160)"/>
+    <wire from="(630,3220)" to="(630,3230)"/>
+    <wire from="(990,2940)" to="(990,2960)"/>
+    <wire from="(570,1770)" to="(750,1770)"/>
+    <wire from="(1070,2700)" to="(1070,2720)"/>
+    <wire from="(1190,1220)" to="(1190,1240)"/>
+    <wire from="(1150,2460)" to="(1150,2480)"/>
+    <wire from="(870,1730)" to="(870,1800)"/>
+    <wire from="(570,3230)" to="(630,3230)"/>
+    <wire from="(1110,2480)" to="(1110,2610)"/>
+    <wire from="(1110,240)" to="(1110,370)"/>
+    <wire from="(950,1490)" to="(950,1580)"/>
+    <wire from="(710,740)" to="(710,770)"/>
+    <wire from="(570,760)" to="(670,760)"/>
+    <wire from="(750,2700)" to="(750,2720)"/>
+    <wire from="(870,1220)" to="(870,1240)"/>
+    <wire from="(830,2460)" to="(830,2480)"/>
+    <wire from="(950,980)" to="(950,1000)"/>
+    <wire from="(570,310)" to="(870,310)"/>
+    <wire from="(1150,1240)" to="(1150,1380)"/>
+    <wire from="(630,980)" to="(630,1000)"/>
+    <wire from="(570,2550)" to="(870,2550)"/>
+    <wire from="(670,2940)" to="(670,2960)"/>
+    <wire from="(570,1540)" to="(790,1540)"/>
+    <wire from="(1230,1000)" to="(1230,1160)"/>
+    <wire from="(570,530)" to="(710,530)"/>
+    <wire from="(570,4060)" to="(1030,4060)"/>
+    <wire from="(790,500)" to="(790,550)"/>
+    <wire from="(1190,1730)" to="(1190,1880)"/>
+    <wire from="(570,3830)" to="(1070,3830)"/>
+    <wire from="(570,3500)" to="(750,3500)"/>
+    <wire from="(1230,1710)" to="(1230,1730)"/>
+    <wire from="(870,3460)" to="(870,3530)"/>
+    <wire from="(570,3050)" to="(950,3050)"/>
+    <wire from="(950,3220)" to="(950,3310)"/>
+    <wire from="(570,2820)" to="(990,2820)"/>
+    <wire from="(540,380)" to="(540,410)"/>
+    <wire from="(910,1710)" to="(910,1730)"/>
+    <wire from="(990,1470)" to="(990,1490)"/>
+    <wire from="(670,1470)" to="(670,1490)"/>
+    <wire from="(670,3710)" to="(670,3730)"/>
+    <wire from="(1030,740)" to="(1030,850)"/>
+    <wire from="(550,3590)" to="(550,3630)"/>
+    <wire from="(570,1810)" to="(910,1810)"/>
+    <wire from="(570,3270)" to="(790,3270)"/>
+    <wire from="(570,800)" to="(830,800)"/>
+    <wire from="(570,350)" to="(1030,350)"/>
+    <wire from="(570,2260)" to="(710,2260)"/>
+    <wire from="(570,2590)" to="(1030,2590)"/>
+    <wire from="(790,2230)" to="(790,2280)"/>
+    <wire from="(520,4000)" to="(530,4000)"/>
+    <wire from="(630,1240)" to="(630,1250)"/>
+    <wire from="(1230,3440)" to="(1230,3460)"/>
+    <wire from="(1070,720)" to="(1070,740)"/>
+    <wire from="(990,3200)" to="(990,3220)"/>
+    <wire from="(570,2030)" to="(750,2030)"/>
+    <wire from="(1190,3460)" to="(1190,3610)"/>
+    <wire from="(1150,480)" to="(1150,500)"/>
+    <wire from="(870,1990)" to="(870,2060)"/>
+    <wire from="(570,1250)" to="(630,1250)"/>
+    <wire from="(570,1580)" to="(950,1580)"/>
+    <wire from="(1110,500)" to="(1110,630)"/>
+    <wire from="(710,1000)" to="(710,1030)"/>
+    <wire from="(570,1020)" to="(670,1020)"/>
+    <wire from="(830,480)" to="(830,500)"/>
+    <wire from="(910,3440)" to="(910,3460)"/>
+    <wire from="(570,570)" to="(870,570)"/>
+    <wire from="(570,4100)" to="(1190,4100)"/>
+    <wire from="(750,720)" to="(750,740)"/>
+    <wire from="(670,3200)" to="(670,3220)"/>
+    <wire from="(910,3950)" to="(910,4030)"/>
+    <wire from="(750,2960)" to="(750,3000)"/>
+    <wire from="(520,1880)" to="(540,1880)"/>
+    <wire from="(570,3870)" to="(1230,3870)"/>
+    <wire from="(570,3540)" to="(910,3540)"/>
+    <wire from="(570,3090)" to="(1110,3090)"/>
+    <wire from="(830,2720)" to="(830,2780)"/>
+    <wire from="(990,3710)" to="(990,3810)"/>
+    <wire from="(570,2860)" to="(1150,2860)"/>
+    <wire from="(1190,1990)" to="(1190,2140)"/>
+    <wire from="(950,3930)" to="(950,3950)"/>
+    <wire from="(570,1850)" to="(1070,1850)"/>
+    <wire from="(1030,3690)" to="(1030,3710)"/>
+    <wire from="(1150,2210)" to="(1150,2230)"/>
+    <wire from="(1230,1970)" to="(1230,1990)"/>
+    <wire from="(570,3310)" to="(950,3310)"/>
+    <wire from="(1070,210)" to="(1070,240)"/>
+    <wire from="(1110,2230)" to="(1110,2360)"/>
+    <wire from="(950,1240)" to="(950,1330)"/>
+    <wire from="(750,210)" to="(750,240)"/>
+    <wire from="(570,840)" to="(990,840)"/>
+    <wire from="(540,640)" to="(540,670)"/>
+    <wire from="(710,3690)" to="(710,3710)"/>
+    <wire from="(830,2210)" to="(830,2230)"/>
+    <wire from="(910,1970)" to="(910,1990)"/>
+    <wire from="(570,390)" to="(1190,390)"/>
+    <wire from="(910,240)" to="(910,320)"/>
+    <wire from="(570,2300)" to="(870,2300)"/>
+    <wire from="(670,1730)" to="(670,1750)"/>
+    <wire from="(570,2630)" to="(1190,2630)"/>
+    <wire from="(910,2480)" to="(910,2560)"/>
+    <wire from="(630,3930)" to="(630,3950)"/>
+    <wire from="(750,1490)" to="(750,1530)"/>
+    <wire from="(570,2070)" to="(910,2070)"/>
+    <wire from="(1070,2960)" to="(1070,3080)"/>
+    <wire from="(570,1290)" to="(790,1290)"/>
+    <wire from="(570,1620)" to="(1110,1620)"/>
+    <wire from="(1230,3950)" to="(1230,4110)"/>
+    <wire from="(570,1060)" to="(830,1060)"/>
+    <wire from="(570,610)" to="(1030,610)"/>
+    <wire from="(1030,1000)" to="(1030,1110)"/>
+    <wire from="(1070,980)" to="(1070,1000)"/>
+    <wire from="(570,3580)" to="(1070,3580)"/>
+    <wire from="(1110,2940)" to="(1110,2960)"/>
+    <wire from="(1190,2700)" to="(1190,2720)"/>
+    <wire from="(540,2370)" to="(540,2400)"/>
+    <wire from="(790,2940)" to="(790,2960)"/>
+    <wire from="(870,2700)" to="(870,2720)"/>
+    <wire from="(990,1220)" to="(990,1240)"/>
+    <wire from="(950,2460)" to="(950,2480)"/>
+    <wire from="(1150,2720)" to="(1150,2860)"/>
+    <wire from="(670,1220)" to="(670,1240)"/>
+    <wire from="(630,2460)" to="(630,2480)"/>
+    <wire from="(750,980)" to="(750,1000)"/>
+    <wire from="(670,3460)" to="(670,3480)"/>
+    <wire from="(750,3220)" to="(750,3260)"/>
+    <wire from="(520,2140)" to="(540,2140)"/>
+    <wire from="(570,1890)" to="(1230,1890)"/>
+    <wire from="(1070,1490)" to="(1070,1610)"/>
+    <wire from="(990,1730)" to="(990,1830)"/>
+    <wire from="(570,3350)" to="(1110,3350)"/>
+    <wire from="(830,740)" to="(830,800)"/>
+    <wire from="(1230,240)" to="(1230,400)"/>
+    <wire from="(1230,2480)" to="(1230,2640)"/>
+    <wire from="(570,880)" to="(1150,880)"/>
+    <wire from="(570,2340)" to="(1030,2340)"/>
+    <wire from="(1030,1710)" to="(1030,1730)"/>
+    <wire from="(570,2110)" to="(1070,2110)"/>
+    <wire from="(1110,1470)" to="(1110,1490)"/>
+    <wire from="(570,1330)" to="(950,1330)"/>
+    <wire from="(710,3950)" to="(710,3980)"/>
+    <wire from="(570,1100)" to="(990,1100)"/>
+    <wire from="(570,3970)" to="(670,3970)"/>
+    <wire from="(790,1470)" to="(790,1490)"/>
+    <wire from="(570,650)" to="(1190,650)"/>
+    <wire from="(910,500)" to="(910,580)"/>
+    <wire from="(710,1710)" to="(710,1730)"/>
+    <wire from="(670,1990)" to="(670,2010)"/>
+    <wire from="(570,3620)" to="(1230,3620)"/>
+    <wire from="(1070,3220)" to="(1070,3340)"/>
+    <wire from="(990,3460)" to="(990,3560)"/>
+    <wire from="(540,1660)" to="(550,1660)"/>
+    <wire from="(570,3740)" to="(710,3740)"/>
+    <wire from="(790,3710)" to="(790,3760)"/>
+    <wire from="(630,2720)" to="(630,2730)"/>
+    <wire from="(1030,3440)" to="(1030,3460)"/>
+    <wire from="(1190,720)" to="(1190,740)"/>
+    <wire from="(1110,3200)" to="(1110,3220)"/>
+    <wire from="(570,2730)" to="(630,2730)"/>
+    <wire from="(710,240)" to="(710,270)"/>
+    <wire from="(570,260)" to="(670,260)"/>
+    <wire from="(710,2480)" to="(710,2510)"/>
+    <wire from="(570,2500)" to="(670,2500)"/>
+    <wire from="(710,3440)" to="(710,3460)"/>
+    <wire from="(870,720)" to="(870,740)"/>
+    <wire from="(790,3200)" to="(790,3220)"/>
+    <wire from="(950,480)" to="(950,500)"/>
+    <wire from="(1150,740)" to="(1150,880)"/>
+    <wire from="(540,2630)" to="(540,2650)"/>
+    <wire from="(630,480)" to="(630,500)"/>
+    <wire from="(570,2380)" to="(1190,2380)"/>
+    <wire from="(910,2230)" to="(910,2310)"/>
+    <wire from="(750,1240)" to="(750,1280)"/>
+    <wire from="(570,2150)" to="(1230,2150)"/>
+    <wire from="(990,1990)" to="(990,2090)"/>
+    <wire from="(570,1370)" to="(1110,1370)"/>
+    <wire from="(830,1000)" to="(830,1060)"/>
+    <wire from="(1230,500)" to="(1230,660)"/>
+    <wire from="(570,1140)" to="(1150,1140)"/>
+    <wire from="(570,4010)" to="(830,4010)"/>
+    <wire from="(1030,3950)" to="(1030,4060)"/>
+    <wire from="(540,3390)" to="(550,3390)"/>
+    <wire from="(1030,1970)" to="(1030,1990)"/>
+    <wire from="(570,3000)" to="(750,3000)"/>
+    <wire from="(1070,3930)" to="(1070,3950)"/>
+    <wire from="(1150,3690)" to="(1150,3710)"/>
+    <wire from="(870,2960)" to="(870,3030)"/>
+    <wire from="(1190,210)" to="(1190,240)"/>
+    <wire from="(1110,3710)" to="(1110,3840)"/>
+    <wire from="(870,210)" to="(870,240)"/>
+    <wire from="(950,2720)" to="(950,2810)"/>
+    <wire from="(750,3930)" to="(750,3950)"/>
+    <wire from="(830,3690)" to="(830,3710)"/>
+    <wire from="(950,2210)" to="(950,2230)"/>
+    <wire from="(630,2210)" to="(630,2230)"/>
+    <wire from="(570,3780)" to="(870,3780)"/>
+    <wire from="(710,1970)" to="(710,1990)"/>
+    <wire from="(1030,240)" to="(1030,350)"/>
+    <wire from="(1070,1240)" to="(1070,1360)"/>
+    <wire from="(570,2770)" to="(790,2770)"/>
+    <wire from="(1230,2230)" to="(1230,2390)"/>
+    <wire from="(570,300)" to="(830,300)"/>
+    <wire from="(570,2540)" to="(830,2540)"/>
+    <wire from="(570,1760)" to="(710,1760)"/>
+    <wire from="(1030,2480)" to="(1030,2590)"/>
+    <wire from="(790,1730)" to="(790,1780)"/>
+    <wire from="(1230,2940)" to="(1230,2960)"/>
+    <wire from="(630,740)" to="(630,750)"/>
+    <wire from="(990,2700)" to="(990,2720)"/>
+    <wire from="(570,1530)" to="(750,1530)"/>
+    <wire from="(1190,2960)" to="(1190,3110)"/>
+    <wire from="(1110,1220)" to="(1110,1240)"/>
+    <wire from="(1070,2460)" to="(1070,2480)"/>
+    <wire from="(1190,980)" to="(1190,1000)"/>
+    <wire from="(870,1490)" to="(870,1560)"/>
+    <wire from="(570,750)" to="(630,750)"/>
+    <wire from="(710,500)" to="(710,530)"/>
+    <wire from="(570,520)" to="(670,520)"/>
+    <wire from="(570,4050)" to="(990,4050)"/>
+    <wire from="(790,1220)" to="(790,1240)"/>
+    <wire from="(750,2460)" to="(750,2480)"/>
+    <wire from="(870,980)" to="(870,1000)"/>
+    <wire from="(910,2940)" to="(910,2960)"/>
+    <wire from="(1150,1000)" to="(1150,1140)"/>
+    <wire from="(670,2700)" to="(670,2720)"/>
+    <wire from="(520,1380)" to="(540,1380)"/>
+    <wire from="(570,3040)" to="(910,3040)"/>
+    <wire from="(570,3820)" to="(1030,3820)"/>
+    <wire from="(540,1410)" to="(550,1410)"/>
+    <wire from="(570,3490)" to="(710,3490)"/>
+    <wire from="(790,3460)" to="(790,3510)"/>
+    <wire from="(1190,1490)" to="(1190,1640)"/>
+    <wire from="(570,3260)" to="(750,3260)"/>
+    <wire from="(1150,1710)" to="(1150,1730)"/>
+    <wire from="(1230,1470)" to="(1230,1490)"/>
+    <wire from="(870,3220)" to="(870,3290)"/>
+    <wire from="(570,2810)" to="(950,2810)"/>
+    <wire from="(1110,1730)" to="(1110,1860)"/>
+    <wire from="(950,740)" to="(950,830)"/>
+    <wire from="(570,340)" to="(990,340)"/>
+    <wire from="(710,2230)" to="(710,2260)"/>
+    <wire from="(570,2250)" to="(670,2250)"/>
+    <wire from="(570,2580)" to="(990,2580)"/>
+    <wire from="(830,1710)" to="(830,1730)"/>
+    <wire from="(910,1470)" to="(910,1490)"/>
+    <wire from="(570,1800)" to="(870,1800)"/>
+    <wire from="(1030,500)" to="(1030,610)"/>
+    <wire from="(570,1570)" to="(910,1570)"/>
+    <wire from="(570,790)" to="(790,790)"/>
+    <wire from="(830,3950)" to="(830,4010)"/>
+    <wire from="(570,560)" to="(830,560)"/>
+    <wire from="(570,4090)" to="(1150,4090)"/>
+    <wire from="(540,3340)" to="(540,3390)"/>
+    <wire from="(570,2020)" to="(710,2020)"/>
+    <wire from="(790,1990)" to="(790,2040)"/>
+    <wire from="(630,1000)" to="(630,1010)"/>
+    <wire from="(1230,3200)" to="(1230,3220)"/>
+    <wire from="(1070,480)" to="(1070,500)"/>
+    <wire from="(1190,3220)" to="(1190,3370)"/>
+    <wire from="(570,3080)" to="(1070,3080)"/>
+    <wire from="(1150,3440)" to="(1150,3460)"/>
+    <wire from="(570,1010)" to="(630,1010)"/>
+    <wire from="(1110,3460)" to="(1110,3590)"/>
+    <wire from="(830,3440)" to="(830,3460)"/>
+    <wire from="(990,720)" to="(990,740)"/>
+    <wire from="(910,3200)" to="(910,3220)"/>
+    <wire from="(570,3860)" to="(1190,3860)"/>
+    <wire from="(670,720)" to="(670,740)"/>
+    <wire from="(570,3530)" to="(870,3530)"/>
+    <wire from="(750,480)" to="(750,500)"/>
+    <wire from="(670,2960)" to="(670,2980)"/>
+    <wire from="(910,3710)" to="(910,3790)"/>
+    <wire from="(750,2720)" to="(750,2760)"/>
+    <wire from="(520,1640)" to="(540,1640)"/>
+    <wire from="(570,3300)" to="(910,3300)"/>
+    <wire from="(570,2850)" to="(1110,2850)"/>
+    <wire from="(830,240)" to="(830,300)"/>
+    <wire from="(830,2480)" to="(830,2540)"/>
+    <wire from="(570,380)" to="(1150,380)"/>
+    <wire from="(570,2290)" to="(830,2290)"/>
+    <wire from="(570,2620)" to="(1150,2620)"/>
+    <wire from="(570,1840)" to="(1030,1840)"/>
+    <wire from="(1030,2230)" to="(1030,2340)"/>
+    <wire from="(530,380)" to="(540,380)"/>
+    <wire from="(950,3690)" to="(950,3710)"/>
+    <wire from="(570,1280)" to="(750,1280)"/>
+    <wire from="(570,1610)" to="(1070,1610)"/>
+    <wire from="(1070,2210)" to="(1070,2230)"/>
+    <wire from="(1150,1970)" to="(1150,1990)"/>
+    <wire from="(1190,3930)" to="(1190,3950)"/>
+    <wire from="(870,1240)" to="(870,1310)"/>
+    <wire from="(570,830)" to="(950,830)"/>
+    <wire from="(990,210)" to="(990,240)"/>
+    <wire from="(1110,1990)" to="(1110,2120)"/>
+    <wire from="(950,1000)" to="(950,1090)"/>
+    <wire from="(670,210)" to="(670,240)"/>
+    <wire from="(570,600)" to="(990,600)"/>
+    <wire from="(750,2210)" to="(750,2230)"/>
+    <wire from="(830,1970)" to="(830,1990)"/>
+    <wire from="(870,3930)" to="(870,3950)"/>
+    <wire from="(570,2060)" to="(870,2060)"/>
+    <wire from="(670,1490)" to="(670,1510)"/>
+    <wire from="(1150,3950)" to="(1150,4090)"/>
+    <wire from="(630,3690)" to="(630,3710)"/>
+    <wire from="(570,3120)" to="(1230,3120)"/>
+    <wire from="(1070,2720)" to="(1070,2840)"/>
+    <wire from="(570,1050)" to="(790,1050)"/>
+    <wire from="(990,2960)" to="(990,3060)"/>
+    <wire from="(1230,3710)" to="(1230,3870)"/>
+    <wire from="(570,3570)" to="(1030,3570)"/>
+    <wire from="(1190,1240)" to="(1190,1390)"/>
+    <wire from="(1030,2940)" to="(1030,2960)"/>
+    <wire from="(570,3340)" to="(1070,3340)"/>
+    <wire from="(1110,2700)" to="(1110,2720)"/>
+    <wire from="(1230,1220)" to="(1230,1240)"/>
+    <wire from="(1190,2460)" to="(1190,2480)"/>
+    <wire from="(570,2330)" to="(990,2330)"/>
+    <wire from="(710,2940)" to="(710,2960)"/>
+    <wire from="(790,2700)" to="(790,2720)"/>
+    <wire from="(910,1220)" to="(910,1240)"/>
+    <wire from="(870,2460)" to="(870,2480)"/>
+    <wire from="(990,980)" to="(990,1000)"/>
+    <wire from="(1150,240)" to="(1150,380)"/>
+    <wire from="(570,1880)" to="(1190,1880)"/>
+    <wire from="(1150,2480)" to="(1150,2620)"/>
+    <wire from="(670,980)" to="(670,1000)"/>
+    <wire from="(910,1730)" to="(910,1810)"/>
+    <wire from="(670,3220)" to="(670,3240)"/>
+    <wire from="(750,740)" to="(750,780)"/>
+    <wire from="(570,1320)" to="(910,1320)"/>
+    <wire from="(570,1650)" to="(1230,1650)"/>
+    <wire from="(520,3820)" to="(540,3820)"/>
+    <wire from="(990,1490)" to="(990,1590)"/>
+    <wire from="(570,870)" to="(1110,870)"/>
+    <wire from="(830,500)" to="(830,560)"/>
+    <wire from="(570,640)" to="(1150,640)"/>
+    <wire from="(530,3080)" to="(530,3130)"/>
+    <wire from="(570,2100)" to="(1030,2100)"/>
+    <wire from="(540,2890)" to="(550,2890)"/>
+    <wire from="(630,3950)" to="(630,3960)"/>
+    <wire from="(1030,1470)" to="(1030,1490)"/>
+    <wire from="(570,1090)" to="(950,1090)"/>
+    <wire from="(570,3960)" to="(630,3960)"/>
+    <wire from="(710,3710)" to="(710,3740)"/>
+    <wire from="(570,3730)" to="(670,3730)"/>
+    <wire from="(950,1710)" to="(950,1730)"/>
+    <wire from="(630,1710)" to="(630,1730)"/>
+    <wire from="(570,3610)" to="(1190,3610)"/>
+    <wire from="(710,1470)" to="(710,1490)"/>
+    <wire from="(910,3460)" to="(910,3540)"/>
+    <wire from="(570,3380)" to="(1230,3380)"/>
+    <wire from="(1070,740)" to="(1070,860)"/>
+    <wire from="(830,2230)" to="(830,2290)"/>
+    <wire from="(1230,1730)" to="(1230,1890)"/>
+    <wire from="(990,3220)" to="(990,3320)"/>
+    <wire from="(570,2370)" to="(1150,2370)"/>
+    <wire from="(630,2480)" to="(630,2490)"/>
+    <wire from="(630,240)" to="(630,250)"/>
+    <wire from="(950,3440)" to="(950,3460)"/>
+    <wire from="(570,1360)" to="(1070,1360)"/>
+    <wire from="(1110,720)" to="(1110,740)"/>
+    <wire from="(1030,3200)" to="(1030,3220)"/>
+    <wire from="(1190,480)" to="(1190,500)"/>
+    <wire from="(950,3950)" to="(950,4040)"/>
+    <wire from="(570,250)" to="(630,250)"/>
+    <wire from="(570,2490)" to="(630,2490)"/>
+    <wire from="(790,720)" to="(790,740)"/>
+    <wire from="(710,3200)" to="(710,3220)"/>
+    <wire from="(870,480)" to="(870,500)"/>
+    <wire from="(1150,500)" to="(1150,640)"/>
+    <wire from="(570,2140)" to="(1190,2140)"/>
+    <wire from="(670,1240)" to="(670,1260)"/>
+    <wire from="(910,1990)" to="(910,2070)"/>
+    <wire from="(630,3440)" to="(630,3460)"/>
+    <wire from="(750,1000)" to="(750,1040)"/>
+    <wire from="(520,880)" to="(540,880)"/>
+    <wire from="(530,3130)" to="(550,3130)"/>
+    <wire from="(570,1130)" to="(1110,1130)"/>
+    <wire from="(570,4000)" to="(790,4000)"/>
+    <wire from="(1230,3460)" to="(1230,3620)"/>
+    <wire from="(570,3770)" to="(830,3770)"/>
+    <wire from="(570,2990)" to="(710,2990)"/>
+    <wire from="(540,910)" to="(550,910)"/>
+    <wire from="(1030,3710)" to="(1030,3820)"/>
+    <wire from="(790,2960)" to="(790,3010)"/>
+    <wire from="(990,3930)" to="(990,3950)"/>
+    <wire from="(1070,3690)" to="(1070,3710)"/>
+    <wire from="(570,2760)" to="(750,2760)"/>
+    <wire from="(1190,2210)" to="(1190,2230)"/>
+    <wire from="(870,2720)" to="(870,2790)"/>
+    <wire from="(1110,210)" to="(1110,240)"/>
+    <wire from="(790,210)" to="(790,240)"/>
+    <wire from="(950,240)" to="(950,330)"/>
+    <wire from="(950,2480)" to="(950,2570)"/>
+    <wire from="(710,1730)" to="(710,1760)"/>
+    <wire from="(570,1750)" to="(670,1750)"/>
+    <wire from="(670,3930)" to="(670,3950)"/>
+    <wire from="(750,3690)" to="(750,3710)"/>
+    <wire from="(870,2210)" to="(870,2230)"/>
+    <wire from="(950,1970)" to="(950,1990)"/>
+    <wire from="(540,1880)" to="(540,1900)"/>
+    <wire from="(1150,2230)" to="(1150,2370)"/>
+    <wire from="(630,1970)" to="(630,1990)"/>
+    <wire from="(570,1400)" to="(1230,1400)"/>
+    <wire from="(1070,1000)" to="(1070,1120)"/>
+    <wire from="(990,1240)" to="(990,1340)"/>
+    <wire from="(570,290)" to="(790,290)"/>
+    <wire from="(570,2530)" to="(790,2530)"/>
+    <wire from="(1230,1990)" to="(1230,2150)"/>
+    <wire from="(570,1520)" to="(710,1520)"/>
+    <wire from="(790,1490)" to="(790,1540)"/>
+    <wire from="(630,500)" to="(630,510)"/>
+    <wire from="(1030,1220)" to="(1030,1240)"/>
+    <wire from="(990,2460)" to="(990,2480)"/>
+    <wire from="(1190,2720)" to="(1190,2870)"/>
+    <wire from="(1110,980)" to="(1110,1000)"/>
+    <wire from="(1150,2940)" to="(1150,2960)"/>
+    <wire from="(1230,2700)" to="(1230,2720)"/>
+    <wire from="(570,510)" to="(630,510)"/>
+    <wire from="(570,4040)" to="(950,4040)"/>
+    <wire from="(1110,2960)" to="(1110,3090)"/>
+    <wire from="(710,3460)" to="(710,3490)"/>
+    <wire from="(570,3810)" to="(990,3810)"/>
+    <wire from="(570,3480)" to="(670,3480)"/>
+    <wire from="(790,980)" to="(790,1000)"/>
+    <wire from="(830,2940)" to="(830,2960)"/>
+    <wire from="(910,2700)" to="(910,2720)"/>
+    <wire from="(570,3030)" to="(870,3030)"/>
+    <wire from="(710,1220)" to="(710,1240)"/>
+    <wire from="(670,2460)" to="(670,2480)"/>
+    <wire from="(520,1140)" to="(540,1140)"/>
+    <wire from="(570,2800)" to="(910,2800)"/>
+    <wire from="(570,1790)" to="(830,1790)"/>
+    <wire from="(1030,1730)" to="(1030,1840)"/>
+    <wire from="(540,1170)" to="(550,1170)"/>
+    <wire from="(570,3250)" to="(710,3250)"/>
+    <wire from="(790,3220)" to="(790,3270)"/>
+    <comp lib="5" loc="(790,2480)" name="LED"/>
+    <comp lib="0" loc="(520,1140)" name="Pin">
+      <a name="output" val="true"/>
+      <a name="width" val="16"/>
+      <a name="tristate" val="false"/>
+      <a name="label" val="Instruction 4"/>
+      <a name="labelloc" val="north"/>
+      <a name="labelfont" val="SpaceMono Nerd Font plain 12"/>
+    </comp>
+    <comp lib="0" loc="(790,1970)" name="Power"/>
+    <comp lib="5" loc="(830,740)" name="LED"/>
+    <comp lib="0" loc="(550,2650)" name="Splitter">
+      <a name="fanout" val="16"/>
+      <a name="incoming" val="16"/>
+      <a name="bit0" val="15"/>
+      <a name="bit1" val="14"/>
+      <a name="bit2" val="13"/>
+      <a name="bit3" val="12"/>
+      <a name="bit4" val="11"/>
+      <a name="bit5" val="10"/>
+      <a name="bit6" val="9"/>
+      <a name="bit7" val="8"/>
+      <a name="bit8" val="7"/>
+      <a name="bit9" val="6"/>
+      <a name="bit10" val="5"/>
+      <a name="bit11" val="4"/>
+      <a name="bit12" val="3"/>
+      <a name="bit13" val="2"/>
+      <a name="bit14" val="1"/>
+      <a name="bit15" val="0"/>
+    </comp>
+    <comp lib="0" loc="(550,910)" name="Splitter">
+      <a name="fanout" val="16"/>
+      <a name="incoming" val="16"/>
+      <a name="bit0" val="15"/>
+      <a name="bit1" val="14"/>
+      <a name="bit2" val="13"/>
+      <a name="bit3" val="12"/>
+      <a name="bit4" val="11"/>
+      <a name="bit5" val="10"/>
+      <a name="bit6" val="9"/>
+      <a name="bit7" val="8"/>
+      <a name="bit8" val="7"/>
+      <a name="bit9" val="6"/>
+      <a name="bit10" val="5"/>
+      <a name="bit11" val="4"/>
+      <a name="bit12" val="3"/>
+      <a name="bit13" val="2"/>
+      <a name="bit14" val="1"/>
+      <a name="bit15" val="0"/>
+    </comp>
+    <comp lib="0" loc="(1030,210)" name="Ground">
+      <a name="facing" val="north"/>
+    </comp>
+    <comp lib="0" loc="(1190,3200)" name="Power"/>
+    <comp lib="0" loc="(910,3690)" name="Ground">
+      <a name="facing" val="north"/>
+    </comp>
+    <comp lib="0" loc="(1150,480)" name="Ground">
+      <a name="facing" val="north"/>
+    </comp>
+    <comp lib="0" loc="(1230,2210)" name="Ground">
+      <a name="facing" val="north"/>
+    </comp>
+    <comp lib="5" loc="(830,3950)" name="LED"/>
+    <comp lib="0" loc="(950,980)" name="Power"/>
+    <comp lib="0" loc="(710,3930)" name="Power"/>
+    <comp lib="5" loc="(750,2960)" name="LED"/>
+    <comp lib="6" loc="(705,1444)" name="Text">
+      <a name="text" val="1110 0000 0000 0111"/>
+      <a name="font" val="RobotoMono Nerd Font Propo SmBd plain 16"/>
+    </comp>
+    <comp lib="0" loc="(1190,3930)" name="Ground">
+      <a name="facing" val="north"/>
+    </comp>
+    <comp lib="5" loc="(710,3710)" name="LED"/>
+    <comp lib="5" loc="(1230,240)" name="LED"/>
+    <comp lib="5" loc="(1230,1730)" name="LED"/>
+    <comp lib="0" loc="(790,1220)" name="Power"/>
+    <comp lib="0" loc="(710,3200)" name="Power"/>
+    <comp lib="6" loc="(716,190)" name="Text">
+      <a name="text" val="1010 1000 0000 0000"/>
+      <a name="font" val="RobotoMono Nerd Font Propo SmBd plain 16"/>
+    </comp>
+    <comp lib="0" loc="(1150,1220)" name="Ground">
+      <a name="facing" val="north"/>
+    </comp>
+    <comp lib="5" loc="(710,2480)" name="LED"/>
+    <comp lib="0" loc="(870,3200)" name="Ground">
+      <a name="facing" val="north"/>
+    </comp>
+    <comp lib="5" loc="(1110,2230)" name="LED"/>
+    <comp lib="0" loc="(1110,2700)" name="Power"/>
+    <comp lib="0" loc="(550,670)" name="Splitter">
+      <a name="fanout" val="16"/>
+      <a name="incoming" val="16"/>
+      <a name="bit0" val="15"/>
+      <a name="bit1" val="14"/>
+      <a name="bit2" val="13"/>
+      <a name="bit3" val="12"/>
+      <a name="bit4" val="11"/>
+      <a name="bit5" val="10"/>
+      <a name="bit6" val="9"/>
+      <a name="bit7" val="8"/>
+      <a name="bit8" val="7"/>
+      <a name="bit9" val="6"/>
+      <a name="bit10" val="5"/>
+      <a name="bit11" val="4"/>
+      <a name="bit12" val="3"/>
+      <a name="bit13" val="2"/>
+      <a name="bit14" val="1"/>
+      <a name="bit15" val="0"/>
+    </comp>
+    <comp lib="0" loc="(750,3200)" name="Ground">
+      <a name="facing" val="north"/>
+    </comp>
+    <comp lib="5" loc="(670,500)" name="LED"/>
+    <comp lib="0" loc="(750,1970)" name="Ground">
+      <a name="facing" val="north"/>
+    </comp>
+    <comp lib="5" loc="(830,2960)" name="LED"/>
+    <comp lib="0" loc="(1150,2210)" name="Ground">
+      <a name="facing" val="north"/>
+    </comp>
+    <comp lib="6" loc="(192,214)" name="Text">
+      <a name="text" val="LDI R0, 1"/>
+      <a name="font" val="RobotoMono Nerd Font Propo SmBd bold 20"/>
+    </comp>
+    <comp lib="0" loc="(910,1470)" name="Ground">
+      <a name="facing" val="north"/>
+    </comp>
+    <comp lib="0" loc="(630,3200)" name="Power"/>
+    <comp lib="0" loc="(670,980)" name="Ground">
+      <a name="facing" val="north"/>
+    </comp>
+    <comp lib="5" loc="(1110,1490)" name="LED"/>
+    <comp lib="0" loc="(1110,720)" name="Power"/>
+    <comp lib="5" loc="(990,3950)" name="LED"/>
+    <comp lib="0" loc="(1030,480)" name="Ground">
+      <a name="facing" val="north"/>
+    </comp>
+    <comp lib="5" loc="(1190,2230)" name="LED"/>
+    <comp lib="6" loc="(637,1184)" name="Text">
+      <a name="text" val="9900"/>
+      <a name="font" val="RobotoMono Nerd Font Propo SmBd bold 20"/>
+    </comp>
+    <comp lib="5" loc="(630,2720)" name="LED"/>
+    <comp lib="5" loc="(910,3460)" name="LED"/>
+    <comp lib="0" loc="(670,3440)" name="Power"/>
+    <comp lib="0" loc="(750,210)" name="Ground">
+      <a name="facing" val="north"/>
+    </comp>
+    <comp lib="5" loc="(1230,740)" name="LED"/>
+    <comp lib="5" loc="(1110,740)" name="LED"/>
+    <comp lib="5" loc="(790,3950)" name="LED"/>
+    <comp lib="5" loc="(870,2960)" name="LED"/>
+    <comp lib="0" loc="(1150,3440)" name="Ground">
+      <a name="facing" val="north"/>
+    </comp>
+    <comp lib="5" loc="(950,1000)" name="LED"/>
+    <comp lib="5" loc="(1030,500)" name="LED"/>
+    <comp lib="5" loc="(1070,1490)" name="LED"/>
+    <comp lib="0" loc="(1030,2210)" name="Ground">
+      <a name="facing" val="north"/>
+    </comp>
+    <comp lib="5" loc="(870,3710)" name="LED"/>
+    <comp lib="0" loc="(950,2700)" name="Ground">
+      <a name="facing" val="north"/>
+    </comp>
+    <comp lib="5" loc="(1070,2230)" name="LED"/>
+    <comp lib="5" loc="(1030,3950)" name="LED"/>
+    <comp lib="6" loc="(642,3644)" name="Text">
+      <a name="text" val="E000"/>
+      <a name="font" val="RobotoMono Nerd Font Propo SmBd bold 20"/>
+    </comp>
+    <comp lib="0" loc="(830,480)" name="Ground">
+      <a name="facing" val="north"/>
+    </comp>
+    <comp lib="0" loc="(1110,3440)" name="Ground">
+      <a name="facing" val="north"/>
+    </comp>
+    <comp lib="5" loc="(670,740)" name="LED"/>
+    <comp lib="5" loc="(1190,1730)" name="LED"/>
+    <comp lib="5" loc="(1070,3950)" name="LED"/>
+    <comp lib="0" loc="(990,2210)" name="Ground">
+      <a name="facing" val="north"/>
+    </comp>
+    <comp lib="6" loc="(770,1183)" name="Text">
+      <a name="text" val="EQ RO, R1"/>
+      <a name="font" val="RobotoMono Nerd Font Propo SmBd bold 20"/>
+    </comp>
+    <comp lib="5" loc="(1070,3220)" name="LED"/>
+    <comp lib="5" loc="(710,2230)" name="LED"/>
+    <comp lib="5" loc="(630,2230)" name="LED"/>
+    <comp lib="5" loc="(710,2960)" name="LED"/>
+    <comp lib="5" loc="(1070,1000)" name="LED"/>
+    <comp lib="6" loc="(637,684)" name="Text">
+      <a name="text" val="A40A"/>
+      <a name="font" val="RobotoMono Nerd Font Propo SmBd bold 20"/>
+    </comp>
+    <comp lib="5" loc="(1110,3950)" name="LED"/>
+    <comp lib="5" loc="(670,1240)" name="LED"/>
+    <comp lib="5" loc="(870,2480)" name="LED"/>
+    <comp lib="0" loc="(1070,3930)" name="Ground">
+      <a name="facing" val="north"/>
+    </comp>
+    <comp lib="0" loc="(750,3690)" name="Ground">
+      <a name="facing" val="north"/>
+    </comp>
+    <comp lib="5" loc="(710,3950)" name="LED"/>
+    <comp lib="6" loc="(155,728)" name="Text">
+      <a name="text" val="Sleep for 2 cycles, then HALT"/>
+      <a name="font" val="RobotoMono Nerd Font Propo SmBd plain 13"/>
+    </comp>
+    <comp lib="0" loc="(1150,3690)" name="Ground">
+      <a name="facing" val="north"/>
+    </comp>
+    <comp lib="6" loc="(753,3893)" name="Text">
+      <a name="text" val="HALT"/>
+      <a name="font" val="RobotoMono Nerd Font Propo SmBd bold 20"/>
+    </comp>
+    <comp lib="0" loc="(710,1970)" name="Ground">
+      <a name="facing" val="north"/>
+    </comp>
+    <comp lib="5" loc="(830,1730)" name="LED"/>
+    <comp lib="0" loc="(1110,3690)" name="Ground">
+      <a name="facing" val="north"/>
+    </comp>
+    <comp lib="0" loc="(670,3200)" name="Ground">
+      <a name="facing" val="north"/>
+    </comp>
+    <comp lib="5" loc="(1190,1490)" name="LED"/>
+    <comp lib="5" loc="(1030,3220)" name="LED"/>
+    <comp lib="0" loc="(1070,1970)" name="Ground">
+      <a name="facing" val="north"/>
+    </comp>
+    <comp lib="5" loc="(1150,3710)" name="LED"/>
+    <comp lib="5" loc="(870,3460)" name="LED"/>
+    <comp lib="5" loc="(630,3710)" name="LED"/>
+    <comp lib="5" loc="(1070,1990)" name="LED"/>
+    <comp lib="5" loc="(1070,1730)" name="LED"/>
+    <comp lib="0" loc="(990,2940)" name="Ground">
+      <a name="facing" val="north"/>
+    </comp>
+    <comp lib="5" loc="(750,2720)" name="LED"/>
+    <comp lib="5" loc="(1150,1000)" name="LED"/>
+    <comp lib="5" loc="(1150,1730)" name="LED"/>
+    <comp lib="0" loc="(1230,3930)" name="Ground">
+      <a name="facing" val="north"/>
+    </comp>
+    <comp lib="6" loc="(748,1422)" name="Text">
+      <a name="text" val="JNZ 7"/>
+      <a name="font" val="RobotoMono Nerd Font Propo SmBd bold 20"/>
+    </comp>
+    <comp lib="0" loc="(990,2700)" name="Ground">
+      <a name="facing" val="north"/>
+    </comp>
+    <comp lib="6" loc="(637,1674)" name="Text">
+      <a name="text" val="B003"/>
+      <a name="font" val="RobotoMono Nerd Font Propo SmBd bold 20"/>
+    </comp>
+    <comp lib="0" loc="(950,480)" name="Ground">
+      <a name="facing" val="north"/>
+    </comp>
+    <comp lib="5" loc="(1030,740)" name="LED"/>
+    <comp lib="0" loc="(1110,1470)" name="Ground">
+      <a name="facing" val="north"/>
+    </comp>
+    <comp lib="0" loc="(990,3930)" name="Ground">
+      <a name="facing" val="north"/>
+    </comp>
+    <comp lib="5" loc="(1230,3950)" name="LED"/>
+    <comp lib="0" loc="(520,2870)" name="Pin">
+      <a name="output" val="true"/>
+      <a name="width" val="16"/>
+      <a name="tristate" val="false"/>
+      <a name="label" val="Instruction 11"/>
+      <a name="labelloc" val="north"/>
+      <a name="labelfont" val="SpaceMono Nerd Font plain 12"/>
+    </comp>
+    <comp lib="5" loc="(790,500)" name="LED"/>
+    <comp lib="5" loc="(670,1990)" name="LED"/>
+    <comp lib="0" loc="(1070,3440)" name="Ground">
+      <a name="facing" val="north"/>
+    </comp>
+    <comp lib="5" loc="(630,240)" name="LED"/>
+    <comp lib="0" loc="(910,720)" name="Ground">
+      <a name="facing" val="north"/>
+    </comp>
+    <comp lib="5" loc="(870,240)" name="LED"/>
+    <comp lib="5" loc="(870,3950)" name="LED"/>
+    <comp lib="0" loc="(630,980)" name="Ground">
+      <a name="facing" val="north"/>
+    </comp>
+    <comp lib="0" loc="(520,3080)" name="Pin">
+      <a name="output" val="true"/>
+      <a name="width" val="16"/>
+      <a name="tristate" val="false"/>
+      <a name="label" val="Instruction 12"/>
+      <a name="labelloc" val="north"/>
+      <a name="labelfont" val="SpaceMono Nerd Font plain 12"/>
+    </comp>
+    <comp lib="0" loc="(870,1220)" name="Ground">
+      <a name="facing" val="north"/>
+    </comp>
+    <comp lib="0" loc="(1070,3200)" name="Power"/>
+    <comp lib="5" loc="(1230,3220)" name="LED"/>
+    <comp lib="0" loc="(550,2890)" name="Splitter">
+      <a name="fanout" val="16"/>
+      <a name="incoming" val="16"/>
+      <a name="bit0" val="15"/>
+      <a name="bit1" val="14"/>
+      <a name="bit2" val="13"/>
+      <a name="bit3" val="12"/>
+      <a name="bit4" val="11"/>
+      <a name="bit5" val="10"/>
+      <a name="bit6" val="9"/>
+      <a name="bit7" val="8"/>
+      <a name="bit8" val="7"/>
+      <a name="bit9" val="6"/>
+      <a name="bit10" val="5"/>
+      <a name="bit11" val="4"/>
+      <a name="bit12" val="3"/>
+      <a name="bit13" val="2"/>
+      <a name="bit14" val="1"/>
+      <a name="bit15" val="0"/>
+    </comp>
+    <comp lib="0" loc="(520,2630)" name="Pin">
+      <a name="output" val="true"/>
+      <a name="width" val="16"/>
+      <a name="tristate" val="false"/>
+      <a name="label" val="Instruction 10"/>
+      <a name="labelloc" val="north"/>
+      <a name="labelfont" val="SpaceMono Nerd Font plain 12"/>
+    </comp>
+    <comp lib="5" loc="(990,500)" name="LED"/>
+    <comp lib="0" loc="(830,2210)" name="Power"/>
+    <comp lib="0" loc="(830,1710)" name="Ground">
+      <a name="facing" val="north"/>
+    </comp>
+    <comp lib="5" loc="(950,3460)" name="LED"/>
+    <comp lib="5" loc="(790,3220)" name="LED"/>
+    <comp lib="5" loc="(1190,1990)" name="LED"/>
+    <comp lib="5" loc="(950,740)" name="LED"/>
+    <comp lib="6" loc="(705,954)" name="Text">
+      <a name="text" val="0000 1000 1000 0000"/>
+      <a name="font" val="RobotoMono Nerd Font Propo SmBd plain 16"/>
+    </comp>
+    <comp lib="5" loc="(1030,2720)" name="LED"/>
+    <comp lib="0" loc="(1070,720)" name="Ground">
+      <a name="facing" val="north"/>
+    </comp>
+    <comp lib="6" loc="(700,1694)" name="Text">
+      <a name="text" val="1011 0000 0000 0011"/>
+      <a name="font" val="RobotoMono Nerd Font Propo SmBd plain 16"/>
+    </comp>
+    <comp lib="0" loc="(990,1470)" name="Ground">
+      <a name="facing" val="north"/>
+    </comp>
+    <comp lib="5" loc="(750,2480)" name="LED"/>
+    <comp lib="0" loc="(670,210)" name="Ground">
+      <a name="facing" val="north"/>
+    </comp>
+    <comp lib="5" loc="(1150,1990)" name="LED"/>
+    <comp lib="0" loc="(1030,3930)" name="Ground">
+      <a name="facing" val="north"/>
+    </comp>
+    <comp lib="0" loc="(1230,980)" name="Ground">
+      <a name="facing" val="north"/>
+    </comp>
+    <comp lib="6" loc="(700,2194)" name="Text">
+      <a name="text" val="1010 1100 0000 0000"/>
+      <a name="font" val="RobotoMono Nerd Font Propo SmBd plain 16"/>
+    </comp>
+    <comp lib="0" loc="(830,3440)" name="Ground">
+      <a name="facing" val="north"/>
+    </comp>
+    <comp lib="0" loc="(790,3200)" name="Power"/>
+    <comp lib="0" loc="(750,980)" name="Ground">
+      <a name="facing" val="north"/>
+    </comp>
+    <comp lib="6" loc="(796,1918)" name="Text">
+      <a name="text" val="SUB RO, R0, RO"/>
+      <a name="font" val="RobotoMono Nerd Font Propo SmBd bold 20"/>
+    </comp>
+    <comp lib="6" loc="(160,334)" name="Text">
+      <a name="text" val="JMP 3"/>
+      <a name="font" val="RobotoMono Nerd Font Propo SmBd bold 20"/>
+    </comp>
+    <comp lib="5" loc="(710,740)" name="LED"/>
+    <comp lib="5" loc="(830,500)" name="LED"/>
+    <comp lib="5" loc="(1030,3710)" name="LED"/>
+    <comp lib="0" loc="(710,480)" name="Power"/>
+    <comp lib="5" loc="(750,2230)" name="LED"/>
+    <comp lib="0" loc="(1070,1220)" name="Ground">
+      <a name="facing" val="north"/>
+    </comp>
+    <comp lib="0" loc="(950,1470)" name="Ground">
+      <a name="facing" val="north"/>
+    </comp>
+    <comp lib="5" loc="(1030,240)" name="LED"/>
+    <comp lib="5" loc="(1110,3220)" name="LED"/>
+    <comp lib="5" loc="(1230,1990)" name="LED"/>
+    <comp lib="5" loc="(830,3220)" name="LED"/>
+    <comp lib="6" loc="(779,2175)" name="Text">
+      <a name="text" val="LDI RF, 0"/>
+      <a name="font" val="RobotoMono Nerd Font Propo SmBd bold 20"/>
+    </comp>
+    <comp lib="0" loc="(750,2460)" name="Power"/>
+    <comp lib="6" loc="(643,3154)" name="Text">
+      <a name="text" val="A8FF"/>
+      <a name="font" val="RobotoMono Nerd Font Propo SmBd bold 20"/>
+    </comp>
+    <comp lib="0" loc="(1190,480)" name="Ground">
+      <a name="facing" val="north"/>
+    </comp>
+    <comp lib="5" loc="(830,1000)" name="LED"/>
+    <comp lib="5" loc="(750,3710)" name="LED"/>
+    <comp lib="0" loc="(990,3690)" name="Ground">
+      <a name="facing" val="north"/>
+    </comp>
+    <comp lib="5" loc="(1110,3460)" name="LED"/>
+    <comp lib="0" loc="(1230,3690)" name="Ground">
+      <a name="facing" val="north"/>
+    </comp>
+    <comp lib="5" loc="(1070,2960)" name="LED"/>
+    <comp lib="0" loc="(630,1710)" name="Power"/>
+    <comp lib="0" loc="(790,1470)" name="Ground">
+      <a name="facing" val="north"/>
+    </comp>
+    <comp lib="0" loc="(1070,2460)" name="Ground">
+      <a name="facing" val="north"/>
+    </comp>
+    <comp lib="0" loc="(1190,210)" name="Ground">
+      <a name="facing" val="north"/>
+    </comp>
+    <comp lib="0" loc="(1230,2460)" name="Ground">
+      <a name="facing" val="north"/>
+    </comp>
+    <comp lib="0" loc="(520,640)" name="Pin">
+      <a name="output" val="true"/>
+      <a name="width" val="16"/>
+      <a name="tristate" val="false"/>
+      <a name="label" val="Instruction 2"/>
+      <a name="labelloc" val="north"/>
+      <a name="labelfont" val="SpaceMono Nerd Font plain 12"/>
+    </comp>
+    <comp lib="0" loc="(1230,2700)" name="Ground">
+      <a name="facing" val="north"/>
+    </comp>
+    <comp lib="0" loc="(790,2460)" name="Power"/>
+    <comp lib="5" loc="(790,740)" name="LED"/>
+    <comp lib="0" loc="(950,2460)" name="Ground">
+      <a name="facing" val="north"/>
+    </comp>
+    <comp lib="5" loc="(1150,2230)" name="LED"/>
+    <comp lib="0" loc="(670,1970)" name="Ground">
+      <a name="facing" val="north"/>
+    </comp>
+    <comp lib="0" loc="(1190,1220)" name="Ground">
+      <a name="facing" val="north"/>
+    </comp>
+    <comp lib="0" loc="(790,3930)" name="Ground">
+      <a name="facing" val="north"/>
+    </comp>
+    <comp lib="0" loc="(1150,2700)" name="Power"/>
+    <comp lib="0" loc="(990,720)" name="Ground">
+      <a name="facing" val="north"/>
+    </comp>
+    <comp lib="0" loc="(1190,2700)" name="Ground">
+      <a name="facing" val="north"/>
+    </comp>
+    <comp lib="0" loc="(910,2700)" name="Ground">
+      <a name="facing" val="north"/>
+    </comp>
+    <comp lib="5" loc="(630,1490)" name="LED"/>
+    <comp lib="6" loc="(705,2434)" name="Text">
+      <a name="text" val="1001 1011 0000 0000"/>
+      <a name="font" val="RobotoMono Nerd Font Propo SmBd plain 16"/>
+    </comp>
+    <comp lib="5" loc="(1230,2720)" name="LED"/>
+    <comp lib="5" loc="(630,1990)" name="LED"/>
+    <comp lib="5" loc="(750,3950)" name="LED"/>
+    <comp lib="6" loc="(219,266)" name="Text">
+      <a name="text" val="ADD RO, R0, RO"/>
+      <a name="font" val="RobotoMono Nerd Font Propo SmBd bold 20"/>
+    </comp>
+    <comp lib="0" loc="(670,2700)" name="Power"/>
+    <comp lib="5" loc="(790,3460)" name="LED"/>
+    <comp lib="0" loc="(630,480)" name="Power"/>
+    <comp lib="5" loc="(630,2480)" name="LED"/>
+    <comp lib="5" loc="(1150,2960)" name="LED"/>
+    <comp lib="0" loc="(1190,2940)" name="Power"/>
+    <comp lib="5" loc="(910,2480)" name="LED"/>
+    <comp lib="5" loc="(1070,2720)" name="LED"/>
+    <comp lib="5" loc="(1030,1990)" name="LED"/>
+    <comp lib="0" loc="(630,1970)" name="Ground">
+      <a name="facing" val="north"/>
+    </comp>
+    <comp lib="6" loc="(637,3404)" name="Text">
+      <a name="text" val="E000"/>
+      <a name="font" val="RobotoMono Nerd Font Propo SmBd bold 20"/>
+    </comp>
+    <comp lib="6" loc="(700,3423)" name="Text">
+      <a name="text" val="1110 0000 0000 0000"/>
+      <a name="font" val="RobotoMono Nerd Font Propo SmBd plain 16"/>
+    </comp>
+    <comp lib="0" loc="(550,3390)" name="Splitter">
+      <a name="fanout" val="16"/>
+      <a name="incoming" val="16"/>
+      <a name="bit0" val="15"/>
+      <a name="bit1" val="14"/>
+      <a name="bit2" val="13"/>
+      <a name="bit3" val="12"/>
+      <a name="bit4" val="11"/>
+      <a name="bit5" val="10"/>
+      <a name="bit6" val="9"/>
+      <a name="bit7" val="8"/>
+      <a name="bit8" val="7"/>
+      <a name="bit9" val="6"/>
+      <a name="bit10" val="5"/>
+      <a name="bit11" val="4"/>
+      <a name="bit12" val="3"/>
+      <a name="bit13" val="2"/>
+      <a name="bit14" val="1"/>
+      <a name="bit15" val="0"/>
+    </comp>
+    <comp lib="0" loc="(710,3440)" name="Power"/>
+    <comp lib="0" loc="(870,210)" name="Ground">
+      <a name="facing" val="north"/>
+    </comp>
+    <comp lib="5" loc="(870,500)" name="LED"/>
+    <comp lib="5" loc="(1110,2960)" name="LED"/>
+    <comp lib="6" loc="(637,2664)" name="Text">
+      <a name="text" val="D00C"/>
+      <a name="font" val="RobotoMono Nerd Font Propo SmBd bold 20"/>
+    </comp>
+    <comp lib="5" loc="(910,1000)" name="LED"/>
+    <comp lib="0" loc="(870,1470)" name="Ground">
+      <a name="facing" val="north"/>
+    </comp>
+    <comp lib="0" loc="(870,1970)" name="Ground">
+      <a name="facing" val="north"/>
+    </comp>
+    <comp lib="5" loc="(1030,1240)" name="LED"/>
+    <comp lib="5" loc="(910,2720)" name="LED"/>
+    <comp lib="5" loc="(790,1000)" name="LED"/>
+    <comp lib="5" loc="(1150,3460)" name="LED"/>
+    <comp lib="5" loc="(1190,500)" name="LED"/>
+    <comp lib="0" loc="(1030,1220)" name="Ground">
+      <a name="facing" val="north"/>
+    </comp>
+    <comp lib="0" loc="(870,3690)" name="Ground">
+      <a name="facing" val="north"/>
+    </comp>
+    <comp lib="5" loc="(710,1240)" name="LED"/>
+    <comp lib="0" loc="(1110,980)" name="Ground">
+      <a name="facing" val="north"/>
+    </comp>
+    <comp lib="6" loc="(654,167)" name="Text">
+      <a name="text" val="A800"/>
+      <a name="font" val="RobotoMono Nerd Font Propo SmBd bold 20"/>
+    </comp>
+    <comp lib="5" loc="(1150,740)" name="LED"/>
+    <comp lib="5" loc="(1230,2480)" name="LED"/>
+    <comp lib="5" loc="(1190,1000)" name="LED"/>
+    <comp lib="6" loc="(150,552)" name="Text">
+      <a name="text" val="NOOP"/>
+      <a name="font" val="RobotoMono Nerd Font Propo SmBd bold 20"/>
+    </comp>
+    <comp lib="0" loc="(670,1470)" name="Power"/>
+    <comp lib="5" loc="(950,2480)" name="LED"/>
+    <comp lib="5" loc="(950,1990)" name="LED"/>
+    <comp lib="6" loc="(221,159)" name="Text">
+      <a name="text" val="Documentation:"/>
+      <a name="font" val="RobotoMono Nerd Font Propo SmBd plain 20"/>
+    </comp>
+    <comp lib="0" loc="(630,3440)" name="Power"/>
+    <comp lib="6" loc="(642,934)" name="Text">
+      <a name="text" val="0880"/>
+      <a name="font" val="RobotoMono Nerd Font Propo SmBd bold 20"/>
+    </comp>
+    <comp lib="5" loc="(670,240)" name="LED"/>
+    <comp lib="0" loc="(790,3690)" name="Ground">
+      <a name="facing" val="north"/>
+    </comp>
+    <comp lib="5" loc="(1230,3460)" name="LED"/>
+    <comp lib="0" loc="(1070,2700)" name="Ground">
+      <a name="facing" val="north"/>
+    </comp>
+    <comp lib="5" loc="(870,1000)" name="LED"/>
+    <comp lib="6" loc="(764,1673)" name="Text">
+      <a name="text" val="JMP 3"/>
+      <a name="font" val="RobotoMono Nerd Font Propo SmBd bold 20"/>
+    </comp>
+    <comp lib="5" loc="(910,1490)" name="LED"/>
+    <comp lib="0" loc="(1030,1970)" name="Ground">
+      <a name="facing" val="north"/>
+    </comp>
+    <comp lib="0" loc="(1030,2940)" name="Ground">
+      <a name="facing" val="north"/>
+    </comp>
+    <comp lib="0" loc="(910,980)" name="Ground">
+      <a name="facing" val="north"/>
+    </comp>
+    <comp lib="0" loc="(950,1220)" name="Ground">
+      <a name="facing" val="north"/>
+    </comp>
+    <comp lib="5" loc="(1030,1490)" name="LED"/>
+    <comp lib="0" loc="(1110,1220)" name="Ground">
+      <a name="facing" val="north"/>
+    </comp>
+    <comp lib="5" loc="(710,240)" name="LED"/>
+    <comp lib="0" loc="(1110,1970)" name="Ground">
+      <a name="facing" val="north"/>
+    </comp>
+    <comp lib="5" loc="(990,3460)" name="LED"/>
+    <comp lib="0" loc="(1230,1710)" name="Power"/>
+    <comp lib="0" loc="(670,480)" name="Ground">
+      <a name="facing" val="north"/>
+    </comp>
+    <comp lib="0" loc="(950,2940)" name="Ground">
+      <a name="facing" val="north"/>
+    </comp>
+    <comp lib="5" loc="(750,240)" name="LED"/>
+    <comp lib="0" loc="(950,720)" name="Ground">
+      <a name="facing" val="north"/>
+    </comp>
+    <comp lib="0" loc="(1150,1470)" name="Power"/>
+    <comp lib="5" loc="(1150,2720)" name="LED"/>
+    <comp lib="0" loc="(1150,210)" name="Ground">
+      <a name="facing" val="north"/>
+    </comp>
+    <comp lib="0" loc="(1110,2940)" name="Ground">
+      <a name="facing" val="north"/>
+    </comp>
+    <comp lib="0" loc="(870,3440)" name="Ground">
+      <a name="facing" val="north"/>
+    </comp>
+    <comp lib="6" loc="(192,187)" name="Text">
+      <a name="text" val="LDI RO, 0"/>
+      <a name="font" val="RobotoMono Nerd Font Propo SmBd bold 20"/>
+    </comp>
+    <comp lib="0" loc="(1150,3200)" name="Power"/>
+    <comp lib="0" loc="(830,1220)" name="Ground">
+      <a name="facing" val="north"/>
+    </comp>
+    <comp lib="6" loc="(705,1944)" name="Text">
+      <a name="text" val="0000 1000 1000 0000"/>
+      <a name="font" val="RobotoMono Nerd Font Propo SmBd plain 16"/>
+    </comp>
+    <comp lib="0" loc="(790,210)" name="Power"/>
+    <comp lib="5" loc="(1230,2230)" name="LED"/>
+    <comp lib="5" loc="(910,500)" name="LED"/>
+    <comp lib="5" loc="(870,1990)" name="LED"/>
+    <comp lib="0" loc="(950,1970)" name="Power"/>
+    <comp lib="5" loc="(670,3460)" name="LED"/>
+    <comp lib="0" loc="(1030,1470)" name="Ground">
+      <a name="facing" val="north"/>
+    </comp>
+    <comp lib="5" loc="(750,1000)" name="LED"/>
+    <comp lib="0" loc="(750,1710)" name="Power"/>
+    <comp lib="0" loc="(790,720)" name="Ground">
+      <a name="facing" val="north"/>
+    </comp>
+    <comp lib="5" loc="(1150,500)" name="LED"/>
+    <comp lib="0" loc="(870,2700)" name="Ground">
+      <a name="facing" val="north"/>
+    </comp>
+    <comp lib="0" loc="(830,720)" name="Power"/>
+    <comp lib="0" loc="(630,1220)" name="Power"/>
+    <comp lib="0" loc="(830,3200)" name="Ground">
+      <a name="facing" val="north"/>
+    </comp>
+    <comp lib="5" loc="(790,2720)" name="LED"/>
+    <comp lib="6" loc="(700,2684)" name="Text">
+      <a name="text" val="1101 0000 0000 1100"/>
+      <a name="font" val="RobotoMono Nerd Font Propo SmBd plain 16"/>
+    </comp>
+    <comp lib="0" loc="(530,380)" name="Pin">
+      <a name="output" val="true"/>
+      <a name="width" val="16"/>
+      <a name="tristate" val="false"/>
+      <a name="label" val="Instruction 1"/>
+      <a name="labelloc" val="north"/>
+      <a name="labelfont" val="SpaceMono Nerd Font plain 12"/>
+    </comp>
+    <comp lib="5" loc="(1070,740)" name="LED"/>
+    <comp lib="0" loc="(990,3200)" name="Power"/>
+    <comp lib="5" loc="(830,240)" name="LED"/>
+    <comp lib="0" loc="(910,3440)" name="Ground">
+      <a name="facing" val="north"/>
+    </comp>
+    <comp lib="0" loc="(1110,3200)" name="Power"/>
+    <comp lib="5" loc="(750,1730)" name="LED"/>
+    <comp lib="5" loc="(630,2960)" name="LED"/>
+    <comp lib="0" loc="(790,2210)" name="Power"/>
+    <comp lib="5" loc="(950,1490)" name="LED"/>
+    <comp lib="0" loc="(830,3690)" name="Ground">
+      <a name="facing" val="north"/>
+    </comp>
+    <comp lib="5" loc="(950,2960)" name="LED"/>
+    <comp lib="0" loc="(910,2940)" name="Ground">
+      <a name="facing" val="north"/>
+    </comp>
+    <comp lib="6" loc="(151,579)" name="Text">
+      <a name="text" val="HALT"/>
+      <a name="font" val="RobotoMono Nerd Font Propo SmBd bold 20"/>
+    </comp>
+    <comp lib="6" loc="(637,2904)" name="Text">
+      <a name="text" val="B007"/>
+      <a name="font" val="RobotoMono Nerd Font Propo SmBd bold 20"/>
+    </comp>
+    <comp lib="0" loc="(910,1710)" name="Ground">
+      <a name="facing" val="north"/>
+    </comp>
+    <comp lib="0" loc="(950,3930)" name="Ground">
+      <a name="facing" val="north"/>
+    </comp>
+    <comp lib="5" loc="(670,3950)" name="LED"/>
+    <comp lib="0" loc="(910,1220)" name="Power"/>
+    <comp lib="5" loc="(1190,2480)" name="LED"/>
+    <comp lib="5" loc="(1230,1240)" name="LED"/>
+    <comp lib="0" loc="(520,880)" name="Pin">
+      <a name="output" val="true"/>
+      <a name="width" val="16"/>
+      <a name="tristate" val="false"/>
+      <a name="label" val="Instruction 3"/>
+      <a name="labelloc" val="north"/>
+      <a name="labelfont" val="SpaceMono Nerd Font plain 12"/>
+    </comp>
+    <comp lib="0" loc="(520,3820)" name="Pin">
+      <a name="output" val="true"/>
+      <a name="width" val="16"/>
+      <a name="tristate" val="false"/>
+      <a name="label" val="Instruction 15"/>
+      <a name="labelloc" val="north"/>
+      <a name="labelfont" val="SpaceMono Nerd Font plain 12"/>
+    </comp>
+    <comp lib="0" loc="(1150,3930)" name="Ground">
+      <a name="facing" val="north"/>
+    </comp>
+    <comp lib="0" loc="(1030,3200)" name="Power"/>
+    <comp lib="0" loc="(790,2700)" name="Ground">
+      <a name="facing" val="north"/>
+    </comp>
+    <comp lib="0" loc="(1150,720)" name="Ground">
+      <a name="facing" val="north"/>
+    </comp>
+    <comp lib="0" loc="(870,3930)" name="Ground">
+      <a name="facing" val="north"/>
+    </comp>
+    <comp lib="0" loc="(830,2940)" name="Ground">
+      <a name="facing" val="north"/>
+    </comp>
+    <comp lib="0" loc="(710,3690)" name="Power"/>
+    <comp lib="5" loc="(1230,2960)" name="LED"/>
+    <comp lib="5" loc="(1110,2480)" name="LED"/>
+    <comp lib="0" loc="(790,3440)" name="Ground">
+      <a name="facing" val="north"/>
+    </comp>
+    <comp lib="5" loc="(750,3460)" name="LED"/>
+    <comp lib="6" loc="(646,3893)" name="Text">
+      <a name="text" val="F000"/>
+      <a name="font" val="RobotoMono Nerd Font Propo SmBd bold 20"/>
+    </comp>
+    <comp lib="5" loc="(870,2230)" name="LED"/>
+    <comp lib="5" loc="(950,1730)" name="LED"/>
+    <comp lib="0" loc="(1030,720)" name="Ground">
+      <a name="facing" val="north"/>
+    </comp>
+    <comp lib="0" loc="(830,2700)" name="Ground">
+      <a name="facing" val="north"/>
+    </comp>
+    <comp lib="0" loc="(550,2160)" name="Splitter">
+      <a name="fanout" val="16"/>
+      <a name="incoming" val="16"/>
+      <a name="bit0" val="15"/>
+      <a name="bit1" val="14"/>
+      <a name="bit2" val="13"/>
+      <a name="bit3" val="12"/>
+      <a name="bit4" val="11"/>
+      <a name="bit5" val="10"/>
+      <a name="bit6" val="9"/>
+      <a name="bit7" val="8"/>
+      <a name="bit8" val="7"/>
+      <a name="bit9" val="6"/>
+      <a name="bit10" val="5"/>
+      <a name="bit11" val="4"/>
+      <a name="bit12" val="3"/>
+      <a name="bit13" val="2"/>
+      <a name="bit14" val="1"/>
+      <a name="bit15" val="0"/>
+    </comp>
+    <comp lib="0" loc="(750,2940)" name="Power"/>
+    <comp lib="0" loc="(1150,2460)" name="Ground">
+      <a name="facing" val="north"/>
+    </comp>
+    <comp lib="5" loc="(910,240)" name="LED"/>
+    <comp lib="0" loc="(1190,1970)" name="Ground">
+      <a name="facing" val="north"/>
+    </comp>
+    <comp lib="0" loc="(630,2940)" name="Power"/>
+    <comp lib="5" loc="(950,1240)" name="LED"/>
+    <comp lib="5" loc="(870,1490)" name="LED"/>
+    <comp lib="0" loc="(750,480)" name="Ground">
+      <a name="facing" val="north"/>
+    </comp>
+    <comp lib="5" loc="(1070,3460)" name="LED"/>
+    <comp lib="5" loc="(670,2960)" name="LED"/>
+    <comp lib="0" loc="(1150,2940)" name="Power"/>
+    <comp lib="0" loc="(750,720)" name="Ground">
+      <a name="facing" val="north"/>
+    </comp>
+    <comp lib="5" loc="(910,1730)" name="LED"/>
+    <comp lib="0" loc="(1190,2210)" name="Ground">
+      <a name="facing" val="north"/>
+    </comp>
+    <comp lib="0" loc="(670,3930)" name="Power"/>
+    <comp lib="6" loc="(791,933)" name="Text">
+      <a name="text" val="ADD RO, R0, RO"/>
+      <a name="font" val="RobotoMono Nerd Font Propo SmBd bold 20"/>
+    </comp>
+    <comp lib="0" loc="(790,480)" name="Ground">
+      <a name="facing" val="north"/>
+    </comp>
+    <comp lib="5" loc="(790,1490)" name="LED"/>
+    <comp lib="5" loc="(910,2230)" name="LED"/>
+    <comp lib="5" loc="(790,2230)" name="LED"/>
+    <comp lib="5" loc="(1190,2720)" name="LED"/>
+    <comp lib="5" loc="(830,1240)" name="LED"/>
+    <comp lib="5" loc="(710,2720)" name="LED"/>
+    <comp lib="0" loc="(520,4000)" name="Pin">
+      <a name="output" val="true"/>
+      <a name="width" val="16"/>
+      <a name="tristate" val="false"/>
+      <a name="label" val="Instruction 16"/>
+      <a name="labelloc" val="north"/>
+      <a name="labelfont" val="SpaceMono Nerd Font plain 12"/>
+    </comp>
+    <comp lib="5" loc="(950,500)" name="LED"/>
+    <comp lib="5" loc="(670,1490)" name="LED"/>
+    <comp lib="0" loc="(550,4120)" name="Splitter">
+      <a name="fanout" val="16"/>
+      <a name="incoming" val="16"/>
+      <a name="bit0" val="15"/>
+      <a name="bit1" val="14"/>
+      <a name="bit2" val="13"/>
+      <a name="bit3" val="12"/>
+      <a name="bit4" val="11"/>
+      <a name="bit5" val="10"/>
+      <a name="bit6" val="9"/>
+      <a name="bit7" val="8"/>
+      <a name="bit8" val="7"/>
+      <a name="bit9" val="6"/>
+      <a name="bit10" val="5"/>
+      <a name="bit11" val="4"/>
+      <a name="bit12" val="3"/>
+      <a name="bit13" val="2"/>
+      <a name="bit14" val="1"/>
+      <a name="bit15" val="0"/>
+    </comp>
+    <comp lib="5" loc="(1150,3220)" name="LED"/>
+    <comp lib="0" loc="(710,2940)" name="Power"/>
+    <comp lib="5" loc="(950,240)" name="LED"/>
+    <comp lib="5" loc="(990,1990)" name="LED"/>
+    <comp lib="0" loc="(710,2700)" name="Ground">
+      <a name="facing" val="north"/>
+    </comp>
+    <comp lib="5" loc="(1110,1730)" name="LED"/>
+    <comp lib="5" loc="(950,2720)" name="LED"/>
+    <comp lib="0" loc="(950,3690)" name="Ground">
+      <a name="facing" val="north"/>
+    </comp>
+    <comp lib="0" loc="(1230,3440)" name="Ground">
+      <a name="facing" val="north"/>
+    </comp>
+    <comp lib="0" loc="(1030,980)" name="Ground">
+      <a name="facing" val="north"/>
+    </comp>
+    <comp lib="0" loc="(790,980)" name="Power"/>
+    <comp lib="0" loc="(750,2210)" name="Ground">
+      <a name="facing" val="north"/>
+    </comp>
+    <comp lib="6" loc="(744,2901)" name="Text">
+      <a name="text" val="JMP 7"/>
+      <a name="font" val="RobotoMono Nerd Font Propo SmBd bold 20"/>
+    </comp>
+    <comp lib="0" loc="(1230,2940)" name="Power"/>
+    <comp lib="0" loc="(1030,1710)" name="Ground">
+      <a name="facing" val="north"/>
+    </comp>
+    <comp lib="5" loc="(1190,740)" name="LED"/>
+    <comp lib="0" loc="(990,210)" name="Ground">
+      <a name="facing" val="north"/>
+    </comp>
+    <comp lib="5" loc="(830,1490)" name="LED"/>
+    <comp lib="5" loc="(630,3220)" name="LED"/>
+    <comp lib="5" loc="(990,2720)" name="LED"/>
+    <comp lib="0" loc="(520,2370)" name="Pin">
+      <a name="output" val="true"/>
+      <a name="width" val="16"/>
+      <a name="tristate" val="false"/>
+      <a name="label" val="Instruction 9"/>
+      <a name="labelloc" val="north"/>
+      <a name="labelfont" val="SpaceMono Nerd Font plain 12"/>
+    </comp>
+    <comp lib="0" loc="(1070,2940)" name="Ground">
+      <a name="facing" val="north"/>
+    </comp>
+    <comp lib="0" loc="(870,480)" name="Ground">
+      <a name="facing" val="north"/>
+    </comp>
+    <comp lib="0" loc="(520,3340)" name="Pin">
+      <a name="output" val="true"/>
+      <a name="width" val="16"/>
+      <a name="tristate" val="false"/>
+      <a name="label" val="Instruction 13"/>
+      <a name="labelloc" val="north"/>
+      <a name="labelfont" val="SpaceMono Nerd Font plain 12"/>
+    </comp>
+    <comp lib="5" loc="(830,3710)" name="LED"/>
+    <comp lib="0" loc="(910,2460)" name="Power"/>
+    <comp lib="0" loc="(990,980)" name="Ground">
+      <a name="facing" val="north"/>
+    </comp>
+    <comp lib="5" loc="(1190,3220)" name="LED"/>
+    <comp lib="0" loc="(950,210)" name="Ground">
+      <a name="facing" val="north"/>
+    </comp>
+    <comp lib="0" loc="(950,3200)" name="Power"/>
+    <comp lib="0" loc="(1190,3690)" name="Ground">
+      <a name="facing" val="north"/>
+    </comp>
+    <comp lib="0" loc="(630,210)" name="Power"/>
+    <comp lib="5" loc="(710,500)" name="LED"/>
+    <comp lib="5" loc="(990,3220)" name="LED"/>
+    <comp lib="6" loc="(259,706)" name="Text">
+      <a name="text" val="Once done, put 1111 1111 to the out register (FF in hex)"/>
+      <a name="font" val="RobotoMono Nerd Font Propo SmBd plain 13"/>
+    </comp>
+    <comp lib="5" loc="(830,1990)" name="LED"/>
+    <comp lib="5" loc="(750,500)" name="LED"/>
+    <comp lib="0" loc="(1230,3200)" name="Power"/>
+    <comp lib="0" loc="(790,2940)" name="Ground">
+      <a name="facing" val="north"/>
+    </comp>
+    <comp lib="6" loc="(700,2924)" name="Text">
+      <a name="text" val="1011 0000 0000 0111"/>
+      <a name="font" val="RobotoMono Nerd Font Propo SmBd plain 16"/>
+    </comp>
+    <comp lib="6" loc="(705,3664)" name="Text">
+      <a name="text" val="1110 0000 0000 0000"/>
+      <a name="font" val="RobotoMono Nerd Font Propo SmBd plain 16"/>
+    </comp>
+    <comp lib="0" loc="(710,2460)" name="Ground">
+      <a name="facing" val="north"/>
+    </comp>
+    <comp lib="0" loc="(830,210)" name="Ground">
+      <a name="facing" val="north"/>
+    </comp>
+    <comp lib="0" loc="(990,480)" name="Ground">
+      <a name="facing" val="north"/>
+    </comp>
+    <comp lib="0" loc="(710,720)" name="Power"/>
+    <comp lib="5" loc="(630,1000)" name="LED"/>
+    <comp lib="0" loc="(1230,1470)" name="Power"/>
+    <comp lib="5" loc="(990,1730)" name="LED"/>
+    <comp lib="0" loc="(870,720)" name="Ground">
+      <a name="facing" val="north"/>
+    </comp>
+    <comp lib="6" loc="(214,362)" name="Text">
+      <a name="text" val="SUB RO, R0, RO"/>
+      <a name="font" val="RobotoMono Nerd Font Propo SmBd bold 20"/>
+    </comp>
+    <comp lib="5" loc="(830,2480)" name="LED"/>
+    <comp lib="0" loc="(1110,3930)" name="Ground">
+      <a name="facing" val="north"/>
+    </comp>
+    <comp lib="0" loc="(1150,980)" name="Ground">
+      <a name="facing" val="north"/>
+    </comp>
+    <comp lib="6" loc="(700,1204)" name="Text">
+      <a name="text" val="1001 1001 0000 0000"/>
+      <a name="font" val="RobotoMono Nerd Font Propo SmBd plain 16"/>
+    </comp>
+    <comp lib="5" loc="(790,1990)" name="LED"/>
+    <comp lib="0" loc="(550,410)" name="Splitter">
+      <a name="fanout" val="16"/>
+      <a name="incoming" val="16"/>
+      <a name="bit0" val="15"/>
+      <a name="bit1" val="14"/>
+      <a name="bit2" val="13"/>
+      <a name="bit3" val="12"/>
+      <a name="bit4" val="11"/>
+      <a name="bit5" val="10"/>
+      <a name="bit6" val="9"/>
+      <a name="bit7" val="8"/>
+      <a name="bit8" val="7"/>
+      <a name="bit9" val="6"/>
+      <a name="bit10" val="5"/>
+      <a name="bit11" val="4"/>
+      <a name="bit12" val="3"/>
+      <a name="bit13" val="2"/>
+      <a name="bit14" val="1"/>
+      <a name="bit15" val="0"/>
+    </comp>
+    <comp lib="0" loc="(1070,480)" name="Ground">
+      <a name="facing" val="north"/>
+    </comp>
+    <comp lib="0" loc="(520,2140)" name="Pin">
+      <a name="output" val="true"/>
+      <a name="width" val="16"/>
+      <a name="tristate" val="false"/>
+      <a name="label" val="Instruction 8"/>
+      <a name="labelloc" val="north"/>
+      <a name="labelfont" val="SpaceMono Nerd Font plain 12"/>
+    </comp>
+    <comp lib="5" loc="(1110,1000)" name="LED"/>
+    <comp lib="0" loc="(520,1880)" name="Pin">
+      <a name="output" val="true"/>
+      <a name="width" val="16"/>
+      <a name="tristate" val="false"/>
+      <a name="label" val="Instruction 7"/>
+      <a name="labelloc" val="north"/>
+      <a name="labelfont" val="SpaceMono Nerd Font plain 12"/>
+    </comp>
+    <comp lib="5" loc="(990,2960)" name="LED"/>
+    <comp lib="5" loc="(790,1730)" name="LED"/>
+    <comp lib="5" loc="(710,1490)" name="LED"/>
+    <comp lib="0" loc="(1110,2210)" name="Ground">
+      <a name="facing" val="north"/>
+    </comp>
+    <comp lib="0" loc="(1230,210)" name="Ground">
+      <a name="facing" val="north"/>
+    </comp>
+    <comp lib="5" loc="(990,740)" name="LED"/>
+    <comp lib="0" loc="(630,3690)" name="Power"/>
+    <comp lib="5" loc="(1070,1240)" name="LED"/>
+    <comp lib="6" loc="(779,443)" name="Text">
+      <a name="text" val="LDI R0, 1"/>
+      <a name="font" val="RobotoMono Nerd Font Propo SmBd bold 20"/>
+    </comp>
+    <comp lib="5" loc="(1110,2720)" name="LED"/>
+    <comp lib="0" loc="(1190,720)" name="Power"/>
+    <comp lib="5" loc="(750,3220)" name="LED"/>
+    <comp lib="6" loc="(637,2174)" name="Text">
+      <a name="text" val="AC00"/>
+      <a name="font" val="RobotoMono Nerd Font Propo SmBd bold 20"/>
+    </comp>
+    <comp lib="6" loc="(700,3914)" name="Text">
+      <a name="text" val="1111 0000 0000 0000"/>
+      <a name="font" val="RobotoMono Nerd Font Propo SmBd plain 16"/>
+    </comp>
+    <comp lib="0" loc="(1110,210)" name="Ground">
+      <a name="facing" val="north"/>
+    </comp>
+    <comp lib="0" loc="(520,1640)" name="Pin">
+      <a name="output" val="true"/>
+      <a name="width" val="16"/>
+      <a name="tristate" val="false"/>
+      <a name="label" val="Instruction 6"/>
+      <a name="labelloc" val="north"/>
+      <a name="labelfont" val="SpaceMono Nerd Font plain 12"/>
+    </comp>
+    <comp lib="5" loc="(1030,1730)" name="LED"/>
+    <comp lib="0" loc="(1230,1970)" name="Ground">
+      <a name="facing" val="north"/>
+    </comp>
+    <comp lib="6" loc="(777,2410)" name="Text">
+      <a name="text" val="EQ RO, RF"/>
+      <a name="font" val="RobotoMono Nerd Font Propo SmBd bold 20"/>
+    </comp>
+    <comp lib="5" loc="(1030,2480)" name="LED"/>
+    <comp lib="5" loc="(990,3710)" name="LED"/>
+    <comp lib="6" loc="(166,444)" name="Text">
+      <a name="text" val="JNZ 12"/>
+      <a name="font" val="RobotoMono Nerd Font Propo SmBd bold 20"/>
+    </comp>
+    <comp lib="0" loc="(670,1710)" name="Ground">
+      <a name="facing" val="north"/>
+    </comp>
+    <comp lib="0" loc="(830,1470)" name="Ground">
+      <a name="facing" val="north"/>
+    </comp>
+    <comp lib="0" loc="(990,2460)" name="Ground">
+      <a name="facing" val="north"/>
+    </comp>
+    <comp lib="5" loc="(910,1990)" name="LED"/>
+    <comp lib="5" loc="(990,2230)" name="LED"/>
+    <comp lib="5" loc="(1110,1990)" name="LED"/>
+    <comp lib="5" loc="(1030,2230)" name="LED"/>
+    <comp lib="0" loc="(1030,2460)" name="Ground">
+      <a name="facing" val="north"/>
+    </comp>
+    <comp lib="5" loc="(670,2480)" name="LED"/>
+    <comp lib="5" loc="(910,3710)" name="LED"/>
+    <comp lib="0" loc="(710,1710)" name="Power"/>
+    <comp lib="6" loc="(151,524)" name="Text">
+      <a name="text" val="NOOP"/>
+      <a name="font" val="RobotoMono Nerd Font Propo SmBd bold 20"/>
+    </comp>
+    <comp lib="6" loc="(740,3404)" name="Text">
+      <a name="text" val="NOOP"/>
+      <a name="font" val="RobotoMono Nerd Font Propo SmBd bold 20"/>
+    </comp>
+    <comp lib="5" loc="(1230,1490)" name="LED"/>
+    <comp lib="5" loc="(750,740)" name="LED"/>
+    <comp lib="5" loc="(1190,3460)" name="LED"/>
+    <comp lib="0" loc="(1190,2460)" name="Ground">
+      <a name="facing" val="north"/>
+    </comp>
+    <comp lib="0" loc="(750,1220)" name="Power"/>
+    <comp lib="0" loc="(630,3930)" name="Power"/>
+    <comp lib="6" loc="(177,660)" name="Text">
+      <a name="text" val="And in human language;"/>
+      <a name="font" val="RobotoMono Nerd Font Propo SmBd plain 20"/>
+    </comp>
+    <comp lib="0" loc="(1070,2210)" name="Ground">
+      <a name="facing" val="north"/>
+    </comp>
+    <comp lib="6" loc="(642,2414)" name="Text">
+      <a name="text" val="9B00"/>
+      <a name="font" val="RobotoMono Nerd Font Propo SmBd bold 20"/>
+    </comp>
+    <comp lib="6" loc="(652,445)" name="Text">
+      <a name="text" val="A001"/>
+      <a name="font" val="RobotoMono Nerd Font Propo SmBd bold 20"/>
+    </comp>
+    <comp lib="5" loc="(830,3460)" name="LED"/>
+    <comp lib="0" loc="(950,2210)" name="Ground">
+      <a name="facing" val="north"/>
+    </comp>
+    <comp lib="0" loc="(750,2700)" name="Power"/>
+    <comp lib="0" loc="(550,1170)" name="Splitter">
+      <a name="fanout" val="16"/>
+      <a name="incoming" val="16"/>
+      <a name="bit0" val="15"/>
+      <a name="bit1" val="14"/>
+      <a name="bit2" val="13"/>
+      <a name="bit3" val="12"/>
+      <a name="bit4" val="11"/>
+      <a name="bit5" val="10"/>
+      <a name="bit6" val="9"/>
+      <a name="bit7" val="8"/>
+      <a name="bit8" val="7"/>
+      <a name="bit9" val="6"/>
+      <a name="bit10" val="5"/>
+      <a name="bit11" val="4"/>
+      <a name="bit12" val="3"/>
+      <a name="bit13" val="2"/>
+      <a name="bit14" val="1"/>
+      <a name="bit15" val="0"/>
+    </comp>
+    <comp lib="5" loc="(790,2960)" name="LED"/>
+    <comp lib="0" loc="(1230,1220)" name="Ground">
+      <a name="facing" val="north"/>
+    </comp>
+    <comp lib="5" loc="(910,3950)" name="LED"/>
+    <comp lib="6" loc="(836,166)" name="Text">
+      <a name="text" val="LDI RO, 0"/>
+      <a name="font" val="RobotoMono Nerd Font Propo SmBd bold 20"/>
+    </comp>
+    <comp lib="5" loc="(1030,2960)" name="LED"/>
+    <comp lib="5" loc="(830,2720)" name="LED"/>
+    <comp lib="5" loc="(1150,1490)" name="LED"/>
+    <comp lib="0" loc="(550,3630)" name="Splitter">
+      <a name="fanout" val="16"/>
+      <a name="incoming" val="16"/>
+      <a name="bit0" val="15"/>
+      <a name="bit1" val="14"/>
+      <a name="bit2" val="13"/>
+      <a name="bit3" val="12"/>
+      <a name="bit4" val="11"/>
+      <a name="bit5" val="10"/>
+      <a name="bit6" val="9"/>
+      <a name="bit7" val="8"/>
+      <a name="bit8" val="7"/>
+      <a name="bit9" val="6"/>
+      <a name="bit10" val="5"/>
+      <a name="bit11" val="4"/>
+      <a name="bit12" val="3"/>
+      <a name="bit13" val="2"/>
+      <a name="bit14" val="1"/>
+      <a name="bit15" val="0"/>
+    </comp>
+    <comp lib="5" loc="(870,1730)" name="LED"/>
+    <comp lib="0" loc="(1150,1710)" name="Ground">
+      <a name="facing" val="north"/>
+    </comp>
+    <comp lib="0" loc="(710,1220)" name="Ground">
+      <a name="facing" val="north"/>
+    </comp>
+    <comp lib="0" loc="(630,2700)" name="Power"/>
+    <comp lib="0" loc="(550,2400)" name="Splitter">
+      <a name="fanout" val="16"/>
+      <a name="incoming" val="16"/>
+      <a name="bit0" val="15"/>
+      <a name="bit1" val="14"/>
+      <a name="bit2" val="13"/>
+      <a name="bit3" val="12"/>
+      <a name="bit4" val="11"/>
+      <a name="bit5" val="10"/>
+      <a name="bit6" val="9"/>
+      <a name="bit7" val="8"/>
+      <a name="bit8" val="7"/>
+      <a name="bit9" val="6"/>
+      <a name="bit10" val="5"/>
+      <a name="bit11" val="4"/>
+      <a name="bit12" val="3"/>
+      <a name="bit13" val="2"/>
+      <a name="bit14" val="1"/>
+      <a name="bit15" val="0"/>
+    </comp>
+    <comp lib="0" loc="(630,1470)" name="Power"/>
+    <comp lib="0" loc="(710,980)" name="Ground">
+      <a name="facing" val="north"/>
+    </comp>
+    <comp lib="5" loc="(910,2960)" name="LED"/>
+    <comp lib="0" loc="(990,1970)" name="Ground">
+      <a name="facing" val="north"/>
+    </comp>
+    <comp lib="5" loc="(630,500)" name="LED"/>
+    <comp lib="5" loc="(830,2230)" name="LED"/>
+    <comp lib="6" loc="(201,498)" name="Text">
+      <a name="text" val="LDI R0, 0xFF"/>
+      <a name="font" val="RobotoMono Nerd Font Propo SmBd bold 20"/>
+    </comp>
+    <comp lib="0" loc="(1230,480)" name="Power"/>
+    <comp lib="5" loc="(910,740)" name="LED"/>
+    <comp lib="5" loc="(1070,2480)" name="LED"/>
+    <comp lib="5" loc="(870,3220)" name="LED"/>
+    <comp lib="0" loc="(830,980)" name="Ground">
+      <a name="facing" val="north"/>
+    </comp>
+    <comp lib="0" loc="(550,3880)" name="Splitter">
+      <a name="fanout" val="16"/>
+      <a name="incoming" val="16"/>
+      <a name="bit0" val="15"/>
+      <a name="bit1" val="14"/>
+      <a name="bit2" val="13"/>
+      <a name="bit3" val="12"/>
+      <a name="bit4" val="11"/>
+      <a name="bit5" val="10"/>
+      <a name="bit6" val="9"/>
+      <a name="bit7" val="8"/>
+      <a name="bit8" val="7"/>
+      <a name="bit9" val="6"/>
+      <a name="bit10" val="5"/>
+      <a name="bit11" val="4"/>
+      <a name="bit12" val="3"/>
+      <a name="bit13" val="2"/>
+      <a name="bit14" val="1"/>
+      <a name="bit15" val="0"/>
+    </comp>
+    <comp lib="0" loc="(550,1410)" name="Splitter">
+      <a name="fanout" val="16"/>
+      <a name="incoming" val="16"/>
+      <a name="bit0" val="15"/>
+      <a name="bit1" val="14"/>
+      <a name="bit2" val="13"/>
+      <a name="bit3" val="12"/>
+      <a name="bit4" val="11"/>
+      <a name="bit5" val="10"/>
+      <a name="bit6" val="9"/>
+      <a name="bit7" val="8"/>
+      <a name="bit8" val="7"/>
+      <a name="bit9" val="6"/>
+      <a name="bit10" val="5"/>
+      <a name="bit11" val="4"/>
+      <a name="bit12" val="3"/>
+      <a name="bit13" val="2"/>
+      <a name="bit14" val="1"/>
+      <a name="bit15" val="0"/>
+    </comp>
+    <comp lib="0" loc="(1070,210)" name="Ground">
+      <a name="facing" val="north"/>
+    </comp>
+    <comp lib="5" loc="(1150,2480)" name="LED"/>
+    <comp lib="5" loc="(1230,500)" name="LED"/>
+    <comp lib="0" loc="(750,3440)" name="Ground">
+      <a name="facing" val="north"/>
+    </comp>
+    <comp lib="0" loc="(670,3690)" name="Power"/>
+    <comp lib="6" loc="(700,704)" name="Text">
+      <a name="text" val="1010 0100 0000 1010"/>
+      <a name="font" val="RobotoMono Nerd Font Propo SmBd plain 16"/>
+    </comp>
+    <comp lib="5" loc="(1030,1000)" name="LED"/>
+    <comp lib="5" loc="(1070,240)" name="LED"/>
+    <comp lib="0" loc="(550,1900)" name="Splitter">
+      <a name="fanout" val="16"/>
+      <a name="incoming" val="16"/>
+      <a name="bit0" val="15"/>
+      <a name="bit1" val="14"/>
+      <a name="bit2" val="13"/>
+      <a name="bit3" val="12"/>
+      <a name="bit4" val="11"/>
+      <a name="bit5" val="10"/>
+      <a name="bit6" val="9"/>
+      <a name="bit7" val="8"/>
+      <a name="bit8" val="7"/>
+      <a name="bit9" val="6"/>
+      <a name="bit10" val="5"/>
+      <a name="bit11" val="4"/>
+      <a name="bit12" val="3"/>
+      <a name="bit13" val="2"/>
+      <a name="bit14" val="1"/>
+      <a name="bit15" val="0"/>
+    </comp>
+    <comp lib="5" loc="(990,1000)" name="LED"/>
+    <comp lib="5" loc="(1150,3950)" name="LED"/>
+    <comp lib="5" loc="(1110,500)" name="LED"/>
+    <comp lib="0" loc="(830,3930)" name="Ground">
+      <a name="facing" val="north"/>
+    </comp>
+    <comp lib="6" loc="(160,473)" name="Text">
+      <a name="text" val="JMP 7"/>
+      <a name="font" val="RobotoMono Nerd Font Propo SmBd bold 20"/>
+    </comp>
+    <comp lib="0" loc="(1030,3690)" name="Ground">
+      <a name="facing" val="north"/>
+    </comp>
+    <comp lib="6" loc="(705,3174)" name="Text">
+      <a name="text" val="1010 1000 1111 1111"/>
+      <a name="font" val="RobotoMono Nerd Font Propo SmBd plain 16"/>
+    </comp>
+    <comp lib="0" loc="(910,1970)" name="Ground">
+      <a name="facing" val="north"/>
+    </comp>
+    <comp lib="5" loc="(1190,3710)" name="LED"/>
+    <comp lib="0" loc="(750,1470)" name="Ground">
+      <a name="facing" val="north"/>
+    </comp>
+    <comp lib="5" loc="(1070,3710)" name="LED"/>
+    <comp lib="5" loc="(1110,240)" name="LED"/>
+    <comp lib="0" loc="(630,2210)" name="Power"/>
+    <comp lib="0" loc="(870,2460)" name="Power"/>
+    <comp lib="5" loc="(990,1240)" name="LED"/>
+    <comp lib="0" loc="(1070,1470)" name="Ground">
+      <a name="facing" val="north"/>
+    </comp>
+    <comp lib="5" loc="(790,240)" name="LED"/>
+    <comp lib="6" loc="(799,3152)" name="Text">
+      <a name="text" val="LDI R0, 0xFF"/>
+      <a name="font" val="RobotoMono Nerd Font Propo SmBd bold 20"/>
+    </comp>
+    <comp lib="5" loc="(950,2230)" name="LED"/>
+    <comp lib="5" loc="(630,1730)" name="LED"/>
+    <comp lib="5" loc="(870,2720)" name="LED"/>
+    <comp lib="6" loc="(187,420)" name="Text">
+      <a name="text" val="EQ RO, RF"/>
+      <a name="font" val="RobotoMono Nerd Font Propo SmBd bold 20"/>
+    </comp>
+    <comp lib="5" loc="(630,3950)" name="LED"/>
+    <comp lib="0" loc="(520,1380)" name="Pin">
+      <a name="output" val="true"/>
+      <a name="width" val="16"/>
+      <a name="tristate" val="false"/>
+      <a name="label" val="Instruction 5"/>
+      <a name="labelloc" val="north"/>
+      <a name="labelfont" val="SpaceMono Nerd Font plain 12"/>
+    </comp>
+    <comp lib="5" loc="(1110,3710)" name="LED"/>
+    <comp lib="0" loc="(670,2940)" name="Ground">
+      <a name="facing" val="north"/>
+    </comp>
+    <comp lib="0" loc="(790,1710)" name="Ground">
+      <a name="facing" val="north"/>
+    </comp>
+    <comp lib="0" loc="(1030,2700)" name="Ground">
+      <a name="facing" val="north"/>
+    </comp>
+    <comp lib="6" loc="(194,238)" name="Text">
+      <a name="text" val="LDI R1, 10"/>
+      <a name="font" val="RobotoMono Nerd Font Propo SmBd bold 20"/>
+    </comp>
+    <comp lib="6" loc="(185,686)" name="Text">
+      <a name="text" val="Count up to 10, then count down to 0."/>
+      <a name="font" val="RobotoMono Nerd Font Propo SmBd plain 13"/>
+    </comp>
+    <comp lib="0" loc="(710,1470)" name="Power"/>
+    <comp lib="0" loc="(870,2210)" name="Ground">
+      <a name="facing" val="north"/>
+    </comp>
+    <comp lib="5" loc="(1190,240)" name="LED"/>
+    <comp lib="5" loc="(710,1730)" name="LED"/>
+    <comp lib="0" loc="(1070,980)" name="Ground">
+      <a name="facing" val="north"/>
+    </comp>
+    <comp lib="0" loc="(870,1710)" name="Ground">
+      <a name="facing" val="north"/>
+    </comp>
+    <comp lib="5" loc="(990,1490)" name="LED"/>
+    <comp lib="0" loc="(910,3200)" name="Ground">
+      <a name="facing" val="north"/>
+    </comp>
+    <comp lib="5" loc="(950,3950)" name="LED"/>
+    <comp lib="5" loc="(670,2230)" name="LED"/>
+    <comp lib="5" loc="(1150,240)" name="LED"/>
+    <comp lib="5" loc="(1190,1240)" name="LED"/>
+    <comp lib="0" loc="(910,210)" name="Ground">
+      <a name="facing" val="north"/>
+    </comp>
+    <comp lib="0" loc="(870,980)" name="Ground">
+      <a name="facing" val="north"/>
+    </comp>
+    <comp lib="0" loc="(950,1710)" name="Ground">
+      <a name="facing" val="north"/>
+    </comp>
+    <comp lib="6" loc="(188,290)" name="Text">
+      <a name="text" val="EQ RO, R1"/>
+      <a name="font" val="RobotoMono Nerd Font Propo SmBd bold 20"/>
+    </comp>
+    <comp lib="0" loc="(1110,1710)" name="Ground">
+      <a name="facing" val="north"/>
+    </comp>
+    <comp lib="5" loc="(950,3710)" name="LED"/>
+    <comp lib="0" loc="(1070,3690)" name="Ground">
+      <a name="facing" val="north"/>
+    </comp>
+    <comp lib="5" loc="(790,1240)" name="LED"/>
+    <comp lib="0" loc="(1190,3440)" name="Ground">
+      <a name="facing" val="north"/>
+    </comp>
+    <comp lib="0" loc="(870,2940)" name="Ground">
+      <a name="facing" val="north"/>
+    </comp>
+    <comp lib="5" loc="(710,1990)" name="LED"/>
+    <comp lib="0" loc="(990,1710)" name="Ground">
+      <a name="facing" val="north"/>
+    </comp>
+    <comp lib="5" loc="(750,1490)" name="LED"/>
+    <comp lib="0" loc="(1110,480)" name="Ground">
+      <a name="facing" val="north"/>
+    </comp>
+    <comp lib="0" loc="(670,2210)" name="Ground">
+      <a name="facing" val="north"/>
+    </comp>
+    <comp lib="0" loc="(670,720)" name="Ground">
+      <a name="facing" val="north"/>
+    </comp>
+    <comp lib="0" loc="(1230,720)" name="Ground">
+      <a name="facing" val="north"/>
+    </comp>
+    <comp lib="0" loc="(1110,2460)" name="Ground">
+      <a name="facing" val="north"/>
+    </comp>
+    <comp lib="0" loc="(1190,1470)" name="Power"/>
+    <comp lib="0" loc="(710,2210)" name="Power"/>
+    <comp lib="5" loc="(1030,3460)" name="LED"/>
+    <comp lib="5" loc="(630,1240)" name="LED"/>
+    <comp lib="6" loc="(749,3643)" name="Text">
+      <a name="text" val="NOOP"/>
+      <a name="font" val="RobotoMono Nerd Font Propo SmBd bold 20"/>
+    </comp>
+    <comp lib="0" loc="(950,3440)" name="Ground">
+      <a name="facing" val="north"/>
+    </comp>
+    <comp lib="0" loc="(520,3590)" name="Pin">
+      <a name="output" val="true"/>
+      <a name="width" val="16"/>
+      <a name="tristate" val="false"/>
+      <a name="label" val="Instruction 14"/>
+      <a name="labelloc" val="north"/>
+      <a name="labelfont" val="SpaceMono Nerd Font plain 12"/>
+    </comp>
+    <comp lib="0" loc="(830,1970)" name="Ground">
+      <a name="facing" val="north"/>
+    </comp>
+    <comp lib="5" loc="(1190,2960)" name="LED"/>
+    <comp lib="5" loc="(990,240)" name="LED"/>
+    <comp lib="6" loc="(783,682)" name="Text">
+      <a name="text" val="LDI R1, 10"/>
+      <a name="font" val="RobotoMono Nerd Font Propo SmBd bold 20"/>
+    </comp>
+    <comp lib="5" loc="(750,1240)" name="LED"/>
+    <comp lib="5" loc="(670,1000)" name="LED"/>
+    <comp lib="5" loc="(630,3460)" name="LED"/>
+    <comp lib="5" loc="(1190,3950)" name="LED"/>
+    <comp lib="0" loc="(670,2460)" name="Ground">
+      <a name="facing" val="north"/>
+    </comp>
+    <comp lib="0" loc="(550,3130)" name="Splitter">
+      <a name="fanout" val="16"/>
+      <a name="incoming" val="16"/>
+      <a name="bit0" val="15"/>
+      <a name="bit1" val="14"/>
+      <a name="bit2" val="13"/>
+      <a name="bit3" val="12"/>
+      <a name="bit4" val="11"/>
+      <a name="bit5" val="10"/>
+      <a name="bit6" val="9"/>
+      <a name="bit7" val="8"/>
+      <a name="bit8" val="7"/>
+      <a name="bit9" val="6"/>
+      <a name="bit10" val="5"/>
+      <a name="bit11" val="4"/>
+      <a name="bit12" val="3"/>
+      <a name="bit13" val="2"/>
+      <a name="bit14" val="1"/>
+      <a name="bit15" val="0"/>
+    </comp>
+    <comp lib="0" loc="(830,2460)" name="Ground">
+      <a name="facing" val="north"/>
+    </comp>
+    <comp lib="0" loc="(1030,3440)" name="Ground">
+      <a name="facing" val="north"/>
+    </comp>
+    <comp lib="5" loc="(910,1240)" name="LED"/>
+    <comp lib="5" loc="(990,2480)" name="LED"/>
+    <comp lib="5" loc="(870,1240)" name="LED"/>
+    <comp lib="0" loc="(630,2460)" name="Power"/>
+    <comp lib="5" loc="(670,2720)" name="LED"/>
+    <comp lib="0" loc="(710,210)" name="Power"/>
+    <comp lib="0" loc="(1190,1710)" name="Power"/>
+    <comp lib="5" loc="(1150,1240)" name="LED"/>
+    <comp lib="0" loc="(990,3440)" name="Ground">
+      <a name="facing" val="north"/>
+    </comp>
+    <comp lib="5" loc="(670,1730)" name="LED"/>
+    <comp lib="0" loc="(550,1660)" name="Splitter">
+      <a name="fanout" val="16"/>
+      <a name="incoming" val="16"/>
+      <a name="bit0" val="15"/>
+      <a name="bit1" val="14"/>
+      <a name="bit2" val="13"/>
+      <a name="bit3" val="12"/>
+      <a name="bit4" val="11"/>
+      <a name="bit5" val="10"/>
+      <a name="bit6" val="9"/>
+      <a name="bit7" val="8"/>
+      <a name="bit8" val="7"/>
+      <a name="bit9" val="6"/>
+      <a name="bit10" val="5"/>
+      <a name="bit11" val="4"/>
+      <a name="bit12" val="3"/>
+      <a name="bit13" val="2"/>
+      <a name="bit14" val="1"/>
+      <a name="bit15" val="0"/>
+    </comp>
+    <comp lib="0" loc="(1070,1710)" name="Ground">
+      <a name="facing" val="north"/>
+    </comp>
+    <comp lib="0" loc="(910,2210)" name="Ground">
+      <a name="facing" val="north"/>
+    </comp>
+    <comp lib="5" loc="(710,1000)" name="LED"/>
+    <comp lib="6" loc="(183,390)" name="Text">
+      <a name="text" val="LDI RF, 0"/>
+      <a name="font" val="RobotoMono Nerd Font Propo SmBd bold 20"/>
+    </comp>
+    <comp lib="6" loc="(754,2665)" name="Text">
+      <a name="text" val="JNZ 12"/>
+      <a name="font" val="RobotoMono Nerd Font Propo SmBd bold 20"/>
+    </comp>
+    <comp lib="5" loc="(1070,500)" name="LED"/>
+    <comp lib="0" loc="(670,1220)" name="Ground">
+      <a name="facing" val="north"/>
+    </comp>
+    <comp lib="5" loc="(870,740)" name="LED"/>
+    <comp lib="5" loc="(670,3710)" name="LED"/>
+    <comp lib="0" loc="(1190,980)" name="Ground">
+      <a name="facing" val="north"/>
+    </comp>
+    <comp lib="0" loc="(990,1220)" name="Ground">
+      <a name="facing" val="north"/>
+    </comp>
+    <comp lib="5" loc="(710,3220)" name="LED"/>
+    <comp lib="0" loc="(910,480)" name="Ground">
+      <a name="facing" val="north"/>
+    </comp>
+    <comp lib="5" loc="(750,1990)" name="LED"/>
+    <comp lib="5" loc="(910,3220)" name="LED"/>
+    <comp lib="5" loc="(790,3710)" name="LED"/>
+    <comp lib="5" loc="(950,3220)" name="LED"/>
+    <comp lib="6" loc="(643,1924)" name="Text">
+      <a name="text" val="1880"/>
+      <a name="font" val="RobotoMono Nerd Font Propo SmBd bold 20"/>
+    </comp>
+    <comp lib="0" loc="(750,3930)" name="Power"/>
+    <comp lib="5" loc="(630,740)" name="LED"/>
+    <comp lib="0" loc="(910,3930)" name="Ground">
+      <a name="facing" val="north"/>
+    </comp>
+    <comp lib="6" loc="(642,1424)" name="Text">
+      <a name="text" val="D007"/>
+      <a name="font" val="RobotoMono Nerd Font Propo SmBd bold 20"/>
+    </comp>
+    <comp lib="5" loc="(670,3220)" name="LED"/>
+    <comp lib="5" loc="(1110,1240)" name="LED"/>
+    <comp lib="0" loc="(1150,1970)" name="Ground">
+      <a name="facing" val="north"/>
+    </comp>
+    <comp lib="5" loc="(1230,3710)" name="LED"/>
+    <comp lib="6" loc="(712,464)" name="Text">
+      <a name="text" val="1010 0000 0000 0001"/>
+      <a name="font" val="RobotoMono Nerd Font Propo SmBd plain 16"/>
+    </comp>
+    <comp lib="6" loc="(161,312)" name="Text">
+      <a name="text" val="JNZ 7"/>
+      <a name="font" val="RobotoMono Nerd Font Propo SmBd bold 20"/>
+    </comp>
+    <comp lib="5" loc="(1230,1000)" name="LED"/>
+    <comp lib="0" loc="(630,720)" name="Power"/>
+    <comp lib="5" loc="(710,3460)" name="LED"/>
+  </circuit>
+</project>

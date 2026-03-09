@@ -151,7 +151,6 @@
 \begin{center}
 {\Huge\bfseries\color{ee8blue} EE8 CPU}\\[0.4cm]
 {\LARGE Lab: Instruction Decoder \& Control Unit}\\[0.8cm]
-{\large Engineering Design Module (EG2300)}\\[0.3cm]
 \rule{0.6\textwidth}{1pt}\\[0.5cm]
 \end{center}
 
@@ -348,41 +347,40 @@ Complete the table below. For each opcode, decide whether each control signal sh
   \item Does this instruction stop the CPU? $\rightarrow$ \flag{Halt}
 \end{itemize}
 \end{taskbox}
-
+\newcommand{\blank}{\fbox{\phantom{0}}}
 \renewcommand{\arraystretch}{1.3}
 \begin{table}[H]
 \centering
-\begin{tabular}{c c l | c c c c c}
-\toprule
+\begin{tabular}{|c|c|l|c|c|c|c|c|}
+\hline
 \textbf{Opcode} & \textbf{Binary} & \textbf{Mnemonic} &
 \rotatebox{60}{\flag{RegWrite}} &
 \rotatebox{60}{\flag{ImmSel}} &
 \rotatebox{60}{\flag{Jump}} &
 \rotatebox{60}{\flag{Branch}} &
 \rotatebox{60}{\flag{Halt}} \\
-\midrule
-0  & 0000 & ADD  & & & & & \\
-1  & 0001 & SUB  & & & & & \\
-2  & 0010 & AND  & & & & & \\
-3  & 0011 & OR   & & & & & \\
-4  & 0100 & XOR  & & & & & \\
-5  & 0101 & SHL  & & & & & \\
-6  & 0110 & SHR  & & & & & \\
-7  & 0111 & MOV  & & & & & \\
-8  & 1000 & LT   & & & & & \\
-9  & 1001 & EQ   & & & & & \\
-10 & 1010 & LDI  & & & & & \\
-11 & 1011 & JMP  & & & & & \\
-12 & 1100 & JZ   & & & & & \\
-13 & 1101 & JNZ  & & & & & \\
-14 & 1110 & (reserved) & & & & & \\
-15 & 1111 & HALT & & & & & \\
-\bottomrule
+\hline
+0  & 0000 & ADD        & & & & & \\ \hline
+1  & 0001 & SUB        & & & & & \\ \hline
+2  & 0010 & AND        & & & & & \\ \hline
+3  & 0011 & OR         & & & & & \\ \hline
+4  & 0100 & XOR        & & & & & \\ \hline
+5  & 0101 & SHL        & & & & & \\ \hline
+6  & 0110 & SHR        & & & & & \\ \hline
+7  & 0111 & MOV        & & & & & \\ \hline
+8  & 1000 & LT         & & & & & \\ \hline
+9  & 1001 & EQ         & & & & & \\ \hline
+10 & 1010 & LDI        & & & & & \\ \hline
+11 & 1011 & JMP        & & & & & \\ \hline
+12 & 1100 & JZ         & & & & & \\ \hline
+13 & 1101 & JNZ        & & & & & \\ \hline
+14 & 1110 & (reserved) & & & & & \\ \hline
+15 & 1111 & HALT       & & & & & \\ \hline
+\hline
 \end{tabular}
 \caption{Control signal truth table --- fill this in before building your circuit.}
 \label{tab:truth-table}
 \end{table}
-
 \begin{hintbox}
 Look at the patterns in your completed table.
 You should notice that several signals are only set for one or two opcodes, while others are set for a whole range.
@@ -527,6 +525,8 @@ Now you can connect the \flag{Jump} output from your control unit to that input,
 
 \begin{lstlisting}
 ; Test program: JMP should loop forever between addresses 0 and 2
+; You should be able to load this into your ROMs. 
+; Don't worry about LDI doing nothing for now.
 0: LDI R0 42       ; 1010 00 00 00101010  -> 0xA02A
 1: LDI R1 10       ; 1010 00 01 00001010  -> 0xA10A
 2: JMP 0           ; 1011 00 000000 0000  -> 0xB000
