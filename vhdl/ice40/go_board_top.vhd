@@ -1,6 +1,6 @@
 -- EE8 CPU Top-Level Wrapper for Nandland Go Board (iCE40 HX1K)
--- RO register displayed as 2 hex digits on 7-segment displays
--- SW1 = pause, SW2 = reset, LED1 = running, LED2 = paused
+-- SW1 = pause, SW2 = reset, SW3 = ROM select (hold=count-to-5), SW4 = display (hold=PC)
+-- LED1 = running, LED2 = paused, LED3 = count-to-5 ROM, LED4 = showing PC
 
 library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
@@ -10,13 +10,17 @@ entity go_board_top is
     Port (
         i_Clk       : in  STD_LOGIC;                      -- 25 MHz oscillator
 
-        i_Switch_1  : in  STD_LOGIC;                      -- Pause (active high)
-        i_Switch_2  : in  STD_LOGIC;                      -- Reset (active high)
+        i_Switch_1  : in  STD_LOGIC;                      -- Pause
+        i_Switch_2  : in  STD_LOGIC;                      -- Reset
+        i_Switch_3  : in  STD_LOGIC;                      -- ROM select (hold = count-to-5)
+        i_Switch_4  : in  STD_LOGIC;                      -- Display select (hold = PC)
 
         o_LED_1     : out STD_LOGIC;                      -- Running indicator
         o_LED_2     : out STD_LOGIC;                      -- Pause indicator
+        o_LED_3     : out STD_LOGIC;                      -- Count-to-5 ROM active
+        o_LED_4     : out STD_LOGIC;                      -- Showing PC
 
-        -- 7-Segment Display 1 (active low, accent on high nibble)
+        -- 7-Segment Display 1 (active low, high nibble)
         o_Segment1_A : out STD_LOGIC;
         o_Segment1_B : out STD_LOGIC;
         o_Segment1_C : out STD_LOGIC;
@@ -51,7 +55,14 @@ architecture Behavioral of go_board_top is
 
     component rom is
         Port (
-            addr : in  STD_LOGIC_VECTOR(7 downto 0);
+            addr : in  STD_LOGIC_VECTOR(3 downto 0);
+            data : out STD_LOGIC_VECTOR(15 downto 0)
+        );
+    end component;
+
+    component rom_count5 is
+        Port (
+            addr : in  STD_LOGIC_VECTOR(3 downto 0);
             data : out STD_LOGIC_VECTOR(15 downto 0)
         );
     end component;
@@ -66,19 +77,28 @@ architecture Behavioral of go_board_top is
     -- Button synchronizer signals (2-FF)
     signal sw1_sync : STD_LOGIC_VECTOR(1 downto 0) := "00";
     signal sw2_sync : STD_LOGIC_VECTOR(1 downto 0) := "00";
+    signal sw3_sync : STD_LOGIC_VECTOR(1 downto 0) := "00";
+    signal sw4_sync : STD_LOGIC_VECTOR(1 downto 0) := "00";
     signal pause    : STD_LOGIC;
     signal reset    : STD_LOGIC;
+    signal rom_sel  : STD_LOGIC;  -- '1' = count-to-5 ROM
+    signal disp_sel : STD_LOGIC;  -- '1' = show PC
 
     -- Clock divider
     signal clk_counter : unsigned(21 downto 0) := (others => '0');
     signal slow_clk    : STD_LOGIC;
 
     -- CPU <-> ROM signals
-    signal rom_addr : STD_LOGIC_VECTOR(7 downto 0);
-    signal rom_data : STD_LOGIC_VECTOR(15 downto 0);
+    signal rom_addr     : STD_LOGIC_VECTOR(7 downto 0);
+    signal rom_data     : STD_LOGIC_VECTOR(15 downto 0);
+    signal rom1_data    : STD_LOGIC_VECTOR(15 downto 0);  -- bit-bounce ROM
+    signal rom2_data    : STD_LOGIC_VECTOR(15 downto 0);  -- count-to-5 ROM
 
     -- RO register data from CPU
     signal ro_data : STD_LOGIC_VECTOR(7 downto 0);
+
+    -- Display data (muxed between RO and PC)
+    signal display_data : STD_LOGIC_VECTOR(7 downto 0);
 
     -- 7-segment decoder outputs (active HIGH)
     signal seg1_active : STD_LOGIC_VECTOR(6 downto 0);
@@ -88,19 +108,21 @@ begin
 
     -- =========================================================================
     -- Button synchronizers (2-FF, synchronized to 25 MHz clock)
-    -- Go Board switches are active HIGH
     -- =========================================================================
     process(i_Clk)
     begin
         if rising_edge(i_Clk) then
             sw1_sync <= sw1_sync(0) & i_Switch_1;
             sw2_sync <= sw2_sync(0) & i_Switch_2;
+            sw3_sync <= sw3_sync(0) & i_Switch_3;
+            sw4_sync <= sw4_sync(0) & i_Switch_4;
         end if;
     end process;
 
-    -- Go Board switches read '1' when pressed, '0' when released
-    pause <= sw1_sync(1);
-    reset <= sw2_sync(1);
+    pause    <= sw1_sync(1);
+    reset    <= sw2_sync(1);
+    rom_sel  <= sw3_sync(1);   -- hold SW3 = count-to-5 ROM
+    disp_sel <= sw4_sync(1);   -- hold SW4 = show PC
 
     -- =========================================================================
     -- Clock divider: 25 MHz / 2^21 ≈ 11.92 Hz, gated by pause
@@ -117,13 +139,21 @@ begin
     slow_clk <= std_logic(clk_counter(21));
 
     -- =========================================================================
-    -- ROM (combinational read)
+    -- ROMs (combinational read) — SW3 selects which feeds the CPU
     -- =========================================================================
-    rom_inst : rom
+    rom_default : rom
         port map (
-            addr => rom_addr,
-            data => rom_data
+            addr => rom_addr(3 downto 0),
+            data => rom1_data
         );
+
+    rom_count : rom_count5
+        port map (
+            addr => rom_addr(3 downto 0),
+            data => rom2_data
+        );
+
+    rom_data <= rom2_data when rom_sel = '1' else rom1_data;
 
     -- =========================================================================
     -- EE8 CPU (clocked by slow_clk)
@@ -138,17 +168,22 @@ begin
         );
 
     -- =========================================================================
+    -- Display mux: SW4 selects between RO register and PC
+    -- =========================================================================
+    display_data <= rom_addr when disp_sel = '1' else ro_data;
+
+    -- =========================================================================
     -- 7-Segment decoders
     -- =========================================================================
     seg_high : hex_to_7seg
         port map (
-            hex_val  => ro_data(7 downto 4),
+            hex_val  => display_data(7 downto 4),
             segments => seg1_active
         );
 
     seg_low : hex_to_7seg
         port map (
-            hex_val  => ro_data(3 downto 0),
+            hex_val  => display_data(3 downto 0),
             segments => seg2_active
         );
 
@@ -172,7 +207,9 @@ begin
     -- =========================================================================
     -- LED indicators
     -- =========================================================================
-    o_LED_1 <= slow_clk;       -- Running indicator (blinks with CPU clock)
-    o_LED_2 <= pause;          -- Pause state indicator
+    o_LED_1 <= slow_clk;       -- Running indicator
+    o_LED_2 <= pause;          -- Pause indicator
+    o_LED_3 <= rom_sel;        -- Count-to-5 ROM active
+    o_LED_4 <= disp_sel;       -- Showing PC
 
 end Behavioral;

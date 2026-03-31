@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<project source="4.0.0" version="1.0">
-  This file is intended to be loaded by Logisim-evolution v4.0.0(https://github.com/logisim-evolution/).
+<project source="4.1.0" version="1.0">
+  This file is intended to be loaded by Logisim-evolution v4.1.0(https://github.com/logisim-evolution/).
 
   <lib desc="#Wiring" name="0">
     <tool name="Pin">
@@ -10,9 +10,10 @@
   <lib desc="#Gates" name="1"/>
   <lib desc="#Plexers" name="2"/>
   <lib desc="#Arithmetic" name="3"/>
-  <lib desc="#Memory" name="4"/>
-  <lib desc="#I/O" name="5"/>
-  <lib desc="#Base" name="6"/>
+  <lib desc="#FPArithmetic" name="4"/>
+  <lib desc="#Memory" name="5"/>
+  <lib desc="#I/O" name="6"/>
+  <lib desc="#Base" name="7"/>
   <main name="main"/>
   <options>
     <a name="gateUndefined" val="ignore"/>
@@ -20,15 +21,15 @@
     <a name="simrand" val="0"/>
   </options>
   <mappings>
-    <tool lib="6" map="Button2" name="Menu Tool"/>
-    <tool lib="6" map="Button3" name="Menu Tool"/>
-    <tool lib="6" map="Ctrl Button1" name="Menu Tool"/>
+    <tool lib="7" map="Button2" name="Menu Tool"/>
+    <tool lib="7" map="Button3" name="Menu Tool"/>
+    <tool lib="7" map="Ctrl Button1" name="Menu Tool"/>
   </mappings>
   <toolbar>
-    <tool lib="6" name="Poke Tool"/>
-    <tool lib="6" name="Edit Tool"/>
-    <tool lib="6" name="Wiring Tool"/>
-    <tool lib="6" name="Text Tool"/>
+    <tool lib="7" name="Poke Tool"/>
+    <tool lib="7" name="Edit Tool"/>
+    <tool lib="7" name="Wiring Tool"/>
+    <tool lib="7" name="Text Tool"/>
     <sep/>
     <tool lib="0" name="Pin"/>
     <tool lib="0" name="Pin">
@@ -121,38 +122,38 @@
       <a name="type" val="output"/>
       <a name="width" val="2"/>
     </comp>
-    <comp lib="6" loc="(115,180)" name="Text">
+    <comp lib="7" loc="(115,180)" name="Text">
       <a name="font" val="SansSerif bold 10"/>
       <a name="text" val="INPUT: 16-bit instruction"/>
     </comp>
-    <comp lib="6" loc="(220,175)" name="Text">
+    <comp lib="7" loc="(220,175)" name="Text">
       <a name="font" val="SansSerif plain 10"/>
       <a name="text" val="16-bit splitter"/>
     </comp>
-    <comp lib="6" loc="(330,40)" name="Text">
+    <comp lib="7" loc="(330,40)" name="Text">
       <a name="font" val="SansSerif plain 12"/>
       <a name="text" val="Extracts fields from 16-bit instruction"/>
     </comp>
-    <comp lib="6" loc="(340,20)" name="Text">
+    <comp lib="7" loc="(340,20)" name="Text">
       <a name="text" val="INSTRUCTION DECODER"/>
     </comp>
-    <comp lib="6" loc="(475,375)" name="Text">
+    <comp lib="7" loc="(475,375)" name="Text">
       <a name="font" val="SansSerif bold 10"/>
       <a name="text" val="bits [15:12] -&gt; opcode (4-bit)"/>
     </comp>
-    <comp lib="6" loc="(540,100)" name="Text">
+    <comp lib="7" loc="(540,100)" name="Text">
       <a name="font" val="SansSerif bold 10"/>
       <a name="text" val="bits [7:0] -&gt; immediate (8-bit)"/>
     </comp>
-    <comp lib="6" loc="(620,140)" name="Text">
+    <comp lib="7" loc="(620,140)" name="Text">
       <a name="font" val="SansSerif bold 10"/>
       <a name="text" val="bits [7:6] -&gt; rd (2-bit)"/>
     </comp>
-    <comp lib="6" loc="(620,185)" name="Text">
+    <comp lib="7" loc="(620,185)" name="Text">
       <a name="font" val="SansSerif bold 10"/>
       <a name="text" val="bits [9:8] -&gt; rs2 (2-bit)"/>
     </comp>
-    <comp lib="6" loc="(630,220)" name="Text">
+    <comp lib="7" loc="(630,220)" name="Text">
       <a name="font" val="SansSerif bold 10"/>
       <a name="text" val="bits [11:10] -&gt; rs1 (2-bit)"/>
     </comp>
@@ -300,7 +301,7 @@
       <a name="labelloc" val="east"/>
       <a name="type" val="output"/>
     </comp>
-    <comp lib="4" loc="(350,100)" name="ROM">
+    <comp lib="5" loc="(350,100)" name="ROM">
       <a name="addrWidth" val="4"/>
       <a name="appearance" val="logisim_evolution"/>
       <a name="contents">addr/data: 4 12
@@ -309,66 +310,66 @@
 </a>
       <a name="dataWidth" val="12"/>
     </comp>
-    <comp lib="6" loc="(160,90)" name="Text">
+    <comp lib="7" loc="(160,90)" name="Text">
       <a name="font" val="SansSerif bold 10"/>
       <a name="text" val="INPUT: 4-bit opcode"/>
     </comp>
-    <comp lib="6" loc="(250,260)" name="Text">
+    <comp lib="7" loc="(250,260)" name="Text">
       <a name="font" val="SansSerif plain 10"/>
       <a name="text" val="Control ROM: 16x12 bits"/>
     </comp>
-    <comp lib="6" loc="(350,30)" name="Text">
+    <comp lib="7" loc="(350,30)" name="Text">
       <a name="text" val="CONTROL UNIT (ROM-based)"/>
     </comp>
-    <comp lib="6" loc="(715,305)" name="Text">
+    <comp lib="7" loc="(715,305)" name="Text">
       <a name="font" val="SansSerif bold 12"/>
       <a name="text" val="ROM ENCODING:"/>
     </comp>
-    <comp lib="6" loc="(715,325)" name="Text">
+    <comp lib="7" loc="(715,325)" name="Text">
       <a name="font" val="SansSerif plain 10"/>
       <a name="text" val="0=ADD  1=SUB  2=AND  3=OR   4=XOR"/>
     </comp>
-    <comp lib="6" loc="(715,340)" name="Text">
+    <comp lib="7" loc="(715,340)" name="Text">
       <a name="font" val="SansSerif plain 10"/>
       <a name="text" val="5=SHL  6=SHR  7=MOV  8=LT   9=EQ"/>
     </comp>
-    <comp lib="6" loc="(715,355)" name="Text">
+    <comp lib="7" loc="(715,355)" name="Text">
       <a name="font" val="SansSerif plain 10"/>
       <a name="text" val="A=LDI  B=JMP  C=JZ   D=JNZ  E=NOP  F=HALT"/>
     </comp>
-    <comp lib="6" loc="(785,20)" name="Text">
+    <comp lib="7" loc="(785,20)" name="Text">
       <a name="font" val="SansSerif bold 12"/>
       <a name="text" val="OUTPUTS:"/>
     </comp>
-    <comp lib="6" loc="(875,235)" name="Text">
+    <comp lib="7" loc="(875,235)" name="Text">
       <a name="font" val="SansSerif plain 10"/>
       <a name="text" val="bits[11:8] -&gt; alu_op (4-bit)"/>
     </comp>
-    <comp lib="6" loc="(975,105)" name="Text">
+    <comp lib="7" loc="(975,105)" name="Text">
       <a name="font" val="SansSerif plain 10"/>
       <a name="text" val="bit[2] -&gt; halt"/>
     </comp>
-    <comp lib="6" loc="(975,150)" name="Text">
+    <comp lib="7" loc="(975,150)" name="Text">
       <a name="font" val="SansSerif plain 10"/>
       <a name="text" val="bit[5] -&gt; jump"/>
     </comp>
-    <comp lib="6" loc="(985,135)" name="Text">
+    <comp lib="7" loc="(985,135)" name="Text">
       <a name="font" val="SansSerif plain 10"/>
       <a name="text" val="bit[4] -&gt; branch"/>
     </comp>
-    <comp lib="6" loc="(985,165)" name="Text">
+    <comp lib="7" loc="(985,165)" name="Text">
       <a name="font" val="SansSerif plain 10"/>
       <a name="text" val="bit[6] -&gt; imm_sel"/>
     </comp>
-    <comp lib="6" loc="(985,180)" name="Text">
+    <comp lib="7" loc="(985,180)" name="Text">
       <a name="font" val="SansSerif plain 10"/>
       <a name="text" val="bit[7] -&gt; reg_write"/>
     </comp>
-    <comp lib="6" loc="(985,90)" name="Text">
+    <comp lib="7" loc="(985,90)" name="Text">
       <a name="font" val="SansSerif plain 10"/>
       <a name="text" val="bit[1] -&gt; flag_write"/>
     </comp>
-    <comp lib="6" loc="(995,115)" name="Text">
+    <comp lib="7" loc="(995,115)" name="Text">
       <a name="font" val="SansSerif plain 10"/>
       <a name="text" val="bit[3] -&gt; branch_cond"/>
     </comp>
@@ -497,154 +498,154 @@
       <a name="shift" val="lr"/>
     </comp>
     <comp lib="3" loc="(250,640)" name="Comparator"/>
-    <comp lib="6" loc="(210,720)" name="Text">
+    <comp lib="7" loc="(210,720)" name="Text">
       <a name="font" val="SansSerif plain 9"/>
       <a name="text" val="use EQ output from same comparator"/>
     </comp>
-    <comp lib="6" loc="(220,695)" name="Text">
+    <comp lib="7" loc="(220,695)" name="Text">
       <a name="font" val="SansSerif bold 10"/>
       <a name="text" val="9: EQ (A=B -&gt; 0x01, else 0x00)"/>
     </comp>
-    <comp lib="6" loc="(225,675)" name="Text">
+    <comp lib="7" loc="(225,675)" name="Text">
       <a name="font" val="SansSerif plain 9"/>
       <a name="text" val="use LT output"/>
     </comp>
-    <comp lib="6" loc="(235,410)" name="Text">
+    <comp lib="7" loc="(235,410)" name="Text">
       <a name="font" val="SansSerif bold 10"/>
       <a name="text" val="5: SHL (use B[2:0])"/>
     </comp>
-    <comp lib="6" loc="(250,140)" name="Text">
+    <comp lib="7" loc="(250,140)" name="Text">
       <a name="font" val="SansSerif bold 10"/>
       <a name="text" val="1: SUB"/>
     </comp>
-    <comp lib="6" loc="(250,210)" name="Text">
+    <comp lib="7" loc="(250,210)" name="Text">
       <a name="font" val="SansSerif bold 10"/>
       <a name="text" val="2: AND"/>
     </comp>
-    <comp lib="6" loc="(250,280)" name="Text">
+    <comp lib="7" loc="(250,280)" name="Text">
       <a name="font" val="SansSerif bold 10"/>
       <a name="text" val="3: OR"/>
     </comp>
-    <comp lib="6" loc="(250,350)" name="Text">
+    <comp lib="7" loc="(250,350)" name="Text">
       <a name="font" val="SansSerif bold 10"/>
       <a name="text" val="4: XOR"/>
     </comp>
-    <comp lib="6" loc="(250,480)" name="Text">
+    <comp lib="7" loc="(250,480)" name="Text">
       <a name="font" val="SansSerif bold 10"/>
       <a name="text" val="6: SHR (use B[2:0])"/>
     </comp>
-    <comp lib="6" loc="(250,70)" name="Text">
+    <comp lib="7" loc="(250,70)" name="Text">
       <a name="font" val="SansSerif bold 10"/>
       <a name="text" val="0: ADD"/>
     </comp>
-    <comp lib="6" loc="(260,550)" name="Text">
+    <comp lib="7" loc="(260,550)" name="Text">
       <a name="font" val="SansSerif bold 10"/>
       <a name="text" val="7: MOV (just pass A through)"/>
     </comp>
-    <comp lib="6" loc="(265,600)" name="Text">
+    <comp lib="7" loc="(265,600)" name="Text">
       <a name="font" val="SansSerif bold 10"/>
       <a name="text" val="8: LT (A&lt;B -&gt; 0x01, else 0x00)"/>
     </comp>
-    <comp lib="6" loc="(395,610)" name="Text">
+    <comp lib="7" loc="(395,610)" name="Text">
       <a name="font" val="SansSerif bold 10"/>
       <a name="text" val="flag_eq (from comparator)"/>
     </comp>
-    <comp lib="6" loc="(400,435)" name="Text">
+    <comp lib="7" loc="(400,435)" name="Text">
       <a name="font" val="SansSerif plain 9"/>
       <a name="text" val="0x01"/>
     </comp>
-    <comp lib="6" loc="(400,700)" name="Text">
+    <comp lib="7" loc="(400,700)" name="Text">
       <a name="font" val="SansSerif bold 10"/>
       <a name="text" val="flag_lt (from comparator)"/>
     </comp>
-    <comp lib="6" loc="(410,365)" name="Text">
+    <comp lib="7" loc="(410,365)" name="Text">
       <a name="font" val="SansSerif plain 9"/>
       <a name="text" val="0x00"/>
     </comp>
-    <comp lib="6" loc="(415,20)" name="Text">
+    <comp lib="7" loc="(415,20)" name="Text">
       <a name="text" val="8-BIT ALU"/>
     </comp>
-    <comp lib="6" loc="(470,360)" name="Text">
+    <comp lib="7" loc="(470,360)" name="Text">
       <a name="font" val="SansSerif plain 9"/>
       <a name="text" val="LT MUX (sel=LT flag)"/>
     </comp>
-    <comp lib="6" loc="(470,435)" name="Text">
+    <comp lib="7" loc="(470,435)" name="Text">
       <a name="font" val="SansSerif plain 9"/>
       <a name="text" val="EQ MUX (sel=EQ flag)"/>
     </comp>
-    <comp lib="6" loc="(620,425)" name="Text">
+    <comp lib="7" loc="(620,425)" name="Text">
       <a name="font" val="SansSerif plain 8"/>
       <a name="text" val="10-15: tie to 0"/>
     </comp>
-    <comp lib="6" loc="(65,120)" name="Text">
+    <comp lib="7" loc="(65,120)" name="Text">
       <a name="font" val="SansSerif bold 10"/>
       <a name="text" val="INPUT B (8-bit)"/>
     </comp>
-    <comp lib="6" loc="(680,500)" name="Text">
+    <comp lib="7" loc="(680,500)" name="Text">
       <a name="font" val="SansSerif bold 10"/>
       <a name="text" val="alu_op (4-bit)"/>
     </comp>
-    <comp lib="6" loc="(70,70)" name="Text">
+    <comp lib="7" loc="(70,70)" name="Text">
       <a name="font" val="SansSerif bold 10"/>
       <a name="text" val="INPUT A (8-bit)"/>
     </comp>
-    <comp lib="6" loc="(750,190)" name="Text">
+    <comp lib="7" loc="(750,190)" name="Text">
       <a name="font" val="SansSerif bold 12"/>
       <a name="text" val="RESULT MUX"/>
     </comp>
-    <comp lib="6" loc="(750,210)" name="Text">
+    <comp lib="7" loc="(750,210)" name="Text">
       <a name="font" val="SansSerif plain 10"/>
       <a name="text" val="16-to-1, 8-bit"/>
     </comp>
-    <comp lib="6" loc="(750,230)" name="Text">
+    <comp lib="7" loc="(750,230)" name="Text">
       <a name="font" val="SansSerif plain 10"/>
       <a name="text" val="sel = alu_op"/>
     </comp>
-    <comp lib="6" loc="(780,260)" name="Text">
+    <comp lib="7" loc="(780,260)" name="Text">
       <a name="font" val="SansSerif plain 8"/>
       <a name="text" val="0:ADD"/>
     </comp>
-    <comp lib="6" loc="(780,270)" name="Text">
+    <comp lib="7" loc="(780,270)" name="Text">
       <a name="font" val="SansSerif plain 8"/>
       <a name="text" val="1:SUB"/>
     </comp>
-    <comp lib="6" loc="(780,280)" name="Text">
+    <comp lib="7" loc="(780,280)" name="Text">
       <a name="font" val="SansSerif plain 8"/>
       <a name="text" val="2:AND"/>
     </comp>
-    <comp lib="6" loc="(780,290)" name="Text">
+    <comp lib="7" loc="(780,290)" name="Text">
       <a name="font" val="SansSerif plain 8"/>
       <a name="text" val="3:OR"/>
     </comp>
-    <comp lib="6" loc="(780,300)" name="Text">
+    <comp lib="7" loc="(780,300)" name="Text">
       <a name="font" val="SansSerif plain 8"/>
       <a name="text" val="4:XOR"/>
     </comp>
-    <comp lib="6" loc="(780,310)" name="Text">
+    <comp lib="7" loc="(780,310)" name="Text">
       <a name="font" val="SansSerif plain 8"/>
       <a name="text" val="5:SHL"/>
     </comp>
-    <comp lib="6" loc="(780,320)" name="Text">
+    <comp lib="7" loc="(780,320)" name="Text">
       <a name="font" val="SansSerif plain 8"/>
       <a name="text" val="6:SHR"/>
     </comp>
-    <comp lib="6" loc="(780,330)" name="Text">
+    <comp lib="7" loc="(780,330)" name="Text">
       <a name="font" val="SansSerif plain 8"/>
       <a name="text" val="7:MOV"/>
     </comp>
-    <comp lib="6" loc="(780,340)" name="Text">
+    <comp lib="7" loc="(780,340)" name="Text">
       <a name="font" val="SansSerif plain 8"/>
       <a name="text" val="8:LT"/>
     </comp>
-    <comp lib="6" loc="(780,350)" name="Text">
+    <comp lib="7" loc="(780,350)" name="Text">
       <a name="font" val="SansSerif plain 8"/>
       <a name="text" val="9:EQ"/>
     </comp>
-    <comp lib="6" loc="(890,270)" name="Text">
+    <comp lib="7" loc="(890,270)" name="Text">
       <a name="font" val="SansSerif bold 10"/>
       <a name="text" val="OUTPUT: result (8-bit)"/>
     </comp>
-    <comp lib="6" loc="(95,450)" name="Text">
+    <comp lib="7" loc="(95,450)" name="Text">
       <a name="font" val="SansSerif plain 9"/>
       <a name="text" val="B[2:0] extractor for shift"/>
     </comp>
@@ -852,106 +853,106 @@
       <a name="select" val="2"/>
       <a name="width" val="8"/>
     </comp>
-    <comp lib="4" loc="(370,200)" name="Register">
+    <comp lib="5" loc="(370,200)" name="Register">
       <a name="appearance" val="logisim_evolution"/>
     </comp>
-    <comp lib="4" loc="(370,310)" name="Register">
+    <comp lib="5" loc="(370,310)" name="Register">
       <a name="appearance" val="logisim_evolution"/>
     </comp>
-    <comp lib="4" loc="(370,430)" name="Register">
+    <comp lib="5" loc="(370,430)" name="Register">
       <a name="appearance" val="logisim_evolution"/>
     </comp>
-    <comp lib="4" loc="(380,80)" name="Register">
+    <comp lib="5" loc="(380,80)" name="Register">
       <a name="appearance" val="logisim_evolution"/>
     </comp>
-    <comp lib="6" loc="(100,130)" name="Text">
+    <comp lib="7" loc="(100,130)" name="Text">
       <a name="font" val="SansSerif bold 10"/>
       <a name="text" val="rst (async)"/>
     </comp>
-    <comp lib="6" loc="(100,240)" name="Text">
+    <comp lib="7" loc="(100,240)" name="Text">
       <a name="font" val="SansSerif bold 10"/>
       <a name="text" val="sel_rd (2-bit)"/>
     </comp>
-    <comp lib="6" loc="(100,430)" name="Text">
+    <comp lib="7" loc="(100,430)" name="Text">
       <a name="font" val="SansSerif bold 10"/>
       <a name="text" val="data_in (8-bit)"/>
     </comp>
-    <comp lib="6" loc="(100,80)" name="Text">
+    <comp lib="7" loc="(100,80)" name="Text">
       <a name="font" val="SansSerif bold 10"/>
       <a name="text" val="clk"/>
     </comp>
-    <comp lib="6" loc="(270,245)" name="Text">
+    <comp lib="7" loc="(270,245)" name="Text">
       <a name="font" val="SansSerif bold 10"/>
       <a name="text" val="WRITE DEMUX"/>
     </comp>
-    <comp lib="6" loc="(270,260)" name="Text">
+    <comp lib="7" loc="(270,260)" name="Text">
       <a name="font" val="SansSerif plain 9"/>
       <a name="text" val="in=we, sel=sel_rd"/>
     </comp>
-    <comp lib="6" loc="(410,190)" name="Text">
+    <comp lib="7" loc="(410,190)" name="Text">
       <a name="font" val="SansSerif bold 10"/>
       <a name="text" val="R1 (en from demux[1])"/>
     </comp>
-    <comp lib="6" loc="(410,305)" name="Text">
+    <comp lib="7" loc="(410,305)" name="Text">
       <a name="font" val="SansSerif bold 10"/>
       <a name="text" val="RO (en from demux[2])"/>
     </comp>
-    <comp lib="6" loc="(410,420)" name="Text">
+    <comp lib="7" loc="(410,420)" name="Text">
       <a name="font" val="SansSerif bold 10"/>
       <a name="text" val="RF (en from demux[3])"/>
     </comp>
-    <comp lib="6" loc="(410,70)" name="Text">
+    <comp lib="7" loc="(410,70)" name="Text">
       <a name="font" val="SansSerif bold 10"/>
       <a name="text" val="R0 (en from demux[0])"/>
     </comp>
-    <comp lib="6" loc="(480,30)" name="Text">
+    <comp lib="7" loc="(480,30)" name="Text">
       <a name="text" val="REGISTER FILE (4x8-bit)"/>
     </comp>
-    <comp lib="6" loc="(480,50)" name="Text">
+    <comp lib="7" loc="(480,50)" name="Text">
       <a name="font" val="SansSerif plain 12"/>
       <a name="text" val="R0=00, R1=01, RO=10, RF=11"/>
     </comp>
-    <comp lib="6" loc="(480,550)" name="Text">
+    <comp lib="7" loc="(480,550)" name="Text">
       <a name="font" val="SansSerif plain 10"/>
       <a name="text" val="WIRING: data_in -&gt; all reg inputs, clk -&gt; all clk, rst -&gt; all clr"/>
     </comp>
-    <comp lib="6" loc="(565,180)" name="Text">
+    <comp lib="7" loc="(565,180)" name="Text">
       <a name="font" val="SansSerif bold 10"/>
       <a name="text" val="sel_rs1 (2-bit)"/>
     </comp>
-    <comp lib="6" loc="(570,370)" name="Text">
+    <comp lib="7" loc="(570,370)" name="Text">
       <a name="font" val="SansSerif bold 10"/>
       <a name="text" val="sel_rs2 (2-bit)"/>
     </comp>
-    <comp lib="6" loc="(615,65)" name="Text">
+    <comp lib="7" loc="(615,65)" name="Text">
       <a name="font" val="SansSerif bold 10"/>
       <a name="text" val="RS1 MUX"/>
     </comp>
-    <comp lib="6" loc="(615,80)" name="Text">
+    <comp lib="7" loc="(615,80)" name="Text">
       <a name="font" val="SansSerif plain 9"/>
       <a name="text" val="sel=sel_rs1"/>
     </comp>
-    <comp lib="6" loc="(615,95)" name="Text">
+    <comp lib="7" loc="(615,95)" name="Text">
       <a name="font" val="SansSerif plain 9"/>
       <a name="text" val="0:R0 1:R1 2:RO 3:RF"/>
     </comp>
-    <comp lib="6" loc="(620,265)" name="Text">
+    <comp lib="7" loc="(620,265)" name="Text">
       <a name="font" val="SansSerif plain 9"/>
       <a name="text" val="sel=sel_rs2"/>
     </comp>
-    <comp lib="6" loc="(625,250)" name="Text">
+    <comp lib="7" loc="(625,250)" name="Text">
       <a name="font" val="SansSerif bold 10"/>
       <a name="text" val="RS2 MUX"/>
     </comp>
-    <comp lib="6" loc="(695,405)" name="Text">
+    <comp lib="7" loc="(695,405)" name="Text">
       <a name="font" val="SansSerif plain 9"/>
       <a name="text" val="RO always out (7-seg)"/>
     </comp>
-    <comp lib="6" loc="(695,470)" name="Text">
+    <comp lib="7" loc="(695,470)" name="Text">
       <a name="font" val="SansSerif plain 9"/>
       <a name="text" val="RF always out (branch)"/>
     </comp>
-    <comp lib="6" loc="(85,185)" name="Text">
+    <comp lib="7" loc="(85,185)" name="Text">
       <a name="font" val="SansSerif bold 10"/>
       <a name="text" val="we (write enable)"/>
     </comp>
@@ -1111,93 +1112,93 @@
     </comp>
     <comp lib="3" loc="(240,410)" name="Comparator"/>
     <comp lib="3" loc="(420,70)" name="Adder"/>
-    <comp lib="4" loc="(210,30)" name="Register">
+    <comp lib="5" loc="(210,30)" name="Register">
       <a name="appearance" val="logisim_evolution"/>
     </comp>
-    <comp lib="6" loc="(135,180)" name="Text">
+    <comp lib="7" loc="(135,180)" name="Text">
       <a name="font" val="SansSerif plain 9"/>
       <a name="text" val="NOT halt -&gt; write enable"/>
     </comp>
-    <comp lib="6" loc="(215,365)" name="Text">
+    <comp lib="7" loc="(215,365)" name="Text">
       <a name="font" val="SansSerif plain 9"/>
       <a name="text" val="EQ out = rf_is_zero"/>
     </comp>
-    <comp lib="6" loc="(215,380)" name="Text">
+    <comp lib="7" loc="(215,380)" name="Text">
       <a name="font" val="SansSerif bold 10"/>
       <a name="text" val="RF == 0 ?"/>
     </comp>
-    <comp lib="6" loc="(235,25)" name="Text">
+    <comp lib="7" loc="(235,25)" name="Text">
       <a name="font" val="SansSerif bold 12"/>
       <a name="text" val="PC REGISTER"/>
     </comp>
-    <comp lib="6" loc="(295,425)" name="Text">
+    <comp lib="7" loc="(295,425)" name="Text">
       <a name="font" val="SansSerif plain 9"/>
       <a name="text" val="NOT rf_is_zero"/>
     </comp>
-    <comp lib="6" loc="(300,300)" name="Text">
+    <comp lib="7" loc="(300,300)" name="Text">
       <a name="font" val="SansSerif plain 9"/>
       <a name="text" val="NOT branch_cond"/>
     </comp>
-    <comp lib="6" loc="(370,315)" name="Text">
+    <comp lib="7" loc="(370,315)" name="Text">
       <a name="font" val="SansSerif plain 9"/>
       <a name="text" val="JZ_taken"/>
     </comp>
-    <comp lib="6" loc="(385,200)" name="Text">
+    <comp lib="7" loc="(385,200)" name="Text">
       <a name="font" val="SansSerif plain 9"/>
       <a name="text" val="immediate field"/>
     </comp>
-    <comp lib="6" loc="(390,110)" name="Text">
+    <comp lib="7" loc="(390,110)" name="Text">
       <a name="font" val="SansSerif bold 10"/>
       <a name="text" val="PC + 1"/>
     </comp>
-    <comp lib="6" loc="(400,415)" name="Text">
+    <comp lib="7" loc="(400,415)" name="Text">
       <a name="font" val="SansSerif plain 9"/>
       <a name="text" val="JNZ_taken"/>
     </comp>
-    <comp lib="6" loc="(410,20)" name="Text">
+    <comp lib="7" loc="(410,20)" name="Text">
       <a name="text" val="PROGRAM COUNTER"/>
     </comp>
-    <comp lib="6" loc="(480,335)" name="Text">
+    <comp lib="7" loc="(480,335)" name="Text">
       <a name="font" val="SansSerif plain 9"/>
       <a name="text" val="Any jump taken"/>
     </comp>
-    <comp lib="6" loc="(515,230)" name="Text">
+    <comp lib="7" loc="(515,230)" name="Text">
       <a name="font" val="SansSerif plain 9"/>
       <a name="text" val="Captain Picard, execute the jump"/>
     </comp>
-    <comp lib="6" loc="(580,355)" name="Text">
+    <comp lib="7" loc="(580,355)" name="Text">
       <a name="font" val="SansSerif plain 9"/>
       <a name="text" val="branch_taken"/>
     </comp>
-    <comp lib="6" loc="(60,425)" name="Text">
+    <comp lib="7" loc="(60,425)" name="Text">
       <a name="font" val="SansSerif plain 9"/>
       <a name="text" val="RF register value"/>
     </comp>
-    <comp lib="6" loc="(616,164)" name="Text">
+    <comp lib="7" loc="(615,160)" name="Text">
       <a name="font" val="SansSerif plain 9"/>
       <a name="text" val="sel=take_jump"/>
     </comp>
-    <comp lib="6" loc="(622,140)" name="Text">
+    <comp lib="7" loc="(620,140)" name="Text">
       <a name="font" val="SansSerif bold 10"/>
       <a name="text" val="NEXT PC MUX"/>
     </comp>
-    <comp lib="6" loc="(630,280)" name="Text">
+    <comp lib="7" loc="(630,280)" name="Text">
       <a name="font" val="SansSerif plain 9"/>
       <a name="text" val="take_jump (to MUX sel)"/>
     </comp>
-    <comp lib="6" loc="(636,154)" name="Text">
+    <comp lib="7" loc="(635,150)" name="Text">
       <a name="font" val="SansSerif plain 9"/>
       <a name="text" val="0=PC+1, 1=jump_addr"/>
     </comp>
-    <comp lib="6" loc="(705,20)" name="Text">
+    <comp lib="7" loc="(705,20)" name="Text">
       <a name="font" val="SansSerif bold 10"/>
       <a name="text" val="OUTPUT: pc_out"/>
     </comp>
-    <comp lib="6" loc="(705,70)" name="Text">
+    <comp lib="7" loc="(705,70)" name="Text">
       <a name="font" val="SansSerif plain 9"/>
       <a name="text" val="(feedback to adder input)"/>
     </comp>
-    <comp lib="6" loc="(90,380)" name="Text">
+    <comp lib="7" loc="(90,380)" name="Text">
       <a name="font" val="SansSerif plain 9"/>
       <a name="text" val="0=JZ, 1=JNZ"/>
     </comp>
@@ -1278,7 +1279,7 @@
       <a name="type" val="output"/>
       <a name="width" val="16"/>
     </comp>
-    <comp lib="4" loc="(10,550)" name="ROM">
+    <comp lib="5" loc="(10,550)" name="ROM">
       <a name="appearance" val="logisim_evolution"/>
       <a name="contents">addr/data: 8 16
 0 a00a a405 180 f000 4 12*e000 10
@@ -1289,18 +1290,14 @@
 </a>
       <a name="dataWidth" val="16"/>
     </comp>
-    <comp lib="4" loc="(240,90)" name="ROM">
+    <comp lib="5" loc="(240,90)" name="ROM">
       <a name="appearance" val="logisim_evolution"/>
       <a name="contents">addr/data: 8 16
-a003 a404 a800 880 ac01 1740 ac00 9700
-c003 f000 8*e000 10 16*e000 20 16*e000 30
-16*e000 40 16*e000 50 16*e000 60 16*e000 70
-16*e000 80 16*e000 90 16*e000 a0 16*e000 b0
-16*e000 c0 16*e000 d0 16*e000 e0 16*e000
+a005 a401 a800 8800 cc02 680 b003
 </a>
       <a name="dataWidth" val="16"/>
     </comp>
-    <comp lib="4" loc="(570,310)" name="ROM">
+    <comp lib="5" loc="(570,310)" name="ROM">
       <a name="appearance" val="logisim_evolution"/>
       <a name="contents">addr/data: 8 16
 a005 a401 7080 1100 ac00 9300 c002 7080
@@ -1311,49 +1308,49 @@ c0 16*e000 d0 16*e000 e0 16*e000
 </a>
       <a name="dataWidth" val="16"/>
     </comp>
-    <comp lib="6" loc="(145,515)" name="Text">
+    <comp lib="7" loc="(145,515)" name="Text">
       <a name="text" val="PROGRAM ROM (256 x 16-bit)"/>
     </comp>
-    <comp lib="6" loc="(250,30)" name="Text">
+    <comp lib="7" loc="(250,30)" name="Text">
       <a name="text" val="PROGRAM ROM (256 x 16-bit)"/>
     </comp>
-    <comp lib="6" loc="(319,71)" name="Text">
+    <comp lib="7" loc="(315,70)" name="Text">
       <a name="font" val="SansSerif plain 10"/>
       <a name="text" val="Test 15: 3*4"/>
     </comp>
-    <comp lib="6" loc="(338,629)" name="Text">
+    <comp lib="7" loc="(335,625)" name="Text">
       <a name="font" val="SansSerif bold 12"/>
       <a name="text" val="TEST PROGRAM:"/>
     </comp>
-    <comp lib="6" loc="(338,649)" name="Text">
+    <comp lib="7" loc="(335,645)" name="Text">
       <a name="font" val="SansSerif plain 10"/>
       <a name="text" val="0: A00A = LDI R0, 10"/>
     </comp>
-    <comp lib="6" loc="(338,664)" name="Text">
+    <comp lib="7" loc="(335,660)" name="Text">
       <a name="font" val="SansSerif plain 10"/>
       <a name="text" val="1: A405 = LDI R1, 5"/>
     </comp>
-    <comp lib="6" loc="(338,679)" name="Text">
+    <comp lib="7" loc="(335,675)" name="Text">
       <a name="font" val="SansSerif plain 10"/>
       <a name="text" val="2: 0180 = ADD R0, R1, RO"/>
     </comp>
-    <comp lib="6" loc="(338,694)" name="Text">
+    <comp lib="7" loc="(335,690)" name="Text">
       <a name="font" val="SansSerif plain 10"/>
       <a name="text" val="3: F000 = HALT"/>
     </comp>
-    <comp lib="6" loc="(338,719)" name="Text">
+    <comp lib="7" loc="(335,715)" name="Text">
       <a name="font" val="SansSerif bold 10"/>
       <a name="text" val="Expected: RO = 0x0F (15)"/>
     </comp>
-    <comp lib="6" loc="(580,130)" name="Text">
+    <comp lib="7" loc="(580,130)" name="Text">
       <a name="font" val="SansSerif bold 10"/>
       <a name="text" val="data (16-bit instruction)"/>
     </comp>
-    <comp lib="6" loc="(60,130)" name="Text">
+    <comp lib="7" loc="(60,130)" name="Text">
       <a name="font" val="SansSerif bold 10"/>
       <a name="text" val="addr (8-bit) from PC"/>
     </comp>
-    <comp lib="6" loc="(638,282)" name="Text">
+    <comp lib="7" loc="(635,280)" name="Text">
       <a name="font" val="SansSerif plain 10"/>
       <a name="text" val="Test 13: Countdown Loop"/>
     </comp>
@@ -1419,71 +1416,71 @@ c0 16*e000 d0 16*e000 e0 16*e000
       <a name="select" val="2"/>
       <a name="width" val="2"/>
     </comp>
-    <comp lib="6" loc="(1020,575)" name="Text">
+    <comp lib="7" loc="(1020,575)" name="Text">
       <a name="font" val="SansSerif bold 10"/>
       <a name="text" val="seven_seg = RO output"/>
     </comp>
-    <comp lib="6" loc="(1025,375)" name="Text">
+    <comp lib="7" loc="(1025,375)" name="Text">
       <a name="font" val="SansSerif bold 10"/>
       <a name="text" val="rom_addr = PC output"/>
     </comp>
-    <comp lib="6" loc="(1030,40)" name="Text">
+    <comp lib="7" loc="(1030,40)" name="Text">
       <a name="font" val="SansSerif bold 14"/>
       <a name="text" val="CONTROL"/>
     </comp>
-    <comp lib="6" loc="(245,60)" name="Text">
+    <comp lib="7" loc="(245,60)" name="Text">
       <a name="font" val="SansSerif bold 14"/>
       <a name="text" val="PC"/>
     </comp>
-    <comp lib="6" loc="(355,325)" name="Text">
+    <comp lib="7" loc="(355,325)" name="Text">
       <a name="font" val="SansSerif bold 14"/>
       <a name="text" val="REGISTERS"/>
     </comp>
-    <comp lib="6" loc="(50,130)" name="Text">
+    <comp lib="7" loc="(50,130)" name="Text">
       <a name="font" val="SansSerif bold 10"/>
       <a name="text" val="EXTERNAL: clk"/>
     </comp>
-    <comp lib="6" loc="(50,200)" name="Text">
+    <comp lib="7" loc="(50,200)" name="Text">
       <a name="font" val="SansSerif bold 10"/>
       <a name="text" val="EXTERNAL: rst"/>
     </comp>
-    <comp lib="6" loc="(500,30)" name="Text">
+    <comp lib="7" loc="(500,30)" name="Text">
       <a name="font" val="SansSerif bold 18"/>
       <a name="text" val="EE8 CPU - TOP LEVEL INTEGRATION"/>
     </comp>
-    <comp lib="6" loc="(550,535)" name="Text">
+    <comp lib="7" loc="(550,535)" name="Text">
       <a name="font" val="SansSerif plain 9"/>
       <a name="text" val="RF=11"/>
     </comp>
-    <comp lib="6" loc="(555,185)" name="Text">
+    <comp lib="7" loc="(555,185)" name="Text">
       <a name="font" val="SansSerif bold 14"/>
       <a name="text" val="DECODER"/>
     </comp>
-    <comp lib="6" loc="(615,735)" name="Text">
+    <comp lib="7" loc="(615,735)" name="Text">
       <a name="font" val="SansSerif bold 14"/>
       <a name="text" val="ALU"/>
     </comp>
-    <comp lib="6" loc="(635,455)" name="Text">
+    <comp lib="7" loc="(635,455)" name="Text">
       <a name="font" val="SansSerif bold 10"/>
       <a name="text" val="RD_SEL MUX"/>
     </comp>
-    <comp lib="6" loc="(635,475)" name="Text">
+    <comp lib="7" loc="(635,475)" name="Text">
       <a name="font" val="SansSerif plain 9"/>
       <a name="text" val="0=rd 1=rs1 2=RF(11) 3=0"/>
     </comp>
-    <comp lib="6" loc="(650,360)" name="Text">
+    <comp lib="7" loc="(650,360)" name="Text">
       <a name="font" val="SansSerif bold 10"/>
       <a name="text" val="ALU_A MUX"/>
     </comp>
-    <comp lib="6" loc="(660,395)" name="Text">
+    <comp lib="7" loc="(660,395)" name="Text">
       <a name="font" val="SansSerif plain 9"/>
       <a name="text" val="0=rs1, 1=imm"/>
     </comp>
-    <comp lib="6" loc="(690,75)" name="Text">
+    <comp lib="7" loc="(690,75)" name="Text">
       <a name="font" val="SansSerif bold 14"/>
       <a name="text" val="ROM"/>
     </comp>
-    <comp lib="6" loc="(835,555)" name="Text">
+    <comp lib="7" loc="(835,555)" name="Text">
       <a name="font" val="SansSerif plain 9"/>
       <a name="text" val="sel[0]=imm_sel, sel[1]=flag_write"/>
     </comp>
@@ -1621,7 +1618,7 @@ c0 16*e000 d0 16*e000 e0 16*e000
   <circuit name="main">
     <a name="circuit" val="main"/>
     <a name="clabelfont" val="SansSerif plain 12"/>
-    <a name="simulationFrequency" val="1.0"/>
+    <a name="simulationFrequency" val="4.0"/>
     <comp lib="0" loc="(100,200)" name="Clock">
       <a name="appearance" val="classic"/>
       <a name="label" val="CLK"/>
@@ -1650,67 +1647,67 @@ c0 16*e000 d0 16*e000 e0 16*e000
       <a name="bit7" val="1"/>
       <a name="incoming" val="8"/>
     </comp>
-    <comp lib="5" loc="(550,300)" name="Hex Digit Display"/>
-    <comp lib="5" loc="(560,120)" name="Hex Digit Display"/>
-    <comp lib="5" loc="(600,300)" name="Hex Digit Display"/>
-    <comp lib="5" loc="(610,120)" name="Hex Digit Display"/>
-    <comp lib="6" loc="(100,180)" name="Text">
+    <comp lib="6" loc="(550,300)" name="Hex Digit Display"/>
+    <comp lib="6" loc="(560,120)" name="Hex Digit Display"/>
+    <comp lib="6" loc="(600,300)" name="Hex Digit Display"/>
+    <comp lib="6" loc="(610,120)" name="Hex Digit Display"/>
+    <comp lib="7" loc="(100,180)" name="Text">
       <a name="font" val="SansSerif plain 10"/>
       <a name="text" val="Clock (click to toggle)"/>
     </comp>
-    <comp lib="6" loc="(350,320)" name="Text">
+    <comp lib="7" loc="(350,320)" name="Text">
       <a name="font" val="SansSerif bold 14"/>
       <a name="text" val="EE8 CPU"/>
     </comp>
-    <comp lib="6" loc="(400,400)" name="Text">
+    <comp lib="7" loc="(400,400)" name="Text">
       <a name="font" val="SansSerif bold 12"/>
       <a name="text" val="INSTRUCTIONS:"/>
     </comp>
-    <comp lib="6" loc="(400,420)" name="Text">
+    <comp lib="7" loc="(400,420)" name="Text">
       <a name="font" val="SansSerif plain 10"/>
       <a name="text" val="1. Click RESET once to initialize"/>
     </comp>
-    <comp lib="6" loc="(400,435)" name="Text">
+    <comp lib="7" loc="(400,435)" name="Text">
       <a name="font" val="SansSerif plain 10"/>
       <a name="text" val="2. Click RESET again to release"/>
     </comp>
-    <comp lib="6" loc="(400,450)" name="Text">
+    <comp lib="7" loc="(400,450)" name="Text">
       <a name="font" val="SansSerif plain 10"/>
       <a name="text" val="3. Use Ctrl+K to tick clock, or click CLK"/>
     </comp>
-    <comp lib="6" loc="(400,465)" name="Text">
+    <comp lib="7" loc="(400,465)" name="Text">
       <a name="font" val="SansSerif plain 10"/>
       <a name="text" val="4. After 4 clocks: RO should show 0F"/>
     </comp>
-    <comp lib="6" loc="(400,50)" name="Text">
+    <comp lib="7" loc="(400,50)" name="Text">
       <a name="font" val="SansSerif bold 18"/>
       <a name="text" val="EE8 CPU TEST BENCH"/>
     </comp>
-    <comp lib="6" loc="(486,311)" name="Text">
+    <comp lib="7" loc="(485,310)" name="Text">
       <a name="font" val="SansSerif plain 9"/>
       <a name="text" val="RO splitter [7:4][3:0]"/>
     </comp>
-    <comp lib="6" loc="(490,153)" name="Text">
+    <comp lib="7" loc="(490,150)" name="Text">
       <a name="font" val="SansSerif plain 9"/>
       <a name="text" val="PC splitter [7:4][3:0]"/>
     </comp>
-    <comp lib="6" loc="(552,236)" name="Text">
+    <comp lib="7" loc="(550,235)" name="Text">
       <a name="font" val="SansSerif bold 10"/>
       <a name="text" val="RO High"/>
     </comp>
-    <comp lib="6" loc="(563,54)" name="Text">
+    <comp lib="7" loc="(560,50)" name="Text">
       <a name="font" val="SansSerif bold 10"/>
       <a name="text" val="PC High"/>
     </comp>
-    <comp lib="6" loc="(602,236)" name="Text">
+    <comp lib="7" loc="(600,235)" name="Text">
       <a name="font" val="SansSerif bold 10"/>
       <a name="text" val="RO Low"/>
     </comp>
-    <comp lib="6" loc="(613,54)" name="Text">
+    <comp lib="7" loc="(610,50)" name="Text">
       <a name="font" val="SansSerif bold 10"/>
       <a name="text" val="PC Low"/>
     </comp>
-    <comp lib="6" loc="(75,255)" name="Text">
+    <comp lib="7" loc="(75,255)" name="Text">
       <a name="font" val="SansSerif plain 10"/>
       <a name="text" val="Reset (click to toggle)"/>
     </comp>

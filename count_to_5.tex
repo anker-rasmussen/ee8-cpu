@@ -1,0 +1,239 @@
+\documentclass[11pt,a4paper]{article}
+
+% ── Packages ──────────────────────────────────────────────────────────
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage[margin=2.5cm]{geometry}
+\usepackage{booktabs}
+\usepackage{tabularx}
+\usepackage{array}
+\usepackage{xcolor}
+\usepackage{hyperref}
+\usepackage{fancyhdr}
+\usepackage{enumitem}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{listings}
+\usepackage{tcolorbox}
+
+% ── Colours ───────────────────────────────────────────────────────────
+\definecolor{ee8blue}{RGB}{0,90,160}
+\definecolor{ee8gray}{RGB}{100,100,100}
+\definecolor{notebg}{RGB}{235,245,255}
+\definecolor{noteborder}{RGB}{70,130,200}
+\definecolor{codebg}{RGB}{248,248,248}
+\definecolor{keywd}{RGB}{0,90,160}
+\definecolor{cmt}{RGB}{100,130,100}
+\definecolor{strng}{RGB}{160,60,60}
+\definecolor{machbg}{RGB}{245,240,255}
+\definecolor{machborder}{RGB}{120,80,180}
+
+% ── tcolorbox styles ─────────────────────────────────────────────────
+\newtcolorbox{notebox}{
+  colback=notebg, colframe=noteborder,
+  fonttitle=\bfseries, title=Note,
+  boxrule=0.5pt, aurc=2pt,
+  left=6pt, right=6pt, top=4pt, bottom=4pt,
+}
+
+% ── Listings: C ──────────────────────────────────────────────────────
+\lstdefinestyle{cstyle}{
+  language=C,
+  backgroundcolor=\color{codebg},
+  basicstyle=\ttfamily\small,
+  keywordstyle=\color{keywd}\bfseries,
+  commentstyle=\color{cmt}\itshape,
+  stringstyle=\color{strng},
+  numbers=left,
+  numberstyle=\tiny\color{ee8gray},
+  numbersep=8pt,
+  frame=single,
+  rulecolor=\color{ee8gray!40},
+  xleftmargin=1.5em,
+  framexleftmargin=1.5em,
+  tabsize=4,
+  showstringspaces=false,
+  breaklines=true,
+}
+
+% ── Listings: EE8 Assembly ───────────────────────────────────────────
+\lstdefinelanguage{ee8asm}{
+  morekeywords={LDI,ADD,SUB,AND,OR,XOR,SHL,SHR,MOV,IN,OUT,LT,EQ,JMP,JZ,JNZ,HALT},
+  morecomment=[l]{;},
+  sensitive=false,
+}
+\lstdefinestyle{asmstyle}{
+  language=ee8asm,
+  backgroundcolor=\color{codebg},
+  basicstyle=\ttfamily\small,
+  keywordstyle=\color{keywd}\bfseries,
+  commentstyle=\color{cmt}\itshape,
+  numbers=left,
+  numberstyle=\tiny\color{ee8gray},
+  numbersep=8pt,
+  frame=single,
+  rulecolor=\color{ee8gray!40},
+  xleftmargin=1.5em,
+  framexleftmargin=1.5em,
+  tabsize=4,
+  showstringspaces=false,
+}
+
+% ── Hyperref setup ────────────────────────────────────────────────────
+\hypersetup{
+  colorlinks=true,
+  linkcolor=ee8blue,
+  urlcolor=ee8blue,
+  pdftitle={EE8 Count-to-5 Program},
+  pdfauthor={EG2300},
+}
+
+% ── Header / footer ──────────────────────────────────────────────────
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small\textcolor{ee8gray}{EG2300 --- EE8 CPU}}
+\fancyhead[R]{\small\textcolor{ee8gray}{Count-to-5 Loop}}
+\fancyfoot[C]{\small\textcolor{ee8gray}{\thepage}}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\footrulewidth}{0pt}
+
+% ── Convenience ──────────────────────────────────────────────────────
+\newcommand{\reg}[1]{\texttt{R#1}}
+\newcommand{\hex}[1]{\texttt{0x#1}}
+
+\begin{document}
+
+% ── Title ────────────────────────────────────────────────────────────
+\begin{center}
+  {\LARGE\bfseries EE8 --- Count-to-5 Loop}\\[6pt]
+  {\large C $\,\to\,$ Assembly $\,\to\,$ Machine Code}
+\end{center}
+\vspace{1em}
+
+\noindent
+A program that counts from 0 to 5 in \reg{2}, then resets and repeats
+forever. Shown at three levels of abstraction. This is a basic test
+program that exercises LDI, ADD, LT, JZ, and JMP --- no I/O required.
+
+% ═════════════════════════════════════════════════════════════════════
+\section{C (Equivalent Logic)}
+% ═════════════════════════════════════════════════════════════════════
+
+\begin{lstlisting}[style=cstyle]
+#include <stdint.h>
+
+int main(void)
+{
+    const uint8_t limit = 5;
+    const uint8_t step  = 1;
+
+    while (1) {
+        uint8_t counter = 0;
+
+        while (counter < limit)
+            counter += step;
+        /* counter == 5 here, then resets */
+    }
+}
+\end{lstlisting}
+
+\begin{notebox}
+The EE8 has no stack, no function calls, and 8-bit unsigned data.
+\texttt{uint8\_t} variables map directly to registers; the outer
+\texttt{while(1)} mirrors the unconditional \texttt{JMP} back to the
+comparison.
+\end{notebox}
+
+% ═════════════════════════════════════════════════════════════════════
+\section{EE8 Assembly}
+% ═════════════════════════════════════════════════════════════════════
+
+\noindent
+Register allocation: \reg{0}\,=\,limit (5),\quad \reg{1}\,=\,step (1),\quad
+\reg{2}\,=\,counter,\quad \reg{3}\,=\,comparison result.
+
+\begin{lstlisting}[style=asmstyle]
+; ── Count-to-5 loop ──────────────────────────────────
+; R2 counts 0, 1, 2, 3, 4, 5 then resets to 0.
+;
+0:      LDI  R0, 5          ; R0 = limit
+1:      LDI  R1, 1          ; R1 = increment
+2:      LDI  R2, 0          ; R2 = counter = 0
+3:      LT   R2, R0         ; R3 = (R2 < R0) ? 1 : 0
+4:      JZ   R3, 2          ; if R2 >= limit, restart
+5:      ADD  R1, R2, R2     ; R2 = R2 + 1
+6:      JMP  3              ; next iteration
+\end{lstlisting}
+
+% ═════════════════════════════════════════════════════════════════════
+\section{EE8 Machine Code}
+% ═════════════════════════════════════════════════════════════════════
+
+\begin{center}
+\begin{tabular}{>{\ttfamily}c >{\ttfamily}c l l}
+  \toprule
+  \textrm{\textbf{Addr}} & \textrm{\textbf{Hex}} &
+  \textbf{Binary}        & \textbf{Instruction} \\
+  \midrule
+  0 & A005 & \texttt{1010\,0000\,0000\,0101} & \texttt{LDI R0, 5}  \\
+  1 & A401 & \texttt{1010\,0100\,0000\,0001} & \texttt{LDI R1, 1}  \\
+  2 & A800 & \texttt{1010\,1000\,0000\,0000} & \texttt{LDI R2, 0}  \\
+  3 & 8800 & \texttt{1000\,1000\,0000\,0000} & \texttt{LT\;\;R2, R0} \\
+  4 & CC02 & \texttt{1100\,1100\,0000\,0010} & \texttt{JZ\;\;R3, 2}  \\
+  5 & 0680 & \texttt{0000\,0110\,1000\,0000} & \texttt{ADD R1, R2, R2} \\
+  6 & B003 & \texttt{1011\,0000\,0000\,0011} & \texttt{JMP 3}       \\
+  \midrule
+  7--F & 0000 & \texttt{0000\,0000\,0000\,0000} & \textrm{(unused)} \\
+  \bottomrule
+\end{tabular}
+\end{center}
+
+\begin{notebox}
+\textbf{Encoding notes:}
+I-type (LDI) places Rd at bits [11:10]. R-type uses Rs1\,[11:10],
+Rs2\,[9:8], Rd\,[7:6]. J-type uses Rcond\,[11:10], address\,[3:0].
+
+\medskip
+\textbf{LT encoding:}
+\texttt{LT R2, R0} has Rs1=R2 at [11:10]=10, Rs2=R0 at [9:8]=00.
+The result always goes to R3 (hardwired by \texttt{flag\_write}).
+\end{notebox}
+
+% ═════════════════════════════════════════════════════════════════════
+\section{Execution Trace}
+% ═════════════════════════════════════════════════════════════════════
+
+\begin{center}
+\begin{tabular}{c >{\ttfamily}c >{\ttfamily}c >{\ttfamily}c >{\ttfamily}c >{\ttfamily}c l}
+  \toprule
+  \textbf{Cycle} & \textrm{\textbf{PC}} & \textrm{\textbf{R0}} &
+  \textrm{\textbf{R1}} & \textrm{\textbf{R2}} & \textrm{\textbf{R3}} & \textbf{Action} \\
+  \midrule
+  1  & 0 & 05 & {-}{-} & {-}{-} & {-}{-} & \texttt{LDI R0, 5} \\
+  2  & 1 & 05 & 01 & {-}{-} & {-}{-} & \texttt{LDI R1, 1} \\
+  3  & 2 & 05 & 01 & 00 & {-}{-} & \texttt{LDI R2, 0} \\
+  \midrule
+  4  & 3 & 05 & 01 & 00 & 01 & \texttt{LT}: $0 < 5 \to$ R3=1 \\
+  5  & 4 & 05 & 01 & 00 & 01 & \texttt{JZ} not taken (R3$\neq$0) \\
+  6  & 5 & 05 & 01 & 01 & 01 & \texttt{ADD}: R2$\leftarrow$1 \\
+  7  & 6 & 05 & 01 & 01 & 01 & \texttt{JMP 3} \\
+  \midrule
+  8  & 3 & 05 & 01 & 01 & 01 & \texttt{LT}: $1 < 5 \to$ R3=1 \\
+  9  & 4 & 05 & 01 & 01 & 01 & \texttt{JZ} not taken \\
+  10 & 5 & 05 & 01 & 02 & 01 & R2$\leftarrow$2 \\
+  11 & 6 & 05 & 01 & 02 & 01 & \texttt{JMP 3} \\
+  \midrule
+  \multicolumn{7}{c}{$\vdots$ \textrm{(R2 increments: 3, 4)}} \\
+  \midrule
+  20 & 3 & 05 & 01 & 05 & 00 & \texttt{LT}: $5 < 5 \to$ R3=0 \\
+  21 & 4 & 05 & 01 & 05 & 00 & \texttt{JZ} taken $\to$ addr 2 \\
+  22 & 2 & 05 & 01 & 00 & 00 & \texttt{LDI R2, 0} (reset) \\
+  \bottomrule
+\end{tabular}
+\end{center}
+
+\noindent
+The loop runs 5 iterations per cycle. R2 counts 0\,$\to$\,1\,$\to$\,2\,$\to$\,3\,$\to$\,4\,$\to$\,5, then the comparison $5 < 5$ fails (R3=0), \texttt{JZ} branches back to address~2, and R2 resets to~0.
+
+\end{document}

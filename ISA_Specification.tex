@@ -102,7 +102,7 @@
 % ── Header / footer ──────────────────────────────────────────────────
 \pagestyle{fancy}
 \fancyhf{}
-\fancyhead[L]{\small\textcolor{ee8gray}{EE8 CPU --- ISA Specification v4.0}}
+\fancyhead[L]{\small\textcolor{ee8gray}{EE8 CPU --- ISA Specification v4.1}}
 \fancyhead[R]{\small\textcolor{ee8gray}{EG2300}}
 \fancyfoot[C]{\small\textcolor{ee8gray}{\thepage}}
 \renewcommand{\headrulewidth}{0.4pt}
@@ -135,7 +135,7 @@
 
 \rule{0.6\textwidth}{1pt}\\[1.5cm]
 
-{\Large Version 4.0}\\[0.6cm]
+{\Large Version 4.1}\\[0.6cm]
 {\large Second Year Electrical Engineering}\\[0.3cm]
 {\large Engineering Design Module (EG2300)}\\[3cm]
 
@@ -471,8 +471,8 @@ Used for loading immediate values into registers.
 \begin{bytefield}[bitwidth=1.6em]{16}
   \bitheader{0-15} \\
   \bitbox{4}{\footnotesize opcode} &
-  \bitbox{2}{\footnotesize unused} &
   \bitbox{2}{\footnotesize Rd} &
+  \bitbox{2}{\footnotesize unused} &
   \bitbox{8}{\footnotesize immediate}
 \end{bytefield}
 \end{center}
@@ -480,8 +480,8 @@ Used for loading immediate values into registers.
 \textbf{Fields:}
 \begin{itemize}[nosep]
   \item \texttt{opcode} [15:12] --- Operation to perform
-  \item \texttt{unused} [11:10] --- Reserved (should be set to 0)
-  \item \texttt{Rd} [9:8] --- Destination register
+  \item \texttt{Rd} [11:10] --- Destination register
+  \item \texttt{unused} [9:8] --- Reserved (should be set to 0)
   \item \texttt{immediate} [7:0] --- 8-bit constant value (0--255 unsigned, or $-128$ to 127 signed)
 \end{itemize}
 
@@ -1010,7 +1010,7 @@ Hex:    0x0180
 \subsection{Example 2: LDI R0 42}
 
 \begin{lstlisting}[language={}]
-LDI  --   R0   immediate(42)
+LDI  R0   --   immediate(42)
 1010  00   00   00101010
 
 Binary: 1010 0000 0010 1010
@@ -1366,7 +1366,7 @@ A simpler version where both gates get the same count. Useful as a starting poin
 \appendix
 \section{Quick Reference Card}
 
-\begin{tcolorbox}[colback=codebg, colframe=ee8blue, title={\large\bfseries EE8 CPU Quick Reference --- Version 4.0}, fonttitle=\color{white}]
+\begin{tcolorbox}[colback=codebg, colframe=ee8blue, title={\large\bfseries EE8 CPU Quick Reference --- Version 4.1}, fonttitle=\color{white}]
 \small
 \begin{multicols}{2}
 
@@ -1539,8 +1539,12 @@ Output & 2+ & \signal{status}      & Optional debug bits \\
 
 \textbf{Not in I/O ports} (hardware-driven): \signal{alarm}, \signal{stop}, \signal{fault}, \signal{reboot}
 
-% ══════════════════════════════════════════════════════════════════════
 \section{Changes from Previous Versions}
+
+\subsection*{Version 4.1 (correction)}
+\begin{itemize}[nosep]
+  \item \textbf{I-Type encoding fixed}: Rd is at bits [11:10], not [9:8]. Bytefield diagram, field list, and Example~2 corrected to match reference CPU implementation and Count-to-5 handout.
+\end{itemize}
 
 \subsection*{Version 4.0 (platform signals, Rcond branches, safety)}
 \begin{itemize}[nosep]

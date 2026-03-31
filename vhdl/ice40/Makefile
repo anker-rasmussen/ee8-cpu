@@ -1,5 +1,5 @@
 # EE8 CPU → Nandland Go Board (iCE40 HX1K) Synthesis Makefile
-# Toolchain: ghdl + yosys (via ghdl-yosys-plugin) → nextpnr-ice40 → icepack → iceprog
+# Toolchain: ghdl (synth→verilog) → yosys → nextpnr-ice40 → icepack → iceprog
 
 DEVICE   := hx1k
 PACKAGE  := vq100
@@ -14,6 +14,7 @@ VHDL_SRC := \
 	../control_unit.vhd \
 	../program_counter.vhd \
 	../rom.vhd \
+	../rom_count5.vhd \
 	../ee8_cpu.vhd \
 	hex_to_7seg.vhd \
 	go_board_top.vhd
@@ -22,10 +23,13 @@ VHDL_SRC := \
 
 all: $(TOP).bin
 
-# Synthesis: GHDL + Yosys → JSON netlist
-$(TOP).json: $(VHDL_SRC)
-	yosys -m ghdl -p \
-		"ghdl $(VHDL_SRC) -e $(TOP); synth_ice40 -top $(TOP) -json $@"
+# GHDL synthesis: VHDL → Verilog
+$(TOP).v: $(VHDL_SRC)
+	ghdl synth --out=verilog $(VHDL_SRC) -e $(TOP) 2>/dev/null > $@
+
+# Yosys synthesis: Verilog → JSON netlist
+$(TOP).json: $(TOP).v
+	yosys -p "read_verilog $<; synth_ice40 -top $(TOP) -json $@"
 
 # Place & Route: nextpnr-ice40 → ASC
 $(TOP).asc: $(TOP).json $(PCF)
@@ -40,4 +44,4 @@ prog: $(TOP).bin
 	iceprog $<
 
 clean:
-	rm -f $(TOP).json $(TOP).asc $(TOP).bin
+	rm -f $(TOP).v $(TOP).json $(TOP).asc $(TOP).bin

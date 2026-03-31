@@ -1,0 +1,226 @@
+\documentclass[11pt,a4paper]{article}
+
+% ── Packages ──────────────────────────────────────────────────────────
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage[margin=2.5cm]{geometry}
+\usepackage{booktabs}
+\usepackage{tabularx}
+\usepackage{array}
+\usepackage{xcolor}
+\usepackage{hyperref}
+\usepackage{fancyhdr}
+\usepackage{enumitem}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{listings}
+\usepackage{tcolorbox}
+
+% ── Colours ───────────────────────────────────────────────────────────
+\definecolor{ee8blue}{RGB}{0,90,160}
+\definecolor{ee8gray}{RGB}{100,100,100}
+\definecolor{notebg}{RGB}{235,245,255}
+\definecolor{noteborder}{RGB}{70,130,200}
+\definecolor{codebg}{RGB}{248,248,248}
+\definecolor{keywd}{RGB}{0,90,160}
+\definecolor{cmt}{RGB}{100,130,100}
+\definecolor{strng}{RGB}{160,60,60}
+
+% ── tcolorbox styles ─────────────────────────────────────────────────
+\newtcolorbox{notebox}{
+  colback=notebg, colframe=noteborder,
+  fonttitle=\bfseries, title=Note,
+  boxrule=0.5pt, arc=2pt,
+  left=6pt, right=6pt, top=4pt, bottom=4pt,
+}
+
+% ── Listings: EE8 Assembly ───────────────────────────────────────────
+\lstdefinelanguage{ee8asm}{
+  morekeywords={LDI,ADD,SUB,AND,OR,XOR,SHL,SHR,MOV,IN,OUT,LT,EQ,JMP,JZ,JNZ,HALT},
+  morecomment=[l]{;},
+  sensitive=false,
+}
+\lstdefinestyle{asmstyle}{
+  language=ee8asm,
+  backgroundcolor=\color{codebg},
+  basicstyle=\ttfamily\small,
+  keywordstyle=\color{keywd}\bfseries,
+  commentstyle=\color{cmt}\itshape,
+  numbers=left,
+  numberstyle=\tiny\color{ee8gray},
+  numbersep=8pt,
+  frame=single,
+  rulecolor=\color{ee8gray!40},
+  xleftmargin=1.5em,
+  framexleftmargin=1.5em,
+  tabsize=4,
+  showstringspaces=false,
+}
+
+% ── Hyperref setup ────────────────────────────────────────────────────
+\hypersetup{
+  colorlinks=true,
+  linkcolor=ee8blue,
+  urlcolor=ee8blue,
+  pdftitle={EE8 Batch Diverter Program},
+  pdfauthor={EG2300},
+}
+
+% ── Header / footer ──────────────────────────────────────────────────
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small\textcolor{ee8gray}{EG2300 --- EE8 CPU}}
+\fancyhead[R]{\small\textcolor{ee8gray}{Batch Diverter}}
+\fancyfoot[C]{\small\textcolor{ee8gray}{\thepage}}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\footrulewidth}{0pt}
+
+% ── Convenience ──────────────────────────────────────────────────────
+\newcommand{\reg}[1]{\texttt{R#1}}
+\newcommand{\hex}[1]{\texttt{0x#1}}
+
+\begin{document}
+
+% ── Title ────────────────────────────────────────────────────────────
+\begin{center}
+  {\LARGE\bfseries EE8 --- Batch Diverter}\\[6pt]
+  {\large 5 items to Gate~A, 3 items to Gate~B, repeat}
+\end{center}
+\vspace{1em}
+
+\noindent
+The batch diverter sends 5~items to Gate~A, then 3~items to Gate~B,
+alternating forever. It uses the full v4 platform: I/O ports
+(\texttt{IN}/\texttt{OUT}), the \texttt{ITEM\_PULSE} sensor latch,
+and the motor safety interlock. All 16~instruction slots are used.
+
+% ═════════════════════════════════════════════════════════════════════
+\section{I/O Port Bits}
+% ═════════════════════════════════════════════════════════════════════
+
+\begin{center}
+\begin{tabular}{lll}
+  \toprule
+  \textbf{Port} & \textbf{Bit} & \textbf{Signal} \\
+  \midrule
+  Input  & 0 & \texttt{ITEM\_PULSE} --- set by sensor, cleared on \texttt{IN} \\
+  Output & 0 & \texttt{GATE\_SEL} --- 0\,=\,Gate~A, 1\,=\,Gate~B \\
+  Output & 1 & \texttt{MOTOR\_EN} --- motor enable request \\
+  \bottomrule
+\end{tabular}
+\end{center}
+
+\noindent
+\hex{02}\,=\,\texttt{0b00000010}: motor on, Gate~A.\quad
+\hex{03}\,=\,\texttt{0b00000011}: motor on, Gate~B.
+
+% ═════════════════════════════════════════════════════════════════════
+\section{Register Allocation}
+% ═════════════════════════════════════════════════════════════════════
+
+\begin{center}
+\begin{tabular}{ll}
+  \toprule
+  \textbf{Register} & \textbf{Usage} \\
+  \midrule
+  \reg{0} & Items remaining in current batch (counts down) \\
+  \reg{1} & Scratch --- masks, constants \\
+  \reg{2} & Output port value (written by \texttt{OUT R2}) \\
+  \reg{3} & Scratch --- \texttt{ITEM\_PULSE} mask, gate select test \\
+  \bottomrule
+\end{tabular}
+\end{center}
+
+% ═════════════════════════════════════════════════════════════════════
+\section{Assembly Program}
+% ═════════════════════════════════════════════════════════════════════
+
+\begin{lstlisting}[style=asmstyle]
+; ── Batch Diverter: A=5, B=3, alternating ────────────
+;
+; Setup
+0:  LDI  R0, 5          ; Batch count A
+1:  LDI  R2, 0x02       ; MOTOR_EN=1, GATE_SEL=0 (Gate A)
+
+; Counting loop (shared for both gates)
+2:  OUT  R2              ; Drive output port
+3:  IN   R1              ; Read input (clears ITEM_PULSE)
+4:  LDI  R3, 0x01       ; ITEM_PULSE mask
+5:  AND  R1, R3, R1     ; Isolate bit 0
+6:  JZ   R1, 3          ; No item? Keep polling
+7:  LDI  R1, 1          ; Decrement constant
+8:  SUB  R0, R1, R0     ; R0--
+9:  JNZ  R0, 3          ; More items? Next item
+
+; Batch complete: toggle gate, reload count
+10: LDI  R1, 0x01       ; GATE_SEL toggle mask
+11: XOR  R2, R1, R2     ; Flip bit 0: 0x02 <-> 0x03
+12: AND  R2, R1, R3     ; R3 = new GATE_SEL (0 or 1)
+13: LDI  R0, 3          ; Load count B
+14: JNZ  R3, 2          ; Gate B? Start counting
+15: LDI  R0, 5          ; Gate A: load count A
+                         ; PC wraps 15->0->1->2
+\end{lstlisting}
+
+\begin{notebox}
+After Gate~A completes, \texttt{XOR} flips \reg{2} from \hex{02} to
+\hex{03}. \texttt{AND} with \hex{01} extracts the new \texttt{GATE\_SEL}
+into \reg{3}. If \reg{3}\,=\,1 (Gate~B), \texttt{JNZ} jumps to address~2.
+If \reg{3}\,=\,0 (Gate~A), execution falls through to address~15 which
+loads count~A, then the PC wraps to address~0 (redundant \texttt{LDI R0,5})
+and address~1 (restores \reg{2}\,=\,\hex{02}).
+\end{notebox}
+
+% ═════════════════════════════════════════════════════════════════════
+\section{Machine Code}
+% ═════════════════════════════════════════════════════════════════════
+
+\begin{center}
+\begin{tabular}{>{\ttfamily}c >{\ttfamily}c l}
+  \toprule
+  \textrm{\textbf{Addr}} & \textrm{\textbf{Hex}} & \textbf{Instruction} \\
+  \midrule
+  0  & A005 & \texttt{LDI R0, 5}        \\
+  1  & A802 & \texttt{LDI R2, 0x02}     \\
+  2  & 7A00 & \texttt{OUT R2}           \\
+  3  & 7340 & \texttt{IN  R1}           \\
+  4  & AC01 & \texttt{LDI R3, 0x01}     \\
+  5  & 2740 & \texttt{AND R1, R3, R1}   \\
+  6  & C403 & \texttt{JZ  R1, 3}        \\
+  7  & A401 & \texttt{LDI R1, 1}        \\
+  8  & 1100 & \texttt{SUB R0, R1, R0}   \\
+  9  & D003 & \texttt{JNZ R0, 3}        \\
+  A  & A401 & \texttt{LDI R1, 0x01}     \\
+  B  & 4980 & \texttt{XOR R2, R1, R2}   \\
+  C  & 29C0 & \texttt{AND R2, R1, R3}   \\
+  D  & A003 & \texttt{LDI R0, 3}        \\
+  E  & DC02 & \texttt{JNZ R3, 2}        \\
+  F  & A005 & \texttt{LDI R0, 5}        \\
+  \bottomrule
+\end{tabular}
+\end{center}
+
+% ═════════════════════════════════════════════════════════════════════
+\section{Execution Summary}
+% ═════════════════════════════════════════════════════════════════════
+
+\begin{center}
+\begin{tabular}{llccl}
+  \toprule
+  \textbf{Phase} & \textbf{Addresses} & \textbf{R0} & \textbf{R2} & \textbf{Output} \\
+  \midrule
+  Setup       & 0$\to$1           & 5         & \hex{02} & Motor on, Gate~A \\
+  Batch~1     & 2$\to$\ldots$\to$9 (5 items) & 5$\to$0  & \hex{02} & Gate~A \\
+  Toggle      & A$\to$B$\to$C$\to$D$\to$E$\to$2  & 3  & \hex{03} & Gate~B \\
+  Batch~2     & 2$\to$\ldots$\to$9 (3 items) & 3$\to$0  & \hex{03} & Gate~B \\
+  Toggle      & A$\to$\ldots$\to$F$\to$0$\to$1$\to$2 & 5 & \hex{02} & Gate~A \\
+  Batch~3     & \multicolumn{4}{l}{\textrm{repeats as Batch~1}} \\
+  \bottomrule
+\end{tabular}
+\end{center}
+
+\noindent
+Pattern: 5(A), 3(B), 5(A), 3(B), \ldots\ forever.
+
+\end{document}
