@@ -153,7 +153,7 @@
       <a name="font" val="SansSerif plain 12"/>
       <a name="text" val="Extracts fields from 16-bit instruction"/>
     </comp>
-    <comp lib="7" loc="(339,71)" name="Text">
+    <comp lib="7" loc="(335,70)" name="Text">
       <a name="font" val="SansSerif plain 10"/>
       <a name="text" val="v4.0: changed encoding from 9:8 to 11:10 for LDI"/>
     </comp>
@@ -184,7 +184,7 @@
       <a name="font" val="SansSerif bold 10"/>
       <a name="text" val="bits [3:0] -&gt; address (4-bit) for J-type"/>
     </comp>
-    <comp lib="7" loc="(676,227)" name="Text">
+    <comp lib="7" loc="(675,225)" name="Text">
       <a name="font" val="SansSerif bold 10"/>
       <a name="text" val="bits [11:10] -&gt; rs1 (2-bit) = Rcond for J-type"/>
     </comp>
@@ -1384,12 +1384,11 @@ a005 a401 a800 8800 cc02 680 b003
     <wire from="(120,70)" to="(170,70)"/>
     <wire from="(170,500)" to="(210,500)"/>
     <wire from="(170,70)" to="(170,500)"/>
-    <wire from="(170,70)" to="(210,70)"/>
     <wire from="(450,120)" to="(450,260)"/>
-    <wire from="(450,260)" to="(520,260)"/>
     <wire from="(450,280)" to="(450,550)"/>
     <wire from="(450,280)" to="(520,280)"/>
     <wire from="(510,310)" to="(530,310)"/>
+    <wire from="(520,260)" to="(520,280)"/>
     <wire from="(530,290)" to="(530,310)"/>
     <wire from="(550,270)" to="(580,270)"/>
     <wire from="(580,160)" to="(580,270)"/>
@@ -2278,7 +2277,7 @@ a005 a401 a800 8800 cc02 680 b003
   <circuit name="main">
     <a name="circuit" val="main"/>
     <a name="clabelfont" val="SansSerif plain 12"/>
-    <a name="simulationFrequency" val="1.0"/>
+    <a name="simulationFrequency" val="8.0"/>
     <comp lib="0" loc="(130,220)" name="Clock">
       <a name="appearance" val="classic"/>
       <a name="label" val="CLK"/>
