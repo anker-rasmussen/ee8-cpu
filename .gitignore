@@ -9,3 +9,11 @@
 *.synctex.gz
 *.fls
 *.fdb_latexmk
+*.bbl
+*.blg
+
+# ModelSim / GHDL build artifacts
+vhdl/work/
+vhdl/transcript
+*.cf
+work-obj*.cf
